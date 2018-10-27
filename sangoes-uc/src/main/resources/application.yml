@@ -11,7 +11,7 @@ spring:
     request-context-attribute: request
 #mybatis
 mybatis:
-  #  type-aliases-package: com.sangoes.boot.uc.model
+  #  type-aliases-package: com.sangoes.boot.uc.modules.model
   mapper-locations: classpath:mapper/*.xml
 #mapper
 mapper:

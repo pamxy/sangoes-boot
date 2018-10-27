@@ -15,7 +15,7 @@
         <!-- MyBatis Generator -->
         <!-- Java接口和实体类 -->
         <targetJavaProject>${basedir}/src/test/java</targetJavaProject>
-        <targetMapperPackage>com.sangoes.boot.uc.mapper</targetMapperPackage>
+        <targetMapperPackage>com.sangoes.boot.uc.modules.mapper</targetMapperPackage>
         <targetModelPackage>com.sangoes.boot.uc.pojo</targetModelPackage>
         <!-- XML生成路径 -->
         <targetResourcesProject>${basedir}/src/test/resources</targetResourcesProject>

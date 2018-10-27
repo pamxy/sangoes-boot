@@ -1,4 +1,4 @@
-package com.sangoes.boot.uc.controller;
+package com.sangoes.boot.uc.modules.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
