@@ -1,0 +1,23 @@
+#dev
+server:
+  port: 8080
+#调试
+debug: false
+
+#datasource
+spring:
+  devtools:
+    restart:
+      enabled: true #devtools
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/boot?useSSL=false&characterEncoding=utf8
+    username: sangoes
+    password: Sangoes123456
+    druid:
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      test-on-borrow: true
+      stat-view-servlet:
+        allow: true

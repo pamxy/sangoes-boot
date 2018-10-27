@@ -9,8 +9,8 @@
     <packaging>pom</packaging>
     <version>0.1</version>
     <modules>
-        <module>snagoes-uc</module>
         <module>sangoes-common</module>
+        <module>sangoes-uc</module>
     </modules>
 
     <parent>

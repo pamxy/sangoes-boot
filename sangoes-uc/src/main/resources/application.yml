@@ -1,0 +1,27 @@
+#application
+spring:
+  profiles:
+    active: dev #dev 开发 prod 生产(部署)
+  mvc:
+    view:
+      prefix: /templates/
+      suffix: .ftl
+  freemarker:
+    cache: false
+    request-context-attribute: request
+#mybatis
+mybatis:
+  #  type-aliases-package: com.sangoes.boot.uc.model
+  mapper-locations: classpath:mapper/*.xml
+#mapper
+mapper:
+  #  mappers:
+  #  - com.sangoes.boot.uc.util.MyMapper
+  not-empty: false
+  identity: MYSQL
+#pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
