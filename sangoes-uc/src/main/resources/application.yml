@@ -25,3 +25,19 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+#swagger
+swagger:
+  enabled: true
+  title: 用户中心API
+  description: 用户中心
+  version: 0.1
+  license: MIT
+  license-url: http://www.sangoes.com
+  terms-of-service-url:
+  contact:
+    name: jerrychir
+    email: jerrychir@163.com
+    url: http://www.sangoes.com
+  base-package: com.sangoes.boot
+  base-path: /**
+  exclude-path: /error, /ops/**

@@ -67,12 +67,6 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.starter.version}</version>
         </dependency>
-        <!--swagger-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger2.version}</version>
-        </dependency>
         <!-- TTL -->
         <dependency>
             <groupId>com.alibaba</groupId>
