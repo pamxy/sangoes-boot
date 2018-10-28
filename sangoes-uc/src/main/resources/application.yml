@@ -7,7 +7,12 @@ server:
   port: 8080
   servlet:
     context-path: /api
-
+#日志
+logging:
+  level: debug
+  level.sangoes.uc: debug
+  path: logs/
+  file: sangoes-uc.log
 #application
 spring:
   profiles:
