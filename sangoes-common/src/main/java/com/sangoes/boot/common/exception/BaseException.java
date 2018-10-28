@@ -1,5 +1,7 @@
 package com.sangoes.boot.common.exception;
 
+import org.springframework.http.HttpStatus;
+
 /**
  * Copyright (c) 2018
  *
@@ -10,14 +12,14 @@ public class BaseException extends RuntimeException {
     /**
      * 状态码
      */
-    private int status = 200;
+    private HttpStatus status = HttpStatus.OK;
 
     /**
      * Gets status.
      *
      * @return the status
      */
-    public int getStatus() {
+    public HttpStatus getStatus() {
         return status;
     }
 
@@ -26,7 +28,7 @@ public class BaseException extends RuntimeException {
      *
      * @param status the status
      */
-    public void setStatus(int status) {
+    public void setStatus(HttpStatus status) {
         this.status = status;
     }
 
@@ -42,7 +44,7 @@ public class BaseException extends RuntimeException {
      * @param message the message
      * @param status  the status
      */
-    public BaseException(String message, int status) {
+    public BaseException(String message, HttpStatus status) {
         super(message);
         this.status = status;
     }

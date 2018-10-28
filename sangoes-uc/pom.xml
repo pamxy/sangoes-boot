@@ -15,7 +15,7 @@
         <!-- MyBatis Generator -->
         <!-- Java接口和实体类 -->
         <targetJavaProject>${basedir}/src/test/java</targetJavaProject>
-        <targetMapperPackage>com.sangoes.boot.uc.modules.mapper</targetMapperPackage>
+        <targetMapperPackage>com.sangoes.boot.uc.modules.admin.mapper</targetMapperPackage>
         <targetModelPackage>com.sangoes.boot.uc.pojo</targetModelPackage>
         <!-- XML生成路径 -->
         <targetResourcesProject>${basedir}/src/test/resources</targetResourcesProject>
@@ -62,6 +62,13 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!--jjwt-->
+        <dependency>
+            <!-- JSON Web Token Support -->
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
         </dependency>
 
     </dependencies>
