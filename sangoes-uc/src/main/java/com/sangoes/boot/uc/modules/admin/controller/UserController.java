@@ -19,4 +19,9 @@ public class UserController {
     public String getString() {
         return "home";
     }
+
+    @GetMapping("/signup")
+    public String signup() {
+        return "signup";
+    }
 }
