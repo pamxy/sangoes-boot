@@ -65,6 +65,7 @@ ignore:
   apis:
   - /user/signup
   - /user/signin
+  - /encrypt/mobile/*
   urls:
   - /v2/api-docs
   - /swagger-resources/**
