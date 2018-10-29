@@ -40,8 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Entry points
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authenticated = http.authorizeRequests();
 
-        System.out.println(ignoreUrlsConfig.getApis());
-
         //允许访问
         ignoreUrlsConfig.getApis().forEach(api -> {
             authenticated.antMatchers(api).permitAll();
@@ -69,6 +67,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
+        return new BCryptPasswordEncoder();
     }
 }

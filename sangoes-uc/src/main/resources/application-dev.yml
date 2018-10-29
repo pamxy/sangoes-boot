@@ -15,7 +15,7 @@ spring:
     #    data: classpath:/db/data-h2.sql
     url: jdbc:mysql://localhost:3306/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: sangoes
-    password: Sangoes123456
+    password: ENC(myS91HA17JVaJni8nGWPQTH+TnpDYMc6)
     continue-on-error: true
     platform: mysql
 #    hikari:
