@@ -23,3 +23,5 @@
 hs_err_pid*
 /.idea/
 /sangoes-boot.iml
+/sangoes-common/sangoes-common.iml
+/sangoes-uc/sangoes-uc.iml

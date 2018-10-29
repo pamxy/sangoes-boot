@@ -29,22 +29,49 @@ spring:
   freemarker:
     cache: false
     request-context-attribute: request
+##mybatis
+#mybatis:
+#  #  type-aliases-package: com.sangoes.boot.uc.modules.admin.model
+#  mapper-locations: classpath:mapper/*.xml
+##mapper
+#mapper:
+#  #  mappers:
+#  #  - com.sangoes.boot.uc.util.MyMapper
+#  not-empty: false
+#  identity: MYSQL
+##pagehelper
+#pagehelper:
+#  helperDialect: mysql
+#  reasonable: true
+#  supportMethodsArguments: true
+#  params: count=countSql
 #mybatis
-mybatis:
-  #  type-aliases-package: com.sangoes.boot.uc.modules.admin.model
-  mapper-locations: classpath:mapper/*.xml
-#mapper
-mapper:
-  #  mappers:
-  #  - com.sangoes.boot.uc.util.MyMapper
-  not-empty: false
-  identity: MYSQL
-#pagehelper
-pagehelper:
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.sangoes.boot.uc.modules.admin.entity
+  typeEnumsPackage: com.sangoes.boot.uc.modules.admin.entity.enums
+  global-config:
+    # 数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: id_worker
+      #字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: not_empty
+      #数据库大写下划线转换
+      #capital-mode: true
+      #逻辑删除配置
+      logic-delete-value: 0 #删除
+      logic-not-delete-value: 1 #不删错
+      #驼峰下划线转换
+      table-underline: true
+      db-type: mysql
+    #刷新mapper 调试神器
+    refresh: true
+  # 原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
 #swagger
 swagger:
   enabled: true

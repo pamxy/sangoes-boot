@@ -1,9 +1,10 @@
 package com.sangoes.boot.uc;
 
 import com.spring4all.swagger.EnableSwagger2Doc;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import tk.mybatis.spring.annotation.MapperScan;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Copyright (c) 2018
@@ -13,7 +14,8 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 @SpringBootApplication
 @EnableSwagger2Doc
-@MapperScan(basePackages = "tk.mybatis.springboot.mapper")
+//@ComponentScan(basePackages = {"com.sangoes.boot.common.core.config"})
+@MapperScan(basePackages = "com.sangoes.boot.uc.modules.admin.mapper")
 public class UCApplication {
     public static void main(String[] args) {
         SpringApplication.run(UCApplication.class, args);
