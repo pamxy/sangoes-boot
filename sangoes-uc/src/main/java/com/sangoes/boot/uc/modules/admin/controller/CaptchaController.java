@@ -2,7 +2,7 @@ package com.sangoes.boot.uc.modules.admin.controller;
 
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.extension.api.ApiController;
-import com.baomidou.mybatisplus.extension.api.R;
+import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.service.ICaptchaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,14 +35,14 @@ public class CaptchaController extends ApiController {
     @GetMapping("/sms/{mobile}")
     @ApiOperation(value = "根据手机号码发送验证码", notes = "返回公钥")
     @ResponseBody
-    public R<String> sendCaptchaBySms(@PathVariable String mobile) {
+    public Result<String> sendCaptchaBySms(@PathVariable String mobile) {
         //判读mobile
         boolean isMobile = Validator.isMobile(mobile);
         if (!isMobile) {
-            return R.failed("手机号码不正确");
+            return Result.failed("手机号码不正确");
         }
         //发送验证码并返回公钥
         String publicKey = captchaService.sendCaptchaBySms(mobile);
-        return R.ok(publicKey);
+        return Result.success(publicKey);
     }
 }

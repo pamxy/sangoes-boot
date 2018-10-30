@@ -1,7 +1,12 @@
 package com.sangoes.boot.uc;
 
 import cn.hutool.core.codec.Base64;
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
+import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
+import cn.hutool.crypto.asymmetric.KeyType;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.util.Arrays;
 
 /**
  * Copyright (c) 2018
@@ -32,12 +34,26 @@ public class PasswodTest {
         String result = stringEncryptor.encrypt("Sangoes123456");
         System.out.println(result);
     }
+
     @Test
-    public void rsaKey(){
+    public void rsaKey() {
         KeyPair pair = SecureUtil.generateKeyPair("RSA");
-        PrivateKey privateKey = pair.getPrivate();
-        PublicKey publicKey = pair.getPublic();
-        System.out.println("privateKey:"+ Base64.encode(privateKey.getEncoded()));
-        System.out.println("publicKey:"+ Base64.encode(publicKey.getEncoded()));
+        String privateKey = Base64.encode(pair.getPrivate().getEncoded());
+        String publicKey = Base64.encode(pair.getPublic().getEncoded());
+
+        System.out.println("privateKey:" + privateKey);
+        System.out.println("publicKey:" + publicKey);
+
+        String a = "我是一只小小狗";
+
+        //加密
+        AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, publicKey);
+        String encrypt = Base64.encode(crypto.encrypt(a, KeyType.PublicKey));
+
+        //解密
+        byte[] bytes = crypto.decryptFromBase64(encrypt, KeyType.PrivateKey);
+        System.out.println(StrUtil.str(bytes, CharsetUtil.CHARSET_UTF_8));
+
     }
+
 }
