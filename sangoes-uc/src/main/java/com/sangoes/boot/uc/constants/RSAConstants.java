@@ -11,9 +11,14 @@ public interface RSAConstants {
     /**
      * 私钥
      */
-    public static final String MOBILE_RSA_PRIVATE_KEY = "sangoes:rsa:private:key:mobile:";
+    String MOBILE_RSA_PRIVATE_KEY = "sangoes:rsa:private:key:mobile:";
     /**
      * 公钥
      */
-    public static final String MOBILE_RSA_PUBLIC_KEY = "sangoes:rsa:public:key:mobile:";
+    String MOBILE_RSA_PUBLIC_KEY = "sangoes:rsa:public:key:mobile:";
+
+    /**
+     * key保存时间 单位(天)
+     */
+    long MOBILE_RSA_STORE_TIME = 1;
 }

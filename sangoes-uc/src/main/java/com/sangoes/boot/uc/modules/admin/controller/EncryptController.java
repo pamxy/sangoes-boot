@@ -1,10 +1,12 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
 import cn.hutool.core.codec.Base64;
+import cn.hutool.core.lang.Validator;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.sangoes.boot.uc.constants.RSAConstants;
+import com.sangoes.boot.uc.modules.admin.service.IEncryptService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright (c) 2018
- * 加密管理
+ * 加密管理 前端控制器
  *
  * @author jerrychir
  * @date 2018/10/29 9:01 PM
@@ -32,7 +34,7 @@ public class EncryptController extends ApiController {
 
 
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private IEncryptService encryptService;
 
     /**
      * 根据手机号码获取公私钥
@@ -44,17 +46,13 @@ public class EncryptController extends ApiController {
     @ApiOperation(value = "根据手机号码获取公私钥", notes = "返回公钥")
     @ResponseBody
     public R<String> createRSAKeyByMobile(@PathVariable String mobile) {
-        //生产
-        KeyPair pair = SecureUtil.generateKeyPair("RSA");
-        PrivateKey privateKey = pair.getPrivate();
-        PublicKey publicKey = pair.getPublic();
-        //私钥
-        String privateEncode = Base64.encode(privateKey.getEncoded());
-        //公钥
-        String publicEncode = Base64.encode(publicKey.getEncoded());
-        //保存在redis里
-        redisTemplate.opsForValue().set(RSAConstants.MOBILE_RSA_PRIVATE_KEY + mobile, privateEncode, 1, TimeUnit.DAYS);
-        redisTemplate.opsForValue().set(RSAConstants.MOBILE_RSA_PUBLIC_KEY + mobile, publicEncode, 1, TimeUnit.DAYS);
-        return R.ok(publicEncode);
+        //判读mobile
+        boolean isMobile = Validator.isMobile(mobile);
+        if (!isMobile){
+            return R.failed("手机号码不正确");
+        }
+        //获取公钥
+        String publicKey = encryptService.createRSAKeyByMobile(mobile);
+        return R.ok(publicKey);
     }
 }

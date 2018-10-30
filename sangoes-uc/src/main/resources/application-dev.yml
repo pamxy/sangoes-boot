@@ -58,14 +58,15 @@ logging:
 security:
   jwt:
     token:
-      secret-key: secret-key
-      expire-length: 36000 #1小时
+      secret-key: sangoes-boot #私钥
+      expire-length: 36000 #1小时 过期时间
 #忽略请求api
 ignore:
   apis:
   - /user/signup
   - /user/signin
   - /encrypt/mobile/*
+  - /captcha/sms/*
   urls:
   - /v2/api-docs
   - /swagger-resources/**
