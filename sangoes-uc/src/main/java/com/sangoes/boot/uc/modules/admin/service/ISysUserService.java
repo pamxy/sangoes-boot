@@ -17,5 +17,5 @@ public interface ISysUserService extends IService<SysUser> {
      * 根据手机号码注册
      * @param signUpDto
      */
-    void signUpByMobile(SignUpDto signUpDto);
+    boolean signUpByMobile(SignUpDto signUpDto);
 }

@@ -37,7 +37,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
     public String sendCaptchaBySms(String mobile) {
         //生产随机验证码
         String captcha = RandomUtil.randomNumbers(CaptchaConstants.CAPTCHA_RANDOM_COUNT);
-        log.info("验证码:", captcha);
+        log.info("验证码:" + captcha);
         //TODO 短信发送逻辑 最好放在队列里
         //redis缓存验证码
         redisTemplate.opsForValue().set(CaptchaConstants.CAPTCHA_MOBILE_SMS + mobile, captcha, CaptchaConstants.CAPTCHA_EXPIRE_TIME, TimeUnit.MINUTES);

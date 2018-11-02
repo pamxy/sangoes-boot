@@ -38,10 +38,20 @@ public class Result<T> implements Serializable {
         this.msg = msg;
     }
 
+
     /**
      * 成功返回
      *
-     * @param data
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> success() {
+        return new Result<>(null, "成功", HttpStatus.OK.value());
+    }
+
+    /**
+     * 成功返回
+     *
      * @param <T>
      * @return
      */
@@ -52,12 +62,22 @@ public class Result<T> implements Serializable {
     /**
      * 成功返回
      *
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> success(String msg) {
+        return new Result<>(null, msg, HttpStatus.OK.value());
+    }
+
+    /**
+     * 成功返回
+     *
      * @param data
      * @param <T>
      * @return
      */
-    public static <T> Result<T> success(T data, HttpStatus code) {
-        return new Result<>(data, "成功", code.value());
+    public static <T> Result<T> success(T data, String msg) {
+        return new Result<>(data, msg, HttpStatus.OK.value());
     }
 
     /**

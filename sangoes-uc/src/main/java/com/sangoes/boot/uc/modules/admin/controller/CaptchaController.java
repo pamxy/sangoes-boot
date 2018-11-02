@@ -43,6 +43,6 @@ public class CaptchaController extends ApiController {
         }
         //发送验证码并返回公钥
         String publicKey = captchaService.sendCaptchaBySms(mobile);
-        return Result.success(publicKey);
+        return Result.success(publicKey,"成功");
     }
 }

@@ -1,21 +1,16 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
 
-import cn.hutool.core.util.RandomUtil;
 import com.sangoes.boot.common.controller.BaseController;
+import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
-import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -34,11 +29,22 @@ public class SysUserController extends BaseController {
     @Autowired
     private ISysUserService userService;
 
+    /**
+     * 根据手机号码注册
+     *
+     * @param signUpDto
+     * @return
+     */
     @PostMapping("/signup")
     @ApiOperation(value = "根据手机号码注册", notes = "注册返回OK")
-    public String signupByMobile(@RequestBody @Validated SignUpDto signUpDto) {
-        userService.signUpByMobile(signUpDto);
-        return "xxx";
+    @ResponseBody
+    public Result signupByMobile(@RequestBody @Validated SignUpDto signUpDto) {
+        // 手机号码注册
+        boolean saved = userService.signUpByMobile(signUpDto);
+        if (saved) {
+            return Result.success("注册成功");
+        }
+        return Result.failed("注册失败");
     }
 
 }
