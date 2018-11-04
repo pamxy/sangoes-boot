@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -47,4 +48,9 @@ public class SignUpDto {
      */
     @NotEmpty(message = "密码不能为空", groups = MobileGroup.class)
     private String password;
+    /**
+     * 注册类型
+     */
+    @NotNull(message = "注册类型不能为空", groups = MobileGroup.class)
+    private Integer signupType;
 }

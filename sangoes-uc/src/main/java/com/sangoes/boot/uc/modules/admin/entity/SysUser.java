@@ -31,6 +31,9 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value = "用户名")
     private String username;
 
+    @ApiModelProperty(value = "真实姓名")
+    private String realName;
+
     @ApiModelProperty(value = "手机号")
     private String mobile;
 
@@ -46,7 +49,7 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value = "加密盐")
     private String salt;
 
-    @ApiModelProperty(value = "注册类型 101用户名 102手机 103邮箱")
+    @ApiModelProperty(value = "注册类型 101PC 102手机 ")
     private Integer signupType;
 
     @ApiModelProperty(value = "登录类型 201PC登录 202手机登录 203为邮箱")
@@ -69,6 +72,5 @@ public class SysUser extends BaseEntity {
 
     @ApiModelProperty(value = "身高 单位厘米")
     private Integer height;
-
 
 }
