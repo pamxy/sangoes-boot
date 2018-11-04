@@ -64,7 +64,7 @@ security:
 ignore:
   apis:
   - /user/signup
-  - /user/signin
+  - /user/signin/mobile
   - /encrypt/mobile/*
   - /captcha/sms/*
   urls:

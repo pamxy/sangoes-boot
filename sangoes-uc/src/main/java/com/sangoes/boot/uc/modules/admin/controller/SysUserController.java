@@ -2,14 +2,13 @@ package com.sangoes.boot.uc.modules.admin.controller;
 
 
 import com.sangoes.boot.common.controller.BaseController;
-import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -45,4 +44,10 @@ public class SysUserController extends BaseController {
         return userService.signUpByMobile(signUpDto);
     }
 
+    @PostMapping("/signin/mobile")
+    @ApiOperation(value = "根据手机号码登陆", notes = "登陆返回token")
+    @ResponseBody
+    public Result signinByMobile(@RequestBody @Validated SignInDto signInDto) {
+        return userService.signinByMobile(signInDto);
+    }
 }

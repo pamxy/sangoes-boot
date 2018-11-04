@@ -39,6 +39,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
         //检测是否有mobile对应的redis缓存
         boolean hasKey = redisTemplate.hasKey(captchaConstant).booleanValue();
         if (hasKey){
+            //删除
             redisTemplate.delete(captchaConstant);
         }
         //生产随机验证码
