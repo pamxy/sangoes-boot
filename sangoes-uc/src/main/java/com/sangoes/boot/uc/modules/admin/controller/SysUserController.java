@@ -2,12 +2,14 @@ package com.sangoes.boot.uc.modules.admin.controller;
 
 
 import com.sangoes.boot.common.controller.BaseController;
+import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,11 +42,7 @@ public class SysUserController extends BaseController {
     @ResponseBody
     public Result signupByMobile(@RequestBody @Validated SignUpDto signUpDto) {
         // 手机号码注册
-        boolean saved = userService.signUpByMobile(signUpDto);
-        if (saved) {
-            return Result.success("注册成功");
-        }
-        return Result.failed("注册失败");
+        return userService.signUpByMobile(signUpDto);
     }
 
 }

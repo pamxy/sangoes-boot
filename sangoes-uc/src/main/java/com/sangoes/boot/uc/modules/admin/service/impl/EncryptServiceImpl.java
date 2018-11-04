@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class EncryptServiceImpl implements IEncryptService {
 
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate redisTemplate;
 
     /**
      * 根据手机号码创建RSA的公钥私钥并存入redis

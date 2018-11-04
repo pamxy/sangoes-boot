@@ -3,6 +3,7 @@ package com.sangoes.boot.common.msg;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serializable;
 
@@ -38,6 +39,10 @@ public class Result<T> implements Serializable {
         this.msg = msg;
     }
 
+    public Result(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
 
     /**
      * 成功返回
@@ -47,16 +52,6 @@ public class Result<T> implements Serializable {
      */
     public static <T> Result<T> success() {
         return new Result<>(null, "成功", HttpStatus.OK.value());
-    }
-
-    /**
-     * 成功返回
-     *
-     * @param <T>
-     * @return
-     */
-    public static <T> Result<T> success(T data) {
-        return new Result<>(data, "成功", HttpStatus.OK.value());
     }
 
     /**
@@ -87,6 +82,7 @@ public class Result<T> implements Serializable {
      * @param <T>
      * @return
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public static <T> Result<T> failed(String msg, HttpStatus code) {
         return new Result<>(null, msg, code.value());
     }
@@ -98,6 +94,7 @@ public class Result<T> implements Serializable {
      * @param <T>
      * @return
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public static <T> Result<T> failed(String msg) {
         return new Result<>(null, msg, HttpStatus.BAD_REQUEST.value());
     }

@@ -2,6 +2,7 @@ package com.sangoes.boot.uc.modules.admin.controller;
 
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.extension.api.ApiController;
+import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.service.ICaptchaService;
 import io.swagger.annotations.Api;

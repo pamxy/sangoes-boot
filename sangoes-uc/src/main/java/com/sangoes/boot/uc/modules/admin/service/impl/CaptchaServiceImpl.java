@@ -35,12 +35,18 @@ public class CaptchaServiceImpl implements ICaptchaService {
      */
     @Override
     public String sendCaptchaBySms(String mobile) {
+        String captchaConstant = CaptchaConstants.CAPTCHA_MOBILE_SMS+ mobile;
+        //检测是否有mobile对应的redis缓存
+        boolean hasKey = redisTemplate.hasKey(captchaConstant).booleanValue();
+        if (hasKey){
+            redisTemplate.delete(captchaConstant);
+        }
         //生产随机验证码
         String captcha = RandomUtil.randomNumbers(CaptchaConstants.CAPTCHA_RANDOM_COUNT);
         log.info("验证码:" + captcha);
         //TODO 短信发送逻辑 最好放在队列里
         //redis缓存验证码
-        redisTemplate.opsForValue().set(CaptchaConstants.CAPTCHA_MOBILE_SMS + mobile, captcha, CaptchaConstants.CAPTCHA_EXPIRE_TIME, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(captchaConstant, captcha, CaptchaConstants.CAPTCHA_EXPIRE_TIME, TimeUnit.MINUTES);
         //生成公钥私钥
         String publicKey = encryptService.createRSAKeyByMobile(mobile);
         return publicKey;

@@ -5,6 +5,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * Copyright (c) 2018
@@ -12,10 +13,10 @@ import org.springframework.context.annotation.ComponentScan;
  * @author jerrychir
  * @date 2018/10/27 8:06 PM
  */
+@EnableAsync
 @SpringBootApplication
 @EnableSwagger2Doc
-//@ComponentScan(basePackages = {"com.sangoes.boot.common.core.config"})
-@MapperScan(basePackages = "com.sangoes.boot.uc.modules.admin.mapper")
+@ComponentScan(basePackages = {"com.sangoes.boot.uc", "com.sangoes.boot.common.core"})
 public class UCApplication {
     public static void main(String[] args) {
         SpringApplication.run(UCApplication.class, args);

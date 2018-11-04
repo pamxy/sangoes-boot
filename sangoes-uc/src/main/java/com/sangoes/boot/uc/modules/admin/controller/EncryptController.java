@@ -44,6 +44,6 @@ public class EncryptController extends ApiController {
         }
         //获取公钥
         String publicKey = encryptService.createRSAKeyByMobile(mobile);
-        return Result.success(publicKey);
+        return Result.success(publicKey,"成功");
     }
 }

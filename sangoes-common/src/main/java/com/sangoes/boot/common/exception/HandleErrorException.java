@@ -17,6 +17,6 @@ public class HandleErrorException extends BaseException {
      * @param message the message
      */
     public HandleErrorException(String message) {
-        super(message, HttpStatus.BAD_REQUEST);
+        super(message, HttpStatus.SEE_OTHER);
     }
 }

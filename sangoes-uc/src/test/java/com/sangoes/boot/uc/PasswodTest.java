@@ -56,4 +56,10 @@ public class PasswodTest {
 
     }
 
+    @Test
+    public void testBase64(){
+        String encode = Base64.encode("sangoes-boot");
+        System.out.println(encode);
+    }
+
 }
