@@ -61,40 +61,45 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public Result signUpByMobile(SignUpDto signUpDto) {
-        //验证码
+        // 验证码
         String captchaConstant = CaptchaConstants.CAPTCHA_MOBILE_SMS + signUpDto.getMobile();
-        //检测是否有mobile对应的redis缓存
+        // 检测是否有mobile对应的redis缓存
         boolean hasKey = redisTemplate.hasKey(captchaConstant).booleanValue();
         if (!hasKey) {
             throw new HandleErrorException("验证码不存在或过期");
         }
-        //删除验证码
+        // 删除验证码
         redisTemplate.delete(captchaConstant);
-        //验证手机号码是否被注册
-        SysUser user = baseMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile, signUpDto.getMobile()));
+        // 验证手机号码是否被注册
+        SysUser user = baseMapper
+                .selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile, signUpDto.getMobile()));
         if (!ObjectUtil.isNull(user)) {
             throw new HandleErrorException("手机号码已注册");
         }
-        //验证用户名是否被存在
-        SysUser userName = baseMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername, signUpDto.getUsername()));
+        // 验证用户名是否被存在
+        SysUser userName = baseMapper
+                .selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername, signUpDto.getUsername()));
         if (!ObjectUtil.isNull(userName)) {
             throw new HandleErrorException("用户名已注册");
         }
-        //从缓存中获取privateKey
-        String privateKey = String.valueOf(redisTemplate.opsForValue().get(RSAConstants.MOBILE_RSA_PRIVATE_KEY + signUpDto.getMobile()));
-        String publicKey = String.valueOf(redisTemplate.opsForValue().get(RSAConstants.MOBILE_RSA_PUBLIC_KEY + signUpDto.getMobile()));
-        //解密密码
+        // 从缓存中获取privateKey
+        String privateKey = String
+                .valueOf(redisTemplate.opsForValue().get(RSAConstants.MOBILE_RSA_PRIVATE_KEY + signUpDto.getMobile()));
+        String publicKey = String
+                .valueOf(redisTemplate.opsForValue().get(RSAConstants.MOBILE_RSA_PUBLIC_KEY + signUpDto.getMobile()));
+        // 解密密码
         AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, publicKey);
-        String password = StrUtil.str(crypto.decryptFromBase64(signUpDto.getPassword(), KeyType.PrivateKey), CharsetUtil.CHARSET_UTF_8);
+        String password = StrUtil.str(crypto.decryptFromBase64(signUpDto.getPassword(), KeyType.PrivateKey),
+                CharsetUtil.CHARSET_UTF_8);
 
-        //创建user
+        // 创建user
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(signUpDto, sysUser);
-        //设置随机真实姓名
+        // 设置随机真实姓名
         sysUser.setRealName(RandomUtil.randomString(8));
-        //加密密码
+        // 加密密码
         sysUser.setPassword(passwordEncoder.encode(password));
-        //写入数据库
+        // 写入数据库
         boolean save = this.save(sysUser);
         if (!save) {
             throw new HandleErrorException("注册失败");
@@ -110,43 +115,44 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public Result signinByMobile(SignInDto signInDto) {
-        //根据mobile查询sys user
-        SysUser userDB = this.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile, signInDto.getMobile()));
-        //判断是否存在
+        // 根据mobile查询sys user
+        SysUser userDB = this
+                .getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile, signInDto.getMobile()));
+        // 判断是否存在
         if (ObjectUtil.isNull(userDB)) {
             throw new HandleErrorException("此号码没有注册,请注册");
         }
-        //待验证验证码
+        // 待验证验证码
         String captcha = signInDto.getCaptcha();
-        //redis中的验证码
+        // redis中的验证码
         String captchaConstant = CaptchaConstants.CAPTCHA_MOBILE_SMS + signInDto.getMobile();
-        //检测是否有mobile对应的redis缓存
+        // 检测是否有mobile对应的redis缓存
         boolean hasKey = redisTemplate.hasKey(captchaConstant).booleanValue();
         if (!hasKey) {
             throw new HandleErrorException("验证码不存在或过期");
         }
-        //获取redis中的验证码
+        // 获取redis中的验证码
         String captchaRedis = String.valueOf(redisTemplate.opsForValue().get(captchaConstant));
-        //判断验证码是否相同
+        // 判断验证码是否相同
         if (!StringUtils.equals(captcha, captchaRedis)) {
             throw new HandleErrorException("验证码错误");
         }
-//        try {
-            //改变signinType
-            userDB.setLoginType(signInDto.getSigninType());
-            //更新
-            boolean flag = this.updateById(userDB);
-            if (!flag) {
-                throw new HandleErrorException("登录失败");
-            }
-            // 登录
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDB.getUsername(), userDB.getPassword()));
-            // 创建token
-            return Result.success(jwtTokenProvider.createToken(userDB.getUsername()), "登录成功");
-//        } catch (AuthenticationException e) {
-//            throw new HandleErrorException("登陆失败");
-//        }
-
+        // try {
+        // 改变signinType
+        userDB.setLoginType(signInDto.getSigninType());
+        // 更新
+        boolean flag = this.updateById(userDB);
+        if (!flag) {
+            throw new HandleErrorException("登录失败");
+        }
+        // 登录
+        authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(userDB.getUsername(), userDB.getPassword()));
+        // 创建token
+        return Result.success(jwtTokenProvider.createToken(userDB.getUsername()), "登录成功");
+        // } catch (AuthenticationException e) {
+        // throw new HandleErrorException("登陆失败");
+        // }
 
     }
 }
