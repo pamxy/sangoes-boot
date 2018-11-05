@@ -39,4 +39,9 @@ public interface ISysUserService extends IService<SysUser> {
      */
     UserDetailsVo selectUserDetailsByUsername(String username);
 
+    /**
+     * 根据用户名登录
+     */
+    Result signinByAccount(SignInDto signInDto);
+
 }

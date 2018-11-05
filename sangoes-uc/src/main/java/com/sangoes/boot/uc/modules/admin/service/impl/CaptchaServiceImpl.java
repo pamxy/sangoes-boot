@@ -67,7 +67,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
     @Override
     public void generateCaptcha(String random, HttpServletResponse response) {
         // 生成图片验证码
-        LineCaptcha captcha = CaptchaUtil.createLineCaptcha(200, 100);
+        LineCaptcha captcha = CaptchaUtil.createLineCaptcha(110, 36);
         // 得到验证码
         String code = captcha.getCode();
         // 保存在redis

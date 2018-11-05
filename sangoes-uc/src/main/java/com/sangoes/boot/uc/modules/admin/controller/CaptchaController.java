@@ -1,20 +1,21 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
-import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.LineCaptcha;
-import cn.hutool.core.lang.Validator;
-
 import javax.servlet.http.HttpServletResponse;
 
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.service.ICaptchaService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import cn.hutool.core.lang.Validator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Producer;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * Copyright (c) 2018 验证码 前端控制器
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
  * @date 2018/10/30 8:08 PM
  */
 @RestController
-@Slf4j
 @Api("验证码管理")
 @RequestMapping("captcha")
 public class CaptchaController extends ApiController {

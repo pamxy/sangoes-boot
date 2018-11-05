@@ -65,7 +65,9 @@ ignore:
   apis:
   - /user/signup
   - /user/signin/mobile
+  - /user/signin/account
   - /encrypt/mobile/*
+  - /encrypt/rsa/*
   - /captcha/sms/*
   - /captcha/image/*
   urls:

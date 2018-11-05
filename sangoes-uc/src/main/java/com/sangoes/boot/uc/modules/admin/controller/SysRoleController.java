@@ -1,12 +1,11 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
+import com.sangoes.boot.common.controller.BaseController;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
-import com.sangoes.boot.common.controller.BaseController;
 
 /**
  * <p>
@@ -18,7 +17,6 @@ import com.sangoes.boot.common.controller.BaseController;
  */
 @RestController
 @RequestMapping("role")
-@Slf4j
 @Api("角色管理类")
 public class SysRoleController extends BaseController {
 

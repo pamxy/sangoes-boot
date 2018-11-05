@@ -88,10 +88,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 从缓存中获取privateKey
         String privateKey = String
                 .valueOf(redisTemplate.opsForValue().get(RSAConstants.MOBILE_RSA_PRIVATE_KEY + signUpDto.getMobile()));
-        String publicKey = String
-                .valueOf(redisTemplate.opsForValue().get(RSAConstants.MOBILE_RSA_PUBLIC_KEY + signUpDto.getMobile()));
         // 解密密码
-        AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, publicKey);
+        AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, null);
         String password = StrUtil.str(crypto.decryptFromBase64(signUpDto.getPassword(), KeyType.PrivateKey),
                 CharsetUtil.CHARSET_UTF_8);
 
@@ -168,5 +166,60 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public UserDetailsVo selectUserDetailsByUsername(String username) {
         UserDetailsVo userDetailsVo = baseMapper.selectUserDetailsByUsername(username);
         return userDetailsVo;
+    }
+
+    @Override
+    public Result signinByAccount(SignInDto signInDto) {
+        // 根据username查询sys user
+        SysUser userDB = this
+                .getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername, signInDto.getUsername()));
+        // 判断是否存在
+        if (ObjectUtil.isNull(userDB)) {
+            throw new HandleErrorException("用户不存在");
+        }
+        // 待验证验证码
+        String captcha = signInDto.getCaptcha();
+        // redis中的验证码
+        String captchaConstant = CaptchaConstants.CAPTCHA_IMAGE + signInDto.getCaptchaRandom();
+        // 检测是否有random对应的redis缓存
+        boolean hasKey = redisTemplate.hasKey(captchaConstant).booleanValue();
+        if (!hasKey) {
+            throw new HandleErrorException("验证码不存在或过期");
+        }
+        // 获取redis中的验证码
+        String captchaRedis = String.valueOf(redisTemplate.opsForValue().get(captchaConstant));
+        // 判断验证码是否相同
+        if (!StringUtils.equals(captcha, captchaRedis)) {
+            throw new HandleErrorException("验证码错误");
+        }
+        // 删除captcha
+        redisTemplate.delete(captchaConstant);
+        // 从缓存中获取privateKey
+        String privateKey = String.valueOf(
+                redisTemplate.opsForValue().get(RSAConstants.RANDOM_RSA_PRIVATE_KEY + signInDto.getPublicRandom()));
+        // 解密密码
+        AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, null);
+        String password = StrUtil.str(crypto.decryptFromBase64(signInDto.getPassword(), KeyType.PrivateKey),
+                CharsetUtil.CHARSET_UTF_8);
+        // 比较密码是否相同
+        if (!passwordEncoder.matches(password, userDB.getPassword())) {
+            throw new HandleErrorException("密码不正确");
+        }
+        try {
+            // 登录
+            authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(userDB.getUsername(), userDB.getPassword()));
+            // 改变signinType
+            userDB.setLoginType(signInDto.getSigninType());
+            // 更新
+            boolean flag = this.updateById(userDB);
+            if (!flag) {
+                throw new HandleErrorException("登录失败");
+            }
+            // 创建token
+            return Result.success(jwtTokenProvider.createToken(userDB.getUsername()), "登录成功");
+        } catch (AuthenticationException e) {
+            throw new HandleErrorException("登陆失败");
+        }
     }
 }

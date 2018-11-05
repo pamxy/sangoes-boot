@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.security.KeyPair;
@@ -28,6 +29,9 @@ public class PasswodTest {
 
     @Autowired
     StringEncryptor stringEncryptor;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void testPasswod() {
@@ -46,20 +50,25 @@ public class PasswodTest {
 
         String a = "我是一只小小狗";
 
-        //加密
+        // 加密
         AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, publicKey);
         String encrypt = Base64.encode(crypto.encrypt(a, KeyType.PublicKey));
 
-        //解密
+        // 解密
         byte[] bytes = crypto.decryptFromBase64(encrypt, KeyType.PrivateKey);
         System.out.println(StrUtil.str(bytes, CharsetUtil.CHARSET_UTF_8));
 
     }
 
     @Test
-    public void testBase64(){
+    public void testBase64() {
         String encode = Base64.encode("sangoes-boot");
         System.out.println(encode);
+    }
+
+    @Test
+    public void testPass() {
+        System.out.println(passwordEncoder.encode("123456"));
     }
 
 }
