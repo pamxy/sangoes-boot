@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
  * @date 2018/10/27 11:19 PM
  */
 public class ForbiddenException extends BaseException {
+    private static final long serialVersionUID = -984865412621251898L;
+
     public ForbiddenException(String message) {
         super(message, HttpStatus.FORBIDDEN);
     }

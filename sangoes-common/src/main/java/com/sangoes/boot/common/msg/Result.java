@@ -16,6 +16,7 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public class Result<T> implements Serializable {
+    private static final long serialVersionUID = -7136275879390165308L;
     /**
      * 状态码
      */

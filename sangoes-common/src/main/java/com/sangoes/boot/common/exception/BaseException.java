@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
  * @date 2018/10/27 10:28 PM
  */
 public class BaseException extends RuntimeException {
+    private static final long serialVersionUID = 3597724561702490397L;
     /**
      * 状态码
      */
