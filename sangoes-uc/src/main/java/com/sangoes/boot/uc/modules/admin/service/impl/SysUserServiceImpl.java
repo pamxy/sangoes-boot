@@ -134,17 +134,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (!hasKey) {
             throw new HandleErrorException("验证码不存在或过期");
         }
-        //删除captcha
-        redisTemplate.delete(captchaConstant);
         // 获取redis中的验证码
         String captchaRedis = String.valueOf(redisTemplate.opsForValue().get(captchaConstant));
         // 判断验证码是否相同
         if (!StringUtils.equals(captcha, captchaRedis)) {
             throw new HandleErrorException("验证码错误");
         }
+        // 删除captcha
+        redisTemplate.delete(captchaConstant);
         try {
             // 登录
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDB.getUsername(), userDB.getPassword()));
+            authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(userDB.getUsername(), userDB.getPassword()));
             // 改变signinType
             userDB.setLoginType(signInDto.getSigninType());
             // 更新
