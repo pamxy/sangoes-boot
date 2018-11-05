@@ -1,6 +1,7 @@
 package com.sangoes.boot.uc.modules.admin.mapper;
 
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
+import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -12,5 +13,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2018-10-29
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
+    /**
+     * 根据用户名查询
+     * 
+     * @param username
+     * @return
+     */
+    UserDetailsVo selectUserDetailsByUsername(String username);
 
 }

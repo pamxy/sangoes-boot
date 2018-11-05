@@ -20,16 +20,13 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value="SysUserRole对象", description="")
+@ApiModel(value = "SysUserRole对象", description = "")
 public class SysUserRole extends BaseEntity {
-
-    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "用户主键")
     private Long userId;
 
     @ApiModelProperty(value = "角色主键")
     private Long roleId;
-
 
 }

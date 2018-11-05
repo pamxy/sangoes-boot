@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.io.Serializable;
 
 /**
- * Copyright (c) 2018
- * api统一返回结果
+ * Copyright (c) 2018 api统一返回结果
  *
  * @author jerrychir
  * @date 2018/10/30 10:47 PM
@@ -68,7 +67,7 @@ public class Result<T> implements Serializable {
      * 成功返回
      *
      * @param data
-     * @param <T>
+     * @param      <T>
      * @return
      */
     public static <T> Result<T> success(T data, String msg) {
@@ -79,7 +78,7 @@ public class Result<T> implements Serializable {
      * 失败返回
      *
      * @param msg
-     * @param <T>
+     * @param     <T>
      * @return
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -91,7 +90,7 @@ public class Result<T> implements Serializable {
      * 失败返回
      *
      * @param msg
-     * @param <T>
+     * @param     <T>
      * @return
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -103,7 +102,7 @@ public class Result<T> implements Serializable {
      * 其他返回
      *
      * @param msg
-     * @param <T>
+     * @param     <T>
      * @return
      */
     public static <T> Result<T> restResult(String msg, HttpStatus code) {
@@ -114,7 +113,7 @@ public class Result<T> implements Serializable {
      * 其他返回
      *
      * @param msg
-     * @param <T>
+     * @param     <T>
      * @return
      */
     public static <T> Result<T> restResult(T data, String msg, HttpStatus code) {

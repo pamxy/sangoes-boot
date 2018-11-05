@@ -1,6 +1,7 @@
 package com.sangoes.boot.uc.security;
 
 import com.sangoes.boot.common.exception.BaseException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -33,14 +34,14 @@ public class JwtTokenFilter extends GenericFilterBean {
 
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) req);
         try {
-            if (token != null && jwtTokenProvider.validateToken(token)) {
-                Authentication auth = token != null ? jwtTokenProvider.getAuthentication(token) : null;
+            if (!StringUtils.isEmpty(token) && jwtTokenProvider.validateToken(token)) {
+                Authentication auth = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         } catch (BaseException ex) {
             HttpServletResponse response = (HttpServletResponse) res;
             response.sendError(ex.getStatus().value(), ex.getMessage());
-            return;
+            throw new BaseException(ex.getMessage());
         }
 
         filterChain.doFilter(req, res);

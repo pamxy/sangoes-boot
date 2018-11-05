@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * <p>
@@ -21,7 +22,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @ApiModel(value="SysRole对象", description="角色表")
-public class SysRole extends BaseEntity {
+public class SysRole extends BaseEntity implements GrantedAuthority {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,4 +39,8 @@ public class SysRole extends BaseEntity {
     private Integer status;
 
 
+    @Override
+    public String getAuthority() {
+        return roleCode;
+    }
 }

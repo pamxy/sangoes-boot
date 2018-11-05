@@ -5,6 +5,7 @@ import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
+import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
 
 /**
  * <p>
@@ -29,4 +30,13 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     Result signinByMobile(SignInDto signInDto);
+
+    /**
+     * 根据username查询UserDeatilsVo
+     * 
+     * @param username
+     * @return
+     */
+    UserDetailsVo selectUserDetailsByUsername(String username);
+
 }

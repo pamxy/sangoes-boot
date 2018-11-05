@@ -18,11 +18,13 @@ import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.mapper.SysUserMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
+import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
 import com.sangoes.boot.uc.security.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,6 +50,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Lazy
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -131,28 +134,38 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (!hasKey) {
             throw new HandleErrorException("验证码不存在或过期");
         }
+        //删除captcha
+        redisTemplate.delete(captchaConstant);
         // 获取redis中的验证码
         String captchaRedis = String.valueOf(redisTemplate.opsForValue().get(captchaConstant));
         // 判断验证码是否相同
         if (!StringUtils.equals(captcha, captchaRedis)) {
             throw new HandleErrorException("验证码错误");
         }
-        // try {
-        // 改变signinType
-        userDB.setLoginType(signInDto.getSigninType());
-        // 更新
-        boolean flag = this.updateById(userDB);
-        if (!flag) {
-            throw new HandleErrorException("登录失败");
+        try {
+            // 登录
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDB.getUsername(), userDB.getPassword()));
+            // 改变signinType
+            userDB.setLoginType(signInDto.getSigninType());
+            // 更新
+            boolean flag = this.updateById(userDB);
+            if (!flag) {
+                throw new HandleErrorException("登录失败");
+            }
+            // 创建token
+            return Result.success(jwtTokenProvider.createToken(userDB.getUsername()), "登录成功");
+        } catch (AuthenticationException e) {
+            throw new HandleErrorException("登陆失败");
         }
-        // 登录
-        authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(userDB.getUsername(), userDB.getPassword()));
-        // 创建token
-        return Result.success(jwtTokenProvider.createToken(userDB.getUsername()), "登录成功");
-        // } catch (AuthenticationException e) {
-        // throw new HandleErrorException("登陆失败");
-        // }
 
+    }
+
+    /**
+     *
+     */
+    @Override
+    public UserDetailsVo selectUserDetailsByUsername(String username) {
+        UserDetailsVo userDetailsVo = baseMapper.selectUserDetailsByUsername(username);
+        return userDetailsVo;
     }
 }

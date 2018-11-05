@@ -2,7 +2,6 @@ package com.sangoes.boot.uc.modules.admin.controller;
 
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.extension.api.ApiController;
-import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.service.ICaptchaService;
 import io.swagger.annotations.Api;
@@ -12,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Copyright (c) 2018
- * 验证码 前端控制器
+ * Copyright (c) 2018 验证码 前端控制器
  *
  * @author jerrychir
  * @date 2018/10/30 8:08 PM
@@ -37,13 +35,13 @@ public class CaptchaController extends ApiController {
     @ApiOperation(value = "根据手机号码发送验证码", notes = "返回公钥")
     @ResponseBody
     public Result<String> sendCaptchaBySms(@PathVariable String mobile) {
-        //判读mobile
+        // 判读mobile
         boolean isMobile = Validator.isMobile(mobile);
         if (!isMobile) {
             return Result.failed("手机号码不正确");
         }
-        //发送验证码并返回公钥
+        // 发送验证码并返回公钥
         String publicKey = captchaService.sendCaptchaBySms(mobile);
-        return Result.success(publicKey,"成功");
+        return Result.success(publicKey, "成功");
     }
 }

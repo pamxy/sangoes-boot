@@ -1,10 +1,13 @@
 package com.sangoes.boot.uc.security;
 
 import com.sangoes.boot.common.exception.BaseException;
+import com.sangoes.boot.uc.constants.SecurityConstants;
+import com.sangoes.boot.uc.modules.admin.service.impl.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -34,10 +37,10 @@ public class JwtTokenProvider {
     private String secretKey;
 
     @Value("${security.jwt.token.expire-length:3600000}")
-    private long validityInMilliseconds = 3600000; // 1h
+    private long validityInMilliseconds = 3600000;
 
     @Autowired
-    private MyUserDetails myUserDetails;
+    private UserDetailsServiceImpl myUserDetails;
 
     @PostConstruct
     protected void init() {
@@ -62,7 +65,7 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     public String getUsername(String token) {
@@ -70,8 +73,13 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest req) {
-        String bearerToken = req.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+        String bearerToken = req.getHeader(SecurityConstants.SECURITY_AUTHORIZATION);
+        //Basic
+//        if (!StringUtils.isEmpty(bearerToken) && bearerToken.startsWith(SecurityConstants.SECURITY_BASIC)){
+//            return bearerToken.substring(6, bearerToken.length());
+//        }
+        // token
+        if (!StringUtils.isEmpty(bearerToken) && bearerToken.startsWith(SecurityConstants.SECURITY_BEARER)) {
             return bearerToken.substring(7, bearerToken.length());
         }
         return null;
@@ -85,4 +93,5 @@ public class JwtTokenProvider {
             throw new BaseException("Expired or invalid JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }
