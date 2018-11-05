@@ -22,4 +22,13 @@ public interface CaptchaConstants {
      * 验证码保存的时间 (分钟)
      */
     long CAPTCHA_EXPIRE_TIME = 5;
+    /**
+     * 图片验证码
+     */
+    String CAPTCHA_IMAGE = "sangoes:captcha:image:random:";
+
+    /**
+     * 图片验证码保存的时间 (分钟)
+     */
+    long CAPTCHA_IMAGE_EXPIRE_TIME = 5;
 }

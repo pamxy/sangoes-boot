@@ -67,6 +67,7 @@ ignore:
   - /user/signin/mobile
   - /encrypt/mobile/*
   - /captcha/sms/*
+  - /captcha/image/*
   urls:
   - /v2/api-docs
   - /swagger-resources/**

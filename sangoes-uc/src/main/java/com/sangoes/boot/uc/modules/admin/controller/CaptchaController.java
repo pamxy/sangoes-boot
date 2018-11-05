@@ -1,6 +1,11 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.lang.Validator;
+
+import javax.servlet.http.HttpServletResponse;
+
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.service.ICaptchaService;
@@ -8,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Producer;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -43,5 +49,20 @@ public class CaptchaController extends ApiController {
         // 发送验证码并返回公钥
         String publicKey = captchaService.sendCaptchaBySms(mobile);
         return Result.success(publicKey, "成功");
+    }
+
+    /**
+     * 生成随机验证码图片
+     * 
+     * @param random
+     * @param response
+     * @return
+     */
+    @GetMapping("/image/{random}")
+    @ApiOperation(value = "生成随机验证码图片", notes = "返回图片流")
+    @ResponseBody
+    public void generateImageCaptcha(@PathVariable String random, HttpServletResponse response) {
+        // 生成验证码
+        captchaService.generateCaptcha(random, response);
     }
 }

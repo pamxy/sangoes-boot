@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class EncryptServiceImpl implements IEncryptService {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     /**
      * 根据手机号码创建RSA的公钥私钥并存入redis
@@ -35,17 +35,19 @@ public class EncryptServiceImpl implements IEncryptService {
      */
     @Override
     public String createRSAKeyByMobile(String mobile) {
-        //生产
+        // 生产
         KeyPair pair = SecureUtil.generateKeyPair("RSA");
         PrivateKey privateKey = pair.getPrivate();
         PublicKey publicKey = pair.getPublic();
-        //私钥
+        // 私钥
         String privateEncode = Base64.encode(privateKey.getEncoded());
-        //公钥
+        // 公钥
         String publicEncode = Base64.encode(publicKey.getEncoded());
-        //保存在redis里
-        redisTemplate.opsForValue().set(RSAConstants.MOBILE_RSA_PRIVATE_KEY + mobile, privateEncode, RSAConstants.MOBILE_RSA_STORE_TIME, TimeUnit.DAYS);
-        redisTemplate.opsForValue().set(RSAConstants.MOBILE_RSA_PUBLIC_KEY + mobile, publicEncode, RSAConstants.MOBILE_RSA_STORE_TIME, TimeUnit.DAYS);
+        // 保存在redis里
+        redisTemplate.opsForValue().set(RSAConstants.MOBILE_RSA_PRIVATE_KEY + mobile, privateEncode,
+                RSAConstants.MOBILE_RSA_STORE_TIME, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set(RSAConstants.MOBILE_RSA_PUBLIC_KEY + mobile, publicEncode,
+                RSAConstants.MOBILE_RSA_STORE_TIME, TimeUnit.DAYS);
         return publicEncode;
     }
 }
