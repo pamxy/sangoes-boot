@@ -70,6 +70,8 @@ ignore:
   - /encrypt/rsa/*
   - /captcha/sms/*
   - /captcha/image/*
+  # 临时添加
+  - /user/add
   urls:
   - /v2/api-docs
   - /swagger-resources/**

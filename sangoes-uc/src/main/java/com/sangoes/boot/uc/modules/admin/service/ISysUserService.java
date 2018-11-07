@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
+import com.sangoes.boot.uc.modules.admin.dto.UserDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
 
@@ -21,7 +22,7 @@ public interface ISysUserService extends IService<SysUser> {
      *
      * @param signUpDto
      */
-    Result signUpByMobile(SignUpDto signUpDto);
+    Result<String> signUpByMobile(SignUpDto signUpDto);
 
     /**
      * 根据手机号码登陆
@@ -29,7 +30,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param signInDto
      * @return
      */
-    Result signinByMobile(SignInDto signInDto);
+    Result<String> signinByMobile(SignInDto signInDto);
 
     /**
      * 根据username查询UserDeatilsVo
@@ -42,6 +43,14 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 根据用户名登录
      */
-    Result signinByAccount(SignInDto signInDto);
+    Result<String> signinByAccount(SignInDto signInDto);
+
+    /**
+     * 添加用户
+     * 
+     * @param userDto
+     * @return
+     */
+    Result<String> addUser(UserDto userDto);
 
 }

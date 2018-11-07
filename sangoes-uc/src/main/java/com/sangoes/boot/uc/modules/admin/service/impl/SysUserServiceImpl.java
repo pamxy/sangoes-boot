@@ -1,12 +1,5 @@
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
-import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
-import cn.hutool.crypto.asymmetric.KeyType;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sangoes.boot.common.exception.HandleErrorException;
@@ -15,12 +8,13 @@ import com.sangoes.boot.uc.constants.CaptchaConstants;
 import com.sangoes.boot.uc.constants.RSAConstants;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
+import com.sangoes.boot.uc.modules.admin.dto.UserDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.mapper.SysUserMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
 import com.sangoes.boot.uc.security.JwtTokenProvider;
-import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +25,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
+import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
+import cn.hutool.crypto.asymmetric.KeyType;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>
@@ -63,7 +66,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @param signUpDto
      */
     @Override
-    public Result signUpByMobile(SignUpDto signUpDto) {
+    public Result<String> signUpByMobile(SignUpDto signUpDto) {
         // 验证码
         String captchaConstant = CaptchaConstants.CAPTCHA_MOBILE_SMS + signUpDto.getMobile();
         // 检测是否有mobile对应的redis缓存
@@ -85,13 +88,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (!ObjectUtil.isNull(userName)) {
             throw new HandleErrorException("用户名已注册");
         }
-        // 从缓存中获取privateKey
-        String privateKey = String
-                .valueOf(redisTemplate.opsForValue().get(RSAConstants.MOBILE_RSA_PRIVATE_KEY + signUpDto.getMobile()));
         // 解密密码
-        AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, null);
-        String password = StrUtil.str(crypto.decryptFromBase64(signUpDto.getPassword(), KeyType.PrivateKey),
-                CharsetUtil.CHARSET_UTF_8);
+        String password = decodePassword(RSAConstants.MOBILE_RSA_PRIVATE_KEY + signUpDto.getMobile(),
+                signUpDto.getPassword());
 
         // 创建user
         SysUser sysUser = new SysUser();
@@ -115,7 +114,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public Result signinByMobile(SignInDto signInDto) {
+    public Result<String> signinByMobile(SignInDto signInDto) {
         // 根据mobile查询sys user
         SysUser userDB = this
                 .getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile, signInDto.getMobile()));
@@ -169,7 +168,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public Result signinByAccount(SignInDto signInDto) {
+    public Result<String> signinByAccount(SignInDto signInDto) {
         // 根据username查询sys user
         SysUser userDB = this
                 .getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername, signInDto.getUsername()));
@@ -194,13 +193,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         // 删除captcha
         redisTemplate.delete(captchaConstant);
-        // 从缓存中获取privateKey
-        String privateKey = String.valueOf(
-                redisTemplate.opsForValue().get(RSAConstants.RANDOM_RSA_PRIVATE_KEY + signInDto.getPublicRandom()));
         // 解密密码
-        AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, null);
-        String password = StrUtil.str(crypto.decryptFromBase64(signInDto.getPassword(), KeyType.PrivateKey),
-                CharsetUtil.CHARSET_UTF_8);
+        String password = decodePassword(RSAConstants.RANDOM_RSA_PRIVATE_KEY + signInDto.getPublicRandom(),
+                signInDto.getPassword());
         // 比较密码是否相同
         if (!passwordEncoder.matches(password, userDB.getPassword())) {
             throw new HandleErrorException("密码不正确");
@@ -221,5 +216,54 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         } catch (AuthenticationException e) {
             throw new HandleErrorException("登陆失败");
         }
+    }
+
+    /**
+     * 添加用户
+     */
+    @Override
+    public Result<String> addUser(UserDto userDto) {
+        // 判断用户名是否存在
+        SysUser userNameDB = this
+                .getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername, userDto.getUsername()));
+        // 判断是否存在
+        if (!ObjectUtil.isNull(userNameDB)) {
+            throw new HandleErrorException("用户已存在");
+        }
+        // 判断手机号码是否存在
+        SysUser mobileDB = this
+                .getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile, userDto.getMobile()));
+        // 判断是否存在
+        if (!ObjectUtil.isNull(mobileDB)) {
+            throw new HandleErrorException("此号码已注册");
+        }
+        // 新建user
+        SysUser user = new SysUser();
+        // 复制bean
+        BeanUtils.copyProperties(userDto, user);
+        // 加密密码并设置默认密码
+        user.setPassword(passwordEncoder.encode("888888"));
+        // 保存到数据库
+        boolean save = this.save(user);
+        // 添加失败
+        if (!save) {
+            return Result.failed("添加失败");
+        }
+        return Result.success("添加成功");
+    }
+
+    /**
+     * 解密密码
+     * 
+     * @param key
+     * @param password
+     * @return
+     */
+    private String decodePassword(String key, String password) {
+        // 从缓存中获取privateKey
+        String privateKey = String.valueOf(redisTemplate.opsForValue().get(key));
+        // 解密密码
+        AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, null);
+        return StrUtil.str(crypto.decryptFromBase64(password, KeyType.PrivateKey), CharsetUtil.CHARSET_UTF_8);
     }
 }

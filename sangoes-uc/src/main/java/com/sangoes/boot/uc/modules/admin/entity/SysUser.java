@@ -49,7 +49,7 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value = "加密盐")
     private String salt;
 
-    @ApiModelProperty(value = "注册类型 101PC 102手机 ")
+    @ApiModelProperty(value = "注册类型 101PC 102手机 103管理员添加")
     private Integer signupType;
 
     @ApiModelProperty(value = "登录类型 201PC登录 202手机登录 203为邮箱")

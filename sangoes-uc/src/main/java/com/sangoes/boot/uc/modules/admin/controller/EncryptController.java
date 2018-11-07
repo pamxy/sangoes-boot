@@ -1,14 +1,19 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
-import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.service.IEncryptService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import cn.hutool.core.lang.Validator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * Copyright (c) 2018 加密管理 前端控制器
