@@ -1,7 +1,12 @@
 package com.sangoes.boot.uc.modules.admin.service;
 
+import java.util.Map;
+
+import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.common.service.IBaseService;
+import com.sangoes.boot.common.utils.page.PageData;
+import com.sangoes.boot.uc.modules.admin.dto.RoleDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysRole;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -11,6 +16,21 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author jerrychir
  * @since 2018-11-04
  */
-public interface ISysRoleService extends IService<SysRole> {
+public interface ISysRoleService extends IBaseService<SysRole> {
+    /**
+     * 添加角色
+     * 
+     * @param roleDto
+     * @return
+     */
+    Result<String> addRole(RoleDto roleDto);
+
+    /**
+     * 角色分页
+     * 
+     * @param params
+     * @return
+     */
+    Result<PageData<SysRole>> selectRolePage(Map<String, Object> params);
 
 }

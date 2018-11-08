@@ -99,13 +99,13 @@ public class SysUserController extends BaseController {
     }
 
     /**
-     * 添加用户
+     * 用户分页
      * 
      * @param userDto
      * @return
      */
     @GetMapping("/page")
-    @ApiOperation(value = "添加用户", notes = "返回添加结果")
+    @ApiOperation(value = "用户分页", notes = "返回分页结果")
     @ResponseBody
     public Result<PageData<SysUser>> getUserPage(@RequestParam Map<String, Object> params) {
 
