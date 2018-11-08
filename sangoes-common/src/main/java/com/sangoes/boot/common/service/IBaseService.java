@@ -1,7 +1,5 @@
 package com.sangoes.boot.common.service;
 
-import java.util.Map;
-
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.common.utils.page.PageQuery;
