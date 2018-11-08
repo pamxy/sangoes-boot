@@ -72,6 +72,7 @@ ignore:
   - /captcha/image/*
   # 临时添加
   - /user/add
+  - /user/page
   urls:
   - /v2/api-docs
   - /swagger-resources/**

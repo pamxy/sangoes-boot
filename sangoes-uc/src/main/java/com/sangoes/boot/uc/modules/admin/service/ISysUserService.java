@@ -1,6 +1,9 @@
 package com.sangoes.boot.uc.modules.admin.service;
 
+import java.util.Map;
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sangoes.boot.common.msg.PageData;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
@@ -52,5 +55,13 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     Result<String> addUser(UserDto userDto);
+
+    /**
+     * 分页获取用户
+     * 
+     * @param params
+     * @return
+     */
+    Result<PageData<SysUser>> selectUserPage(Map<String, Object> params);
 
 }

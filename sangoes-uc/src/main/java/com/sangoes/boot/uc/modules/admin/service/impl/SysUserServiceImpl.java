@@ -1,8 +1,14 @@
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
+import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sangoes.boot.common.exception.HandleErrorException;
+import com.sangoes.boot.common.msg.PageData;
+import com.sangoes.boot.common.msg.Pagination;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.constants.CaptchaConstants;
 import com.sangoes.boot.uc.constants.RSAConstants;
@@ -268,5 +274,39 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 解密密码
         AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, null);
         return StrUtil.str(crypto.decryptFromBase64(password, KeyType.PrivateKey), CharsetUtil.CHARSET_UTF_8);
+    }
+
+    /**
+     * 分页获取用户
+     */
+    @Override
+    public Result<PageData<SysUser>> selectUserPage(Map<String, Object> params) {
+        // 构建分页
+        long current = 1;
+        long pageSize = 10;
+        Object currentObj = params.get("current");
+        Object sizeObj = params.get("pageSize");
+        if (ObjectUtil.isNotNull(currentObj)) {
+            current = Long.valueOf(currentObj.toString());
+        }
+        if (ObjectUtil.isNotNull(sizeObj)) {
+            pageSize = Long.valueOf(sizeObj.toString());
+        }
+        // 构建分页
+        Page<SysUser> user = new Page<>(current, pageSize);
+        // 查询条件
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<SysUser>();
+        if (params.entrySet().size() > 0) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                queryWrapper.like(entry.getKey(), entry.getValue());
+            }
+        }
+        // 查询
+        IPage<SysUser> selectPage = baseMapper.selectPage(user, queryWrapper);
+        // 返回结果
+        PageData<SysUser> pageUtil = new PageData<SysUser>();
+        Pagination pagination = new Pagination(selectPage.getTotal(), selectPage.getSize(), selectPage.getCurrent());
+        return Result.success(new PageData<SysUser>(pagination, selectPage.getRecords()), "成功");
+
     }
 }

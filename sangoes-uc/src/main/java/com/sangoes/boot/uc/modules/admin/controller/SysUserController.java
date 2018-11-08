@@ -1,17 +1,23 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
+import java.util.Map;
+
 import com.sangoes.boot.common.controller.BaseController;
+import com.sangoes.boot.common.msg.PageData;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto;
+import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -91,4 +97,19 @@ public class SysUserController extends BaseController {
 
         return userService.addUser(userDto);
     }
+
+    /**
+     * 添加用户
+     * 
+     * @param userDto
+     * @return
+     */
+    @GetMapping("/page")
+    @ApiOperation(value = "添加用户", notes = "返回添加结果")
+    @ResponseBody
+    public Result<PageData<SysUser>> getUserPage(@RequestParam Map<String, Object> params) {
+
+        return userService.selectUserPage(params);
+    }
+
 }
