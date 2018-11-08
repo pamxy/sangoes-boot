@@ -1,6 +1,9 @@
 package com.sangoes.boot.common.entity;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,6 +19,7 @@ public class BaseEntity {
     /**
      * 主键
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     /**
      * 创建时间
@@ -35,6 +39,7 @@ public class BaseEntity {
     /**
      * 创建者主键
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long creatorId;
 
     /**
@@ -45,6 +50,7 @@ public class BaseEntity {
     /**
      * 更新者主键
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long updatorId;
 
     /**

@@ -1,5 +1,6 @@
 package com.sangoes.boot.uc.modules.admin.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sangoes.boot.common.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -43,9 +44,11 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value = "邮箱")
     private String email;
 
+    @JsonIgnore
     @ApiModelProperty(value = "加密密码")
     private String password;
 
+    @JsonIgnore
     @ApiModelProperty(value = "加密盐")
     private String salt;
 
