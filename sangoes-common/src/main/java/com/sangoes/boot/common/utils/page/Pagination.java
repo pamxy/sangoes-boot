@@ -1,4 +1,4 @@
-package com.sangoes.boot.common.msg;
+package com.sangoes.boot.common.utils.page;
 
 import lombok.Data;
 

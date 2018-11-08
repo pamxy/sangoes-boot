@@ -3,8 +3,8 @@ package com.sangoes.boot.uc.modules.admin.controller;
 import java.util.Map;
 
 import com.sangoes.boot.common.controller.BaseController;
-import com.sangoes.boot.common.msg.PageData;
 import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto;

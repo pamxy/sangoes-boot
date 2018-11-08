@@ -3,7 +3,8 @@ package com.sangoes.boot.common.service;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sangoes.boot.common.msg.PageData;
+import com.sangoes.boot.common.utils.page.PageData;
+import com.sangoes.boot.common.utils.page.PageQuery;
 
 /**
  * IBaseService
@@ -12,8 +13,8 @@ public interface IBaseService<T> extends IService<T> {
     /**
      * 获取分页信息
      * 
-     * @param params
+     * @param pageQuery
      * @return
      */
-    PageData<T> selectPage(Map<String, Object> params);
+    PageData<T> selectPage(PageQuery pageQuery);
 }

@@ -3,14 +3,11 @@ package com.sangoes.boot.uc.modules.admin.service.impl;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sangoes.boot.common.exception.HandleErrorException;
-import com.sangoes.boot.common.msg.PageData;
-import com.sangoes.boot.common.msg.Pagination;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.service.impl.BaseServiceImpl;
+import com.sangoes.boot.common.utils.page.PageData;
+import com.sangoes.boot.common.utils.page.PageQuery;
 import com.sangoes.boot.uc.constants.CaptchaConstants;
 import com.sangoes.boot.uc.constants.RSAConstants;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
@@ -282,7 +279,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      */
     @Override
     public Result<PageData<SysUser>> selectUserPage(Map<String, Object> params) {
-        PageData<SysUser> selectPage = this.selectPage(params);
+        PageData<SysUser> selectPage = this.selectPage(new PageQuery(params));
         return Result.success(selectPage, "成功");
 
     }

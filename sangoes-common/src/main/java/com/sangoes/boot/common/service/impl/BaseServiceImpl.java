@@ -7,9 +7,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sangoes.boot.common.msg.PageData;
-import com.sangoes.boot.common.msg.Pagination;
 import com.sangoes.boot.common.service.IBaseService;
+import com.sangoes.boot.common.utils.page.PageData;
+import com.sangoes.boot.common.utils.page.PageQuery;
+import com.sangoes.boot.common.utils.page.Pagination;
 
 import org.springframework.stereotype.Service;
 
@@ -25,24 +26,13 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      * 获取分页信息
      */
     @Override
-    public PageData<T> selectPage(Map<String, Object> params) {
+    public PageData<T> selectPage(PageQuery pageQuery) {
         // 构建分页
-        long current = 1;
-        long pageSize = 10;
-        Object currentObj = params.get("current");
-        Object sizeObj = params.get("pageSize");
-        if (ObjectUtil.isNotNull(currentObj)) {
-            current = Long.valueOf(currentObj.toString());
-        }
-        if (ObjectUtil.isNotNull(sizeObj)) {
-            pageSize = Long.valueOf(sizeObj.toString());
-        }
-        // 构建分页
-        Page<T> user = new Page<>(current, pageSize);
+        Page<T> user = new Page<>(pageQuery.getCurrent(), pageQuery.getPageSize());
         // 查询条件
         QueryWrapper<T> queryWrapper = new QueryWrapper<T>();
-        if (params.entrySet().size() > 0) {
-            for (Map.Entry<String, Object> entry : params.entrySet()) {
+        if (pageQuery.entrySet().size() > 0) {
+            for (Map.Entry<String, Object> entry : pageQuery.entrySet()) {
                 queryWrapper.like(entry.getKey(), entry.getValue());
             }
         }
