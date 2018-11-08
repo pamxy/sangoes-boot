@@ -10,6 +10,7 @@ import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
+import com.sangoes.boot.uc.modules.admin.entity.enums.SignUpEnum;
 import com.sangoes.boot.uc.modules.admin.mapper.SysUserMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
@@ -243,6 +244,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         BeanUtils.copyProperties(userDto, user);
         // 加密密码并设置默认密码
         user.setPassword(passwordEncoder.encode("888888"));
+        // 设置注册类型
+        user.setSignupType(SignUpEnum.ADMIN.getValue());
         // 保存到数据库
         boolean save = this.save(user);
         // 添加失败

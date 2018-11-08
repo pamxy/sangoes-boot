@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>
@@ -29,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestController
 @RequestMapping("user")
-@Slf4j
 @Api("用户管理类")
 public class SysUserController extends BaseController {
 
