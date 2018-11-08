@@ -2,9 +2,9 @@ package com.sangoes.boot.uc.modules.admin.service;
 
 import java.util.Map;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.sangoes.boot.common.msg.PageData;
 import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.common.service.IBaseService;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto;
@@ -19,7 +19,7 @@ import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
  * @author jerrychir
  * @since 2018-10-29
  */
-public interface ISysUserService extends IService<SysUser> {
+public interface ISysUserService extends IBaseService<SysUser> {
     /**
      * 根据手机号码注册
      *
