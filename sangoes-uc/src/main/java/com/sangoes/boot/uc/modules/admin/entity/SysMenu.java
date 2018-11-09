@@ -20,10 +20,8 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value="SysMenu对象", description="菜单")
+@ApiModel(value = "SysMenu对象", description = "菜单")
 public class SysMenu extends BaseEntity {
-
-    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "父主键 默认-1")
     private Long parentId;
@@ -42,6 +40,5 @@ public class SysMenu extends BaseEntity {
 
     @ApiModelProperty(value = "菜单描述")
     private String des;
-
 
 }

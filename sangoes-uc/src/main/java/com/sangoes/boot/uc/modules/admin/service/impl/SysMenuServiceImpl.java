@@ -1,4 +1,12 @@
+/*
+ * @Author: jerrychir @sangoes 
+ * @Date: 2018-11-09 15:29:11 
+ * @Last Modified by: jerrychir @sangoes
+ * @Last Modified time: 2018-11-09 15:31:11
+ */
 package com.sangoes.boot.uc.modules.admin.service.impl;
+
+import java.util.List;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sangoes.boot.common.exception.HandleErrorException;
@@ -8,6 +16,8 @@ import com.sangoes.boot.uc.modules.admin.dto.MenuDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysMenu;
 import com.sangoes.boot.uc.modules.admin.mapper.SysMenuMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysMenuService;
+import com.sangoes.boot.uc.modules.admin.vo.MenuTree;
+import com.sangoes.boot.uc.utils.BuildTreeUtil;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -44,6 +54,18 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
             throw new HandleErrorException("添加失败");
         }
         return Result.success("添加成功");
+    }
+
+    /**
+     * 获取菜单树形
+     */
+    @Override
+    public Result<List<MenuTree>> getMenuTree() {
+        // 获取全部菜单
+        List<SysMenu> list = this.list(new QueryWrapper<SysMenu>());
+        // 变成树形
+        List<MenuTree> menuTrees = BuildTreeUtil.buildMenuTree(list, -1L);
+        return Result.success(menuTrees, "成功");
     }
 
 }

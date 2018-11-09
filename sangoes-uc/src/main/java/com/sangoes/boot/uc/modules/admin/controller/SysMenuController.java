@@ -1,15 +1,17 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
+import java.util.List;
+
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.dto.MenuDto;
-import com.sangoes.boot.uc.modules.admin.dto.RoleDto;
 import com.sangoes.boot.uc.modules.admin.dto.MenuDto.AddMenuGroup;
-import com.sangoes.boot.uc.modules.admin.dto.RoleDto.AddRoleGroup;
 import com.sangoes.boot.uc.modules.admin.service.ISysMenuService;
+import com.sangoes.boot.uc.modules.admin.vo.MenuTree;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,5 +48,17 @@ public class SysMenuController extends BaseController {
     @ResponseBody
     public Result<String> addRole(@RequestBody @Validated(AddMenuGroup.class) MenuDto menuDto) {
         return menuService.addMenu(menuDto);
+    }
+
+    /**
+     * 获取菜单树形结果
+     * 
+     * @return
+     */
+    @GetMapping("/tree")
+    @ApiOperation(value = "获取菜单树形结果", notes = "返回树形结果")
+    @ResponseBody
+    public Result<List<MenuTree>> getMenuTree() {
+        return menuService.getMenuTree();
     }
 }

@@ -1,3 +1,9 @@
+/*
+ * @Author: jerrychir @sangoes 
+ * @Date: 2018-11-09 15:32:03 
+ * @Last Modified by:   jerrychir @sangoes 
+ * @Last Modified time: 2018-11-09 15:32:03 
+ */
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
 import java.util.Map;
@@ -38,7 +44,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
 import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
 import cn.hutool.crypto.asymmetric.KeyType;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>
