@@ -1,6 +1,8 @@
 package com.sangoes.boot.uc.modules.admin.service;
 
+import com.sangoes.boot.uc.modules.admin.dto.MenuDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysMenu;
+import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.service.IBaseService;
 
 /**
@@ -12,5 +14,12 @@ import com.sangoes.boot.common.service.IBaseService;
  * @since 2018-11-09
  */
 public interface ISysMenuService extends IBaseService<SysMenu> {
+    /**
+     * 添加菜单
+     * 
+     * @param menuDto
+     * @return
+     */
+    Result<String> addMenu(MenuDto menuDto);
 
 }

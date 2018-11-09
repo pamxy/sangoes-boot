@@ -1,10 +1,23 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
-
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
 import com.sangoes.boot.common.controller.BaseController;
+import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.uc.modules.admin.dto.MenuDto;
+import com.sangoes.boot.uc.modules.admin.dto.RoleDto;
+import com.sangoes.boot.uc.modules.admin.dto.MenuDto.AddMenuGroup;
+import com.sangoes.boot.uc.modules.admin.dto.RoleDto.AddRoleGroup;
+import com.sangoes.boot.uc.modules.admin.service.ISysMenuService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * <p>
@@ -15,7 +28,23 @@ import com.sangoes.boot.common.controller.BaseController;
  * @since 2018-11-09
  */
 @RestController
-@RequestMapping("/admin/sys-menu")
+@RequestMapping("menu")
+@Api("菜单管理类")
 public class SysMenuController extends BaseController {
 
+    @Autowired
+    private ISysMenuService menuService;
+
+    /**
+     * 添加菜单
+     * 
+     * @param roleDto
+     * @return
+     */
+    @PostMapping("/add")
+    @ApiOperation(value = "添加菜单", notes = "返回添加结果")
+    @ResponseBody
+    public Result<String> addRole(@RequestBody @Validated(AddMenuGroup.class) MenuDto menuDto) {
+        return menuService.addMenu(menuDto);
+    }
 }

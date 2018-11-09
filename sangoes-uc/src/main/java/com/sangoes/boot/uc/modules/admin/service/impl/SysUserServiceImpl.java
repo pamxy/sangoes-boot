@@ -48,7 +48,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author jerrychir
  * @since 2018-10-29
  */
-@Slf4j
 @Service
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
