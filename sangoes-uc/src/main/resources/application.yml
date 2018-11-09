@@ -91,7 +91,7 @@ mybatis-plus:
 #swagger
 swagger:
   enabled: true
-  title: 用户中心API
+  title: Sangoes API
   description: 用户中心
   version: 0.1
   license: MIT

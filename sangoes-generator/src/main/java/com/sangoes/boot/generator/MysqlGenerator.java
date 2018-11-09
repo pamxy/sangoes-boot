@@ -97,6 +97,8 @@ public class MysqlGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setSuperEntityClass("com.sangoes.boot.common.entity.BaseEntity");
+        strategy.setSuperServiceClass("com.sangoes.boot.common.service.IBaseService");
+        strategy.setSuperServiceImplClass("com.sangoes.boot.common.service.impl.BaseServiceImpl");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         strategy.setSuperControllerClass("com.sangoes.boot.common.controller.BaseController");
