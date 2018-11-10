@@ -79,6 +79,7 @@ ignore:
   - /menu/tree
   - /menu/list
   - /auth/add
+  - /auth/page
   urls:
   - /v2/api-docs
   - /swagger-resources/**

@@ -21,23 +21,6 @@ import cn.hutool.core.util.StrUtil;
  */
 @Service
 public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> implements IBaseService<T> {
-
-    /**
-     * 获取分页信息
-     */
-    @Override
-    public PageData<T> selectPage(PageQuery pageQuery) {
-        // 构建分页
-        Page<T> page = new Page<>(pageQuery.getCurrent(), pageQuery.getPageSize());
-        // 查询条件
-        QueryWrapper<T> queryWrapper = this.addQueryCondtion(pageQuery);
-        // 查询
-        IPage<T> selectPage = baseMapper.selectPage(page, queryWrapper);
-        // 返回结果
-        Pagination pagination = new Pagination(selectPage.getTotal(), selectPage.getSize(), selectPage.getCurrent());
-        return new PageData<T>(pagination, selectPage.getRecords());
-    }
-
     /**
      * 添加查询条件
      * 
@@ -69,6 +52,27 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
             }
         }
         return queryWrapper;
+    }
+
+    /**
+     * 获取分页信息
+     */
+    @Override
+    public PageData<T> selectPage(PageQuery pageQuery) {
+        // 构建分页
+        Page<T> page = new Page<>(pageQuery.getCurrent(), pageQuery.getPageSize());
+        // 查询条件
+        QueryWrapper<T> queryWrapper = this.addQueryCondtion(pageQuery);
+        // 查询
+        IPage<T> selectPage = baseMapper.selectPage(page, queryWrapper);
+        // 返回结果
+        Pagination pagination = new Pagination(selectPage.getTotal(), selectPage.getSize(), selectPage.getCurrent());
+        return new PageData<T>(pagination, selectPage.getRecords());
+    }
+
+    @Override
+    public QueryWrapper<T> pageQueryCondtion(PageQuery pageQuery) {
+        return this.addQueryCondtion(pageQuery);
     }
 
 }

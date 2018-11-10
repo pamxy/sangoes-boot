@@ -28,11 +28,12 @@ public interface ISysAuthService extends IBaseService<SysAuth> {
     Result<String> addAuth(AuthDto authDto);
 
     /**
-     * 权限分页
+     * 根据menuId权限分页
      * 
      * @param params
+     * @param menuId
      * @return
      */
-    Result<PageData<SysAuth>> pageAuth(Map<String, Object> params);
+    Result<PageData<SysAuth>> pageAuthByMenuId(Map<String, Object> params, Long menuId);
 
 }

@@ -42,10 +42,10 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
     }
 
     /**
-     * 权限分页
+     * 根据menuId权限分页
      */
     @Override
-    public Result<PageData<SysAuth>> pageAuth(Map<String, Object> params) {
+    public Result<PageData<SysAuth>> pageAuthByMenuId(Map<String, Object> params, Long menuId) {
         PageData<SysAuth> selectPage = this.selectPage(new PageQuery(params));
         return Result.success(selectPage, "成功");
     }
