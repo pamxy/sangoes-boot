@@ -1,8 +1,8 @@
 /*
  * @Author: jerrychir 
  * @Date: 2018-11-09 15:05:44 
- * @Last Modified by: jerrychir
- * @Last Modified time: 2018-11-09 15:18:03
+ * @Last Modified by: jerrychir @sangoes
+ * @Last Modified time: 2018-11-09 16:10:10
  */
 package com.sangoes.boot.uc.modules.admin.vo;
 
@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class MenuTree extends TreeNode {
     // 菜单名
-    private String menuName;
+    private String name;
     // 菜单编码
     private String menuCode;
     // 菜单图标

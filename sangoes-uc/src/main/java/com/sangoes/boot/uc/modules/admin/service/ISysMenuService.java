@@ -1,8 +1,8 @@
 /*
  * @Author: jerrychir @sangoes 
  * @Date: 2018-11-09 15:32:32 
- * @Last Modified by:   jerrychir @sangoes 
- * @Last Modified time: 2018-11-09 15:32:32 
+ * @Last Modified by: jerrychir @sangoes
+ * @Last Modified time: 2018-11-10 13:27:15
  */
 package com.sangoes.boot.uc.modules.admin.service;
 
@@ -37,5 +37,12 @@ public interface ISysMenuService extends IBaseService<SysMenu> {
      * @return
      */
     Result<List<MenuTree>> getMenuTree();
+
+    /**
+     * 获取菜单列表
+     * 
+     * @return
+     */
+    Result<List<SysMenu>> getMenuList();
 
 }

@@ -77,6 +77,7 @@ ignore:
   - /role/page
   - /menu/add
   - /menu/tree
+  - /menu/list
   urls:
   - /v2/api-docs
   - /swagger-resources/**

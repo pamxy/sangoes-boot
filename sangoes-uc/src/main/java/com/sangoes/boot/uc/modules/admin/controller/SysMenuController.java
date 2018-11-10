@@ -1,8 +1,8 @@
 /*
  * @Author: jerrychir @sangoes 
  * @Date: 2018-11-09 15:41:43 
- * @Last Modified by:   jerrychir @sangoes 
- * @Last Modified time: 2018-11-09 15:41:43 
+ * @Last Modified by: jerrychir @sangoes
+ * @Last Modified time: 2018-11-10 13:27:48
  */
 package com.sangoes.boot.uc.modules.admin.controller;
 
@@ -12,6 +12,7 @@ import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.dto.MenuDto;
 import com.sangoes.boot.uc.modules.admin.dto.MenuDto.AddMenuGroup;
+import com.sangoes.boot.uc.modules.admin.entity.SysMenu;
 import com.sangoes.boot.uc.modules.admin.service.ISysMenuService;
 import com.sangoes.boot.uc.modules.admin.vo.MenuTree;
 
@@ -66,5 +67,17 @@ public class SysMenuController extends BaseController {
     @ResponseBody
     public Result<List<MenuTree>> getMenuTree() {
         return menuService.getMenuTree();
+    }
+
+    /**
+     * 获取菜单列表
+     * 
+     * @return
+     */
+    @GetMapping("/list")
+    @ApiOperation(value = "获取菜单列表", notes = "返回菜单列表结果")
+    @ResponseBody
+    public Result<List<SysMenu>> getMenuList() {
+        return menuService.getMenuList();
     }
 }

@@ -2,7 +2,7 @@
  * @Author: jerrychir @sangoes 
  * @Date: 2018-11-09 15:29:11 
  * @Last Modified by: jerrychir @sangoes
- * @Last Modified time: 2018-11-09 15:42:18
+ * @Last Modified time: 2018-11-10 13:30:16
  */
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
@@ -66,6 +66,16 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         // 变成树形
         List<MenuTree> menuTrees = BuildTreeUtil.buildMenuTree(list, -1L);
         return Result.success(menuTrees, "成功");
+    }
+
+    /**
+     * 获取菜单列表
+     */
+    @Override
+    public Result<List<SysMenu>> getMenuList() {
+        // 获取全部菜单
+        List<SysMenu> list = this.list(new QueryWrapper<SysMenu>());
+        return Result.success(list, "成功");
     }
 
 }
