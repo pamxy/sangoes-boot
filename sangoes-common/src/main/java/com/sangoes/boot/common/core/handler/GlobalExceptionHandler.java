@@ -15,15 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Copyright (c) 2018
  *
  * @author jerrychir
  * @date 2018/10/30 10:26 PM
  */
-@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     /**

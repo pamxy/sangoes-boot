@@ -24,8 +24,6 @@ import java.time.LocalDateTime;
 @ApiModel(value = "SysUser对象", description = "用户表")
 public class SysUser extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
-
     @ApiModelProperty(value = "编码")
     private Long code;
 

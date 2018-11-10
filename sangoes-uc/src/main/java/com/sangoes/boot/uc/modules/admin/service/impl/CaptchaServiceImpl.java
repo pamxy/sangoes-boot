@@ -1,25 +1,25 @@
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
-import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.LineCaptcha;
-import cn.hutool.core.util.RandomUtil;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.uc.constants.CaptchaConstants;
 import com.sangoes.boot.uc.modules.admin.service.ICaptchaService;
 import com.sangoes.boot.uc.modules.admin.service.IEncryptService;
-import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.LineCaptcha;
+import cn.hutool.core.util.RandomUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Copyright (c) 2018

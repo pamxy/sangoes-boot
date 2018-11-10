@@ -1,14 +1,14 @@
 package com.sangoes.boot.uc.modules.admin.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.sangoes.boot.common.entity.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableId;
+
+import org.springframework.security.core.GrantedAuthority;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.springframework.security.core.GrantedAuthority;
 
 /**
  * <p>
@@ -21,7 +21,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value="SysRole对象", description="角色表")
+@ApiModel(value = "SysRole对象", description = "角色表")
 public class SysRole extends BaseEntity implements GrantedAuthority {
 
     private static final long serialVersionUID = 1L;
@@ -37,7 +37,6 @@ public class SysRole extends BaseEntity implements GrantedAuthority {
 
     @ApiModelProperty(value = "1启用 0禁用")
     private Integer status;
-
 
     @Override
     public String getAuthority() {

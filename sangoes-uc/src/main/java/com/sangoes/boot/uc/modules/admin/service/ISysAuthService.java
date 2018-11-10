@@ -2,8 +2,12 @@ package com.sangoes.boot.uc.modules.admin.service;
 
 import com.sangoes.boot.uc.modules.admin.dto.AuthDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysAuth;
+
+import java.util.Map;
+
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.service.IBaseService;
+import com.sangoes.boot.common.utils.page.PageData;
 
 /**
  * <p>
@@ -22,5 +26,13 @@ public interface ISysAuthService extends IBaseService<SysAuth> {
      * @return
      */
     Result<String> addAuth(AuthDto authDto);
+
+    /**
+     * 权限分页
+     * 
+     * @param params
+     * @return
+     */
+    Result<PageData<SysAuth>> pageAuth(Map<String, Object> params);
 
 }

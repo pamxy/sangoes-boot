@@ -85,8 +85,8 @@ public class MysqlGernerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
-                return projectPath + "/src/main/resources/mapper/" + pc.getModuleName()
-                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                return projectPath + "/src/main/resources/mapper/" + pc.getModuleName() + "/"
+                        + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
         cfg.setFileOutConfigList(focList);
@@ -101,11 +101,12 @@ public class MysqlGernerator {
         strategy.setRestControllerStyle(true);
         strategy.setSuperControllerClass("com.sangoes.boot.common.controller.BaseController");
         strategy.setInclude(scanner("表名"));
-        strategy.setSuperEntityColumns("id", "crt_time", "upd_time", "creator", "creator_id", "updator", "updator_id", "deleted");
+        strategy.setSuperEntityColumns("id", "crt_time", "upd_time", "creator", "creator_id", "updator", "updator_id",
+                "deleted");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setLogicDeleteFieldName("deleted");// 逻辑删除属性名称
         strategy.setEntityBooleanColumnRemoveIsPrefix(true);
-//        strategy.setTablePrefix(pc.admingetModuleName() + "_");
+        // strategy.setTablePrefix(pc.admingetModuleName() + "_");
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
