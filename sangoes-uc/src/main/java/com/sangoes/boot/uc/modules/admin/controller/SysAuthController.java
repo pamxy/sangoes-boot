@@ -1,21 +1,48 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
-
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
 import com.sangoes.boot.common.controller.BaseController;
+import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.uc.modules.admin.dto.AuthDto;
+import com.sangoes.boot.uc.modules.admin.dto.AuthDto.AddAuthGroup;
+import com.sangoes.boot.uc.modules.admin.service.ISysAuthService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author jerrychir
  * @since 2018-11-10
  */
 @RestController
-@RequestMapping("/admin/sys-auth")
+@RequestMapping("auth")
+@Api("权限管理类")
 public class SysAuthController extends BaseController {
 
+    @Autowired
+    private ISysAuthService authService;
+
+    /**
+     * 添加权限
+     * 
+     * @param authDto
+     * @return
+     */
+    @PostMapping("/add")
+    @ApiOperation(value = "添加权限", notes = "返回添加结果")
+    @ResponseBody
+    public Result<String> addRole(@RequestBody @Validated(AddAuthGroup.class) AuthDto authDto) {
+        return authService.addAuth(authDto);
+    }
 }

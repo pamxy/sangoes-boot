@@ -78,6 +78,7 @@ ignore:
   - /menu/add
   - /menu/tree
   - /menu/list
+  - /auth/add
   urls:
   - /v2/api-docs
   - /swagger-resources/**

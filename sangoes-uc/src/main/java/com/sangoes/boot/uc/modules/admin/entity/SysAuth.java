@@ -20,16 +20,17 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value="SysAuth对象", description="")
+@ApiModel(value = "权限对象", description = "权限对象")
 public class SysAuth extends BaseEntity {
-
-    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "菜单主键")
     private Long menuId;
 
     @ApiModelProperty(value = "权限名称")
     private String authName;
+
+    @ApiModelProperty(value = "权限编码")
+    private String authCode;
 
     @ApiModelProperty(value = "权限地址")
     private String action;
@@ -42,6 +43,5 @@ public class SysAuth extends BaseEntity {
 
     @ApiModelProperty(value = "菜单描述")
     private String des;
-
 
 }
