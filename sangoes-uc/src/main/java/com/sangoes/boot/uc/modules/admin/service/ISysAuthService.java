@@ -34,6 +34,6 @@ public interface ISysAuthService extends IBaseService<SysAuth> {
      * @param menuId
      * @return
      */
-    Result<PageData<SysAuth>> pageAuthByMenuId(Map<String, Object> params, Long menuId);
+    Result<PageData<SysAuth>> pageAuthByMenuId(Map<String, Object> params);
 
 }

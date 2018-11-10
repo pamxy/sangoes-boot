@@ -61,9 +61,8 @@ public class SysAuthController extends BaseController {
     @GetMapping("/page")
     @ApiOperation(value = "权限分页", notes = "返回分页结果")
     @ResponseBody
-    public Result<PageData<SysAuth>> pageAuthByMenuId(@RequestParam Map<String, Object> params,
-            @RequestParam Long menuId) {
-        return authService.pageAuthByMenuId(params, menuId);
+    public Result<PageData<SysAuth>> pageAuthByMenuId(@RequestParam Map<String, Object> params) {
+        return authService.pageAuthByMenuId(params);
     }
 
 }
