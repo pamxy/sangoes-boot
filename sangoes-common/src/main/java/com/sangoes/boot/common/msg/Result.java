@@ -1,11 +1,14 @@
 package com.sangoes.boot.common.msg;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
+import java.io.Serializable;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.io.Serializable;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * Copyright (c) 2018 api统一返回结果

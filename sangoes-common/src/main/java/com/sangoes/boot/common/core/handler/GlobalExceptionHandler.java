@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sangoes.boot.common.exception.HandleErrorException;
+import com.sangoes.boot.common.exception.UnAuthoruzedException;
 import com.sangoes.boot.common.msg.Result;
 
 import org.springframework.http.HttpStatus;
@@ -71,6 +72,22 @@ public class GlobalExceptionHandler {
         List<ObjectError> allErrors = ex.getBindingResult().getAllErrors();
         String errorMsg = allErrors.size() > 0 ? allErrors.get(0).getDefaultMessage() : "验证错误";
         return Result.failed(errorMsg, HttpStatus.UNPROCESSABLE_ENTITY);
+
+    }
+
+    /**
+     * 未授权信息异常捕获
+     *
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(UnAuthoruzedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    public Result<String> authExceptionHandler(HttpServletResponse response, Exception ex) {
+        log.error(ex.getMessage(), ex);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        return Result.failed(ex.getMessage(), HttpStatus.UNAUTHORIZED);
 
     }
 }
