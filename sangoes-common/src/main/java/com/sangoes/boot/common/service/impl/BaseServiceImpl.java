@@ -32,14 +32,11 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         if (StrUtil.isNotBlank(pageQuery.getSorter())) {
             queryWrapper.orderBy(true, pageQuery.isAsc(), pageQuery.getSorter());
         }
+        // 模糊查找
         if (pageQuery.entrySet().size() > 0) {
             for (Map.Entry<String, Object> entry : pageQuery.entrySet()) {
-                // 获取key value
-                String key = entry.getKey();
-                Object value = entry.getValue();
                 // 模糊查找
-                queryWrapper.like(key, value);
-
+                queryWrapper.like(entry.getKey(), entry.getValue());
             }
         }
         return queryWrapper;
