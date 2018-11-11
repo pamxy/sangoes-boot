@@ -28,27 +28,18 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      */
     private QueryWrapper<T> addQueryCondtion(PageQuery pageQuery) {
         QueryWrapper<T> queryWrapper = new QueryWrapper<T>();
+        // 排序
+        if (StrUtil.isNotBlank(pageQuery.getSorter())) {
+            queryWrapper.orderBy(true, pageQuery.isAsc(), pageQuery.getSorter());
+        }
         if (pageQuery.entrySet().size() > 0) {
             for (Map.Entry<String, Object> entry : pageQuery.entrySet()) {
                 // 获取key value
                 String key = entry.getKey();
                 Object value = entry.getValue();
-                if (StrUtil.equals(key, "sorter")) {
-                    // 排序
-                    String[] values = value.toString().split("_");
-                    if (values.length > 1) {
-                        String symbolCase = StrUtil.toSymbolCase(values[0], '_');
-                        if (StrUtil.equals(values[1], "descend")) {
-                            queryWrapper.orderByDesc(symbolCase);
-                        }
-                        if (StrUtil.equals(values[1], "ascend")) {
-                            queryWrapper.orderByAsc(symbolCase);
-                        }
-                    }
-                } else {
-                    // 模糊查找
-                    queryWrapper.like(key, value);
-                }
+                // 模糊查找
+                queryWrapper.like(key, value);
+
             }
         }
         return queryWrapper;

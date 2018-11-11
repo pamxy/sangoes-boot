@@ -1,5 +1,6 @@
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -57,24 +58,23 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
      */
     @Override
     public Result<PageData<SysAuth>> pageAuthByMenuId(Map<String, Object> params) {
-        // // 转换
-        // PageQuery pageQuery = new PageQuery(params);
+        // 转换
+        PageQuery pageQuery = new PageQuery(params);
 
-        // // 构建分页
-        // Page<SysAuth> page = new Page<>(pageQuery.getCurrent(),
-        // pageQuery.getPageSize());
-        // // 查询条件
-        // QueryWrapper<SysAuth> queryWrapper = this.pageQueryCondtion(pageQuery);
-        // // queryWrapper.lambda().eq(SysAuth::getMenuId, menuId);
-        // // 查询
-        // IPage<SysAuth> selectPage = baseMapper.selectPage(page, queryWrapper);
-        // // 返回结果
-        // Pagination pagination = new Pagination(selectPage.getTotal(),
-        // selectPage.getSize(), selectPage.getCurrent());
-        // PageData<SysAuth> pageData = new PageData<SysAuth>(pagination,
-        // selectPage.getRecords());
-        PageData<SysAuth> selectPage = this.selectPage(new PageQuery(params));
-        return Result.success(selectPage, "成功");
+        // 构建分页
+        Page<SysAuth> page = new Page<>(pageQuery.getCurrent(), pageQuery.getPageSize());
+        // 查询条件
+        QueryWrapper<SysAuth> queryWrapper = this.pageQueryCondtion(pageQuery);
+        long menuId = pageQuery.getMenuId();
+        if (ObjectUtil.isNotNull(menuId)) {
+            queryWrapper.lambda().eq(SysAuth::getMenuId, menuId);
+        }
+        // 查询
+        IPage<SysAuth> selectPage = baseMapper.selectPage(page, queryWrapper);
+        // 返回结果
+        Pagination pagination = new Pagination(selectPage.getTotal(), selectPage.getSize(), selectPage.getCurrent());
+        PageData<SysAuth> pageData = new PageData<SysAuth>(pagination, selectPage.getRecords());
+        return Result.success(pageData, "成功");
     }
 
 }
