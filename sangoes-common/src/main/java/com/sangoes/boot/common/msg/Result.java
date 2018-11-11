@@ -82,7 +82,7 @@ public class Result<T> implements Serializable {
      * @param     <T>
      * @return
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     public static <T> Result<T> failed(String msg, HttpStatus code) {
         return new Result<>(null, msg, code.value());
     }
@@ -94,9 +94,9 @@ public class Result<T> implements Serializable {
      * @param     <T>
      * @return
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     public static <T> Result<T> failed(String msg) {
-        return new Result<>(null, msg, HttpStatus.BAD_REQUEST.value());
+        return new Result<>(null, msg, HttpStatus.EXPECTATION_FAILED.value());
     }
 
     /**
