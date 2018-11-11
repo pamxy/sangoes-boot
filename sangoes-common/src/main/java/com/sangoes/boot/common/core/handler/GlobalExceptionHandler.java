@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Copyright (c) 2018
  *
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @date 2018/10/30 10:26 PM
  */
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
     /**
      * 捕获全部异常
@@ -34,6 +37,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public Result<String> otherExceptionHandler(HttpServletResponse response, Exception ex) {
+        log.error(ex.getMessage(), ex);
         return Result.failed(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
@@ -48,6 +52,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
     public Result<String> errorExceptionHandler(HttpServletResponse response, HandleErrorException ex) {
+        log.error(ex.getMessage(), ex);
         return Result.failed(ex.getMessage(), HttpStatus.EXPECTATION_FAILED);
 
     }
@@ -62,6 +67,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ResponseBody
     public Result<String> vaildExceptionHandler(HttpServletResponse response, MethodArgumentNotValidException ex) {
+        log.error(ex.getMessage(), ex);
         List<ObjectError> allErrors = ex.getBindingResult().getAllErrors();
         String errorMsg = allErrors.size() > 0 ? allErrors.get(0).getDefaultMessage() : "验证错误";
         return Result.failed(errorMsg, HttpStatus.UNPROCESSABLE_ENTITY);

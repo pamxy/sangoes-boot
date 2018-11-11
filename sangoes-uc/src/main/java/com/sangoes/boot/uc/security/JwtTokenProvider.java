@@ -30,8 +30,9 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
     /**
-     * THIS IS NOT A SECURE PRACTICE! For simplicity, we are storing a static key here. Ideally, in a
-     * microservices environment, this key would be kept on a config-server.
+     * THIS IS NOT A SECURE PRACTICE! For simplicity, we are storing a static key
+     * here. Ideally, in a microservices environment, this key would be kept on a
+     * config-server.
      */
     @Value("${security.jwt.token.secret-key:secret-key}")
     private String secretKey;
@@ -50,22 +51,20 @@ public class JwtTokenProvider {
     public String createToken(String username) {
 
         Claims claims = Jwts.claims().setSubject(username);
-//        claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).filter(Objects::nonNull).collect(Collectors.toList()));
+        // claims.put("auth", roles.stream().map(s -> new
+        // SimpleGrantedAuthority(s.getAuthority())).filter(Objects::nonNull).collect(Collectors.toList()));
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
+        return Jwts.builder().setClaims(claims).setIssuedAt(now).setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));
-        return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(),
+                userDetails.getAuthorities());
     }
 
     public String getUsername(String token) {
@@ -74,10 +73,11 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader(SecurityConstants.SECURITY_AUTHORIZATION);
-        //Basic
-//        if (!StringUtils.isEmpty(bearerToken) && bearerToken.startsWith(SecurityConstants.SECURITY_BASIC)){
-//            return bearerToken.substring(6, bearerToken.length());
-//        }
+        // Basic
+        // if (!StringUtils.isEmpty(bearerToken) &&
+        // bearerToken.startsWith(SecurityConstants.SECURITY_BASIC)){
+        // return bearerToken.substring(6, bearerToken.length());
+        // }
         // token
         if (!StringUtils.isEmpty(bearerToken) && bearerToken.startsWith(SecurityConstants.SECURITY_BEARER)) {
             return bearerToken.substring(7, bearerToken.length());

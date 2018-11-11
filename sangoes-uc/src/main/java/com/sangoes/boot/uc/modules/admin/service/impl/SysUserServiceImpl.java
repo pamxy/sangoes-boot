@@ -44,6 +44,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
 import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
 import cn.hutool.crypto.asymmetric.KeyType;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>
@@ -54,6 +55,7 @@ import cn.hutool.crypto.asymmetric.KeyType;
  * @since 2018-10-29
  */
 @Service
+@Slf4j
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     @Autowired
@@ -161,7 +163,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             }
             // 创建token
             return Result.success(jwtTokenProvider.createToken(userDB.getUsername()), "登录成功");
-        } catch (AuthenticationException e) {
+        } catch (AuthenticationException ex) {
+            log.error(ex.getMessage(), ex);
             throw new HandleErrorException("登陆失败");
         }
 
@@ -222,7 +225,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             }
             // 创建token
             return Result.success(jwtTokenProvider.createToken(userDB.getUsername()), "登录成功");
-        } catch (AuthenticationException e) {
+        } catch (AuthenticationException ex) {
+            log.error(ex.getMessage(), ex);
             throw new HandleErrorException("登陆失败");
         }
     }
