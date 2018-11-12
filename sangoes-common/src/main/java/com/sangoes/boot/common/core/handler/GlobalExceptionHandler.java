@@ -35,7 +35,6 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler({ Exception.class })
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public Result<String> otherExceptionHandler(HttpServletResponse response, Exception ex) {
         log.error(ex.getMessage(), ex);
@@ -50,7 +49,6 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(HandleErrorException.class)
-    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
     public Result<String> errorExceptionHandler(HttpServletResponse response, HandleErrorException ex) {
         log.error(ex.getMessage(), ex);
@@ -65,7 +63,6 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ResponseBody
     public Result<String> vaildExceptionHandler(HttpServletResponse response, MethodArgumentNotValidException ex) {
         log.error(ex.getMessage(), ex);
@@ -82,11 +79,9 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(UnAuthoruzedException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public Result<String> authExceptionHandler(HttpServletResponse response, Exception ex) {
         log.error(ex.getMessage(), ex);
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         return Result.failed(ex.getMessage(), HttpStatus.UNAUTHORIZED);
 
     }

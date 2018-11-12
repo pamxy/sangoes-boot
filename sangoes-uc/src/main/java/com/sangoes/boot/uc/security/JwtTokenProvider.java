@@ -5,10 +5,9 @@ import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.sangoes.boot.common.exception.UnAuthoruzedException;
-import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.uc.config.IgnoreUrlsConfig;
 import com.sangoes.boot.uc.constants.SecurityConstants;
 import com.sangoes.boot.uc.modules.admin.service.impl.UserDetailsServiceImpl;
 
@@ -19,10 +18,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.http.HttpStatus;
+
+import cn.hutool.core.util.StrUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -46,6 +43,9 @@ public class JwtTokenProvider {
 
     @Value("${security.jwt.token.expire-length:3600000}")
     private long validityInMilliseconds = 3600000;
+    // 忽略url
+    @Autowired
+    private IgnoreUrlsConfig ignoreUrlsConfig;
 
     @Autowired
     private UserDetailsServiceImpl myUserDetails;
@@ -79,12 +79,25 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest req) {
-        String bearerToken = req.getHeader(SecurityConstants.SECURITY_AUTHORIZATION);
-        // token
-        if (!StringUtils.isEmpty(bearerToken) && bearerToken.startsWith(SecurityConstants.SECURITY_BEARER)) {
-            return bearerToken.substring(7, bearerToken.length());
+        // 获取uri
+        String uri = req.getRequestURI();
+        // FIXME 临时解决图片验证码
+        if (uri.startsWith("/api/captcha/image/")) {
+            return null;
         }
-        return null;
+        // 获取 token
+        String token = req.getHeader(SecurityConstants.SECURITY_AUTHORIZATION);
+        // basic token
+        if (!StringUtils.isEmpty(token) && token.startsWith(SecurityConstants.SECURITY_BASIC)
+                && StrUtil.equals(secretKey, token.substring(6, token.length()))) {
+            // 放行
+            return null;
+        }
+        // beaerer token
+        if (!StringUtils.isEmpty(token) && token.startsWith(SecurityConstants.SECURITY_BEARER)) {
+            return token.substring(7, token.length());
+        }
+        throw new UnAuthoruzedException("授权不存在");
     }
 
     public boolean validateToken(String token) {

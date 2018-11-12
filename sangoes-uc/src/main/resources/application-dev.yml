@@ -59,7 +59,7 @@ security:
   jwt:
     token:
       secret-key: sangoes-boot #私钥
-      expire-length: 3 #1小时 过期时间
+      expire-length: 3600000 #1小时 过期时间
 #忽略请求api
 ignore:
   apis:
