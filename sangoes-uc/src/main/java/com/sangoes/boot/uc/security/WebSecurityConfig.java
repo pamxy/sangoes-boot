@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @date 2018/10/28 11:00 AM
  */
 @Configuration
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -32,6 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // @Autowired
     // private MyUserDetails myUserDetails;
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -50,23 +58,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         ignoreUrlsConfig.getApis().forEach(api -> {
             authenticated.antMatchers(api).permitAll();
         });
-        // 不允许访问
+        // 任何尚未匹配的URL只需要验证用户即可访问
+        // authenticated.anyRequest().anonymous();
+        // 任何尚未匹配的URL只需要验证用户即可访问
         authenticated.anyRequest().authenticated();
-        // If a user try to access a resource without having enough permissions
-        http.exceptionHandling().accessDeniedPage("/login");
+        //
+        // http.exceptionHandling().accessDeniedPage("/login");
 
         // Apply JWT
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
-
         // Optional, if you want to test the API from a browser
         // http.httpBasic();
     }
-
-    // @Override
-    // protected void configure(AuthenticationManagerBuilder auth) throws Exception
-    // {
-    // auth.userDetailsService(myUserDetails).passwordEncoder(passwordEncoder());
-    // }
 
     @Override
     public void configure(WebSecurity web) throws Exception {

@@ -1,11 +1,15 @@
 package com.sangoes.boot.uc.modules.admin.mapper;
 
-import com.sangoes.boot.uc.modules.admin.entity.SysUserRole;
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.sangoes.boot.uc.modules.admin.entity.SysUserRole;
+
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author jerrychir
@@ -13,4 +17,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 
+    /**
+     * 根据user id 查询 role id
+     * 
+     * @param id
+     * @return
+     */
+    List<Long> listRoleIdByUserId(@Param("id") Long id);
 }

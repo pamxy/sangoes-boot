@@ -1,5 +1,6 @@
 package com.sangoes.boot.uc.modules.admin.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -16,6 +17,13 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @ApiModel(value = "用户对象", description = "用户对象")
 public class UserDto {
+
+    /**
+     * BindRoleGroup
+     */
+    public interface BindRoleGroup {
+
+    }
 
     @NotEmpty(message = "用户名不能为空")
     @NotNull(message = "用户名不能为空")
@@ -34,5 +42,13 @@ public class UserDto {
     @Pattern(regexp = "^((13[0-9])|(15[^4])|(18[0-9])|(17[0-9])|(147))\\d{8}$", message = "不符合手机号码格式")
     @ApiModelProperty(value = "手机号")
     private String mobile;
+
+    @NotNull(message = "绑定用户id不能为空", groups = { BindRoleGroup.class })
+    @ApiModelProperty(value = "绑定用户id")
+    private Long userId;
+
+    @NotBlank(message = "绑定角色ids不能为空", groups = { BindRoleGroup.class })
+    @ApiModelProperty(value = "绑定角色ids")
+    private String roleIds;
 
 }

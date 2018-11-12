@@ -1,14 +1,17 @@
 package com.sangoes.boot.uc.modules.admin.entity;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.sangoes.boot.common.entity.BaseEntity;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -24,6 +27,7 @@ import java.time.LocalDateTime;
 @ApiModel(value = "SysUser对象", description = "用户表")
 public class SysUser extends BaseEntity {
 
+    @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty(value = "编码")
     private Long code;
 

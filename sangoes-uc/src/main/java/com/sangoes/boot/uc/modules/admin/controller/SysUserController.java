@@ -8,12 +8,14 @@ import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto;
+import com.sangoes.boot.uc.modules.admin.dto.UserDto.BindRoleGroup;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.Validator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -112,4 +116,31 @@ public class SysUserController extends BaseController {
         return userService.selectUserPage(params);
     }
 
+    /**
+     * 查询绑定角色
+     * 
+     * @param id
+     * @return
+     */
+    @GetMapping("/bind/role/info/{id}")
+    @ApiOperation(value = "查询绑定角色", notes = "返回角色列表以及用户对应角色结果")
+    @ResponseBody
+    public Result<Map<String, Object>> infoBindRole(@PathVariable Long id) {
+
+        return userService.infoBindRole(id);
+    }
+
+    /**
+     * 绑定用户
+     * 
+     * @param userDto
+     * @return
+     */
+    @PostMapping("/bind/role")
+    @ApiOperation(value = "绑定用户", notes = "返回绑定结果")
+    @ResponseBody
+    public Result<String> bindRole(@RequestBody @Validated({ BindRoleGroup.class }) UserDto userDto) {
+
+        return userService.bindRole(userDto);
+    }
 }

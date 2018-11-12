@@ -6,12 +6,17 @@
  */
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.service.impl.BaseServiceImpl;
+import com.sangoes.boot.common.utils.ArrayUtils;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.common.utils.page.PageQuery;
 import com.sangoes.boot.uc.constants.CaptchaConstants;
@@ -19,14 +24,20 @@ import com.sangoes.boot.uc.constants.RSAConstants;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto;
+import com.sangoes.boot.uc.modules.admin.entity.SysRole;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
+import com.sangoes.boot.uc.modules.admin.entity.SysUserRole;
 import com.sangoes.boot.uc.modules.admin.entity.enums.SignUpEnum;
 import com.sangoes.boot.uc.modules.admin.mapper.SysUserMapper;
+import com.sangoes.boot.uc.modules.admin.mapper.SysUserRoleMapper;
+import com.sangoes.boot.uc.modules.admin.service.ISysRoleService;
+import com.sangoes.boot.uc.modules.admin.service.ISysUserRoleService;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
 import com.sangoes.boot.uc.security.JwtTokenProvider;
 
 import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.util.Arrays;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -36,7 +47,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
@@ -64,12 +79,23 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
+    /**
+     * 权限管理器
+     */
     @Lazy
     @Autowired
     private AuthenticationManager authenticationManager;
-
+    /**
+     * jwt工具
+     */
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private SysUserRoleMapper userRoleMapper;
+
+    @Autowired
+    private ISysRoleService roleService;
 
     /**
      * 根据手机号码注册
@@ -290,5 +316,43 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         PageData<SysUser> selectPage = this.selectPage(new PageQuery(params));
         return Result.success(selectPage, "成功");
 
+    }
+
+    /**
+     * 查询用户绑定的角色
+     */
+    @Override
+    public Result<Map<String, Object>> infoBindRole(Long id) {
+        // 判断id为空
+        if (Validator.isNull(id)) {
+            throw new HandleErrorException("查询id不能为空");
+        }
+        // 查询用户绑定的角色
+        List<String> keys = ArrayUtils.longListToStringList(userRoleMapper.listRoleIdByUserId(id));
+        // 查询所有的角色
+        List<SysRole> roles = roleService.list(new QueryWrapper<SysRole>());
+        // 包装
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        map.put("keys", keys);
+        map.put("roles", roles);
+        return Result.success(map, "成功");
+    }
+
+    /**
+     * 绑定角色
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Result<String> bindRole(UserDto userDto) {
+        SysUserRole sysUserRole = new SysUserRole();
+        String[] roleIds = userDto.getRoleIds().split(",");
+        for (String roleId : roleIds) {
+            sysUserRole.setRoleId(Long.valueOf(roleId));
+            sysUserRole.setUserId(userDto.getUserId());
+            userRoleMapper.insert(sysUserRole);
+        }
+
+        return Result.success("添加成功");
     }
 }

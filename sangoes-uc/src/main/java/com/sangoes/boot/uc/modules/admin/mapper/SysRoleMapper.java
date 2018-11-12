@@ -1,7 +1,7 @@
 package com.sangoes.boot.uc.modules.admin.mapper;
 
-import com.sangoes.boot.uc.modules.admin.entity.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.sangoes.boot.uc.modules.admin.entity.SysRole;
 
 /**
  * <p>

@@ -1,5 +1,7 @@
 package com.sangoes.boot.uc.modules.admin.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.sangoes.boot.common.entity.BaseEntity;
 
 import io.swagger.annotations.ApiModel;
@@ -22,6 +24,7 @@ import lombok.experimental.Accessors;
 @ApiModel(value = "SysMenu对象", description = "菜单")
 public class SysMenu extends BaseEntity {
 
+    @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty(value = "父主键 默认-1")
     private Long parentId;
 

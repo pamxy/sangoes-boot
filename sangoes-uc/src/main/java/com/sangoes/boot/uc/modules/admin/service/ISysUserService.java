@@ -64,4 +64,20 @@ public interface ISysUserService extends IBaseService<SysUser> {
      */
     Result<PageData<SysUser>> selectUserPage(Map<String, Object> params);
 
+    /**
+     * 查询用户绑定的角色
+     * 
+     * @param id
+     * @return
+     */
+    Result<Map<String, Object>> infoBindRole(Long id);
+
+    /**
+     * 绑定角色
+     * 
+     * @param userDto
+     * @return
+     */
+    Result<String> bindRole(UserDto userDto);
+
 }

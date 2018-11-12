@@ -27,19 +27,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // 获取UserDetailsVo
         UserDetailsVo userDetailsVo = userService.selectUserDetailsByUsername(username);
         if (ObjectUtil.isNull(userDetailsVo)) {
             throw new HandleErrorException("user没有找到");
         }
+        // 密码加密
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return User
-                .withUsername(userDetailsVo.getUsername())
-                .password(passwordEncoder.encode(userDetailsVo.getPassword()))
-                .authorities(userDetailsVo.getRoles())
-                .accountExpired(false)
-                .accountLocked(false)
-                .credentialsExpired(false)
-                .disabled(false)
-                .build();
+        return User.withUsername(userDetailsVo.getUsername())
+                .password(passwordEncoder.encode(userDetailsVo.getPassword())).authorities(userDetailsVo.getRoles())
+                .accountExpired(false).accountLocked(false).credentialsExpired(false).disabled(false).build();
     }
 }
