@@ -6,11 +6,9 @@
  */
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sangoes.boot.common.exception.HandleErrorException;
@@ -31,13 +29,11 @@ import com.sangoes.boot.uc.modules.admin.entity.enums.SignUpEnum;
 import com.sangoes.boot.uc.modules.admin.mapper.SysUserMapper;
 import com.sangoes.boot.uc.modules.admin.mapper.SysUserRoleMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysRoleService;
-import com.sangoes.boot.uc.modules.admin.service.ISysUserRoleService;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
 import com.sangoes.boot.uc.security.JwtTokenProvider;
 
 import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.util.Arrays;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -49,9 +45,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Validator;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
