@@ -24,11 +24,4 @@ public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
      */
     List<Long> listMenuIdByRoleId(@Param("id") Long id);
 
-    /**
-     * 根据role主键查询权限主键
-     * 
-     * @param id
-     * @return
-     */
-    List<Long> listAuthIdByRoleId(@Param("roleId") Long roleId, @Param("menuId") Long menuId);
 }
