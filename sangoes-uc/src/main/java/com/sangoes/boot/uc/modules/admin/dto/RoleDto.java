@@ -1,6 +1,7 @@
 package com.sangoes.boot.uc.modules.admin.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -23,6 +24,13 @@ public class RoleDto {
 
     }
 
+    /**
+     * BindMenu
+     */
+    public interface BindMenu {
+
+    }
+
     @NotBlank(message = "角色名称不能为空", groups = { AddRoleGroup.class })
     @Length(min = 2, max = 10, message = "角色名称2-10位", groups = { AddRoleGroup.class })
     @ApiModelProperty(value = "角色名称")
@@ -38,5 +46,21 @@ public class RoleDto {
 
     @ApiModelProperty(value = "1启用 0禁用")
     private Integer status;
+
+    ///////////// BindMenu//////////////
+
+    @NotNull(message = "角色ID不能为空", groups = { BindMenu.class })
+    @ApiModelProperty(value = "角色id")
+    private Long roleId;
+
+    @NotNull(message = "菜单id不能为空", groups = { BindMenu.class })
+    @ApiModelProperty(value = "菜单id")
+    private Long menuId;
+
+    @ApiModelProperty(value = "绑定菜单id")
+    private String menuIds;
+
+    @ApiModelProperty(value = "绑定权限id")
+    private String authIds;
 
 }

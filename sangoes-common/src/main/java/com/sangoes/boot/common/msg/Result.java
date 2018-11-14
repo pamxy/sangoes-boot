@@ -2,8 +2,6 @@ package com.sangoes.boot.common.msg;
 
 import java.io.Serializable;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

@@ -49,4 +49,9 @@ public interface ISysRoleService extends IBaseService<SysRole> {
      */
     Result<Map<String, Object>> infoBindAuth(Long roleId, Long menuId);
 
+    /**
+     * 绑定菜单权限
+     */
+    void bindMenuAuth(RoleDto roleDto);
+
 }

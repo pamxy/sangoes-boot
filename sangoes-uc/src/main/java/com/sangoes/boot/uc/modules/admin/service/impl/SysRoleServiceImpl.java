@@ -15,6 +15,9 @@ import com.sangoes.boot.uc.modules.admin.dto.RoleDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysAuth;
 import com.sangoes.boot.uc.modules.admin.entity.SysMenu;
 import com.sangoes.boot.uc.modules.admin.entity.SysRole;
+import com.sangoes.boot.uc.modules.admin.entity.SysRoleAuth;
+import com.sangoes.boot.uc.modules.admin.entity.SysRoleMenu;
+import com.sangoes.boot.uc.modules.admin.mapper.SysRoleAuthMapper;
 import com.sangoes.boot.uc.modules.admin.mapper.SysRoleMapper;
 import com.sangoes.boot.uc.modules.admin.mapper.SysRoleMenuMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysAuthService;
@@ -26,6 +29,7 @@ import com.sangoes.boot.uc.utils.BuildTreeUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.ObjectUtil;
@@ -43,6 +47,9 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     @Autowired
     private SysRoleMenuMapper roleMenuMapper;
+
+    @Autowired
+    private SysRoleAuthMapper roleAuthMapper;
 
     @Autowired
     private ISysMenuService menuService;
@@ -113,7 +120,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
             throw new HandleErrorException("查询id不能为空");
         }
         // 选中的权限keys
-        List<String> authKeys = ArrayUtils.longListToStringList(roleMenuMapper.listAuthIdByRoleId(roleId, menuId));
+        List<String> authKeys = ArrayUtils.longListToStringList(roleAuthMapper.listAuthIdByRoleId(roleId, menuId));
         // 所有的权限选项
         // TODO 分页
         List<SysAuth> auths = authService.list(new QueryWrapper<SysAuth>().lambda().eq(SysAuth::getMenuId, menuId));
@@ -122,6 +129,40 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         map.put("authKeys", authKeys);
         map.put("auths", auths);
         return Result.success(map, "成功");
+    }
+
+    /**
+     * 绑定菜单权限
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void bindMenuAuth(RoleDto roleDto) {
+        // roleId
+        Long roleKey = roleDto.getRoleId();
+        // menuId
+        Long menuKey = roleDto.getMenuId();
+        // 清空roleID对应的所有菜单
+        roleMenuMapper.delete(new QueryWrapper<SysRoleMenu>().lambda().eq(SysRoleMenu::getRoleId, roleKey));
+        // 清空所有的权限
+        roleAuthMapper.delete(new QueryWrapper<SysRoleAuth>().lambda().eq(SysRoleAuth::getRoleId, roleKey)
+                .eq(SysRoleAuth::getMenuId, menuKey));
+        // 判断菜单id
+        String[] menuIds = roleDto.getMenuIds().split(",");
+        for (String menuId : menuIds) {
+            SysRoleMenu roleMenu = new SysRoleMenu();
+            roleMenu.setRoleId(roleKey);
+            roleMenu.setMenuId(Long.parseLong(menuId));
+            roleMenuMapper.insert(roleMenu);
+        }
+        // 判断权限id
+        String[] authIds = roleDto.getAuthIds().split(",");
+        for (String authId : authIds) {
+            SysRoleAuth roleAuth = new SysRoleAuth();
+            roleAuth.setRoleId(roleKey);
+            roleAuth.setMenuId(menuKey);
+            roleAuth.setAuthId(Long.parseLong(authId));
+            roleAuthMapper.insert(roleAuth);
+        }
     }
 
 }

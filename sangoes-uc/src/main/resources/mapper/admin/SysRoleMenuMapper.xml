@@ -4,8 +4,4 @@
     <select id="listMenuIdByRoleId" resultType="long">
         SELECT um.menu_id  FROM sys_role_menu um WHERE um.role_id = #{id}
     </select>
-
-    <select id="listAuthIdByRoleId" resultType="long">
-        SELECT DISTINCT um.auth_id  FROM sys_role_menu um WHERE um.role_id = #{roleId} AND um.menu_id = #{menuId}
-    </select>
 </mapper>

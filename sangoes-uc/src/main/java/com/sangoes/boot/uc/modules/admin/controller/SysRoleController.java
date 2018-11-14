@@ -7,6 +7,7 @@ import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.uc.modules.admin.dto.RoleDto;
 import com.sangoes.boot.uc.modules.admin.dto.RoleDto.AddRoleGroup;
+import com.sangoes.boot.uc.modules.admin.dto.RoleDto.BindMenu;
 import com.sangoes.boot.uc.modules.admin.entity.SysRole;
 import com.sangoes.boot.uc.modules.admin.service.ISysRoleService;
 
@@ -93,4 +94,16 @@ public class SysRoleController extends BaseController {
 
         return roleService.infoBindAuth(roleId, menuId);
     }
+
+    /**
+     * 绑定菜单权限
+     */
+    @PostMapping("/bind/menu")
+    @ApiOperation(value = "绑定菜单权限", notes = "返回绑定结果")
+    @ResponseBody
+    public Result<String> bindMenuAuth(@RequestBody @Validated({ BindMenu.class }) RoleDto roleDto) {
+        roleService.bindMenuAuth(roleDto);
+        return Result.success("绑定成功");
+    }
+
 }
