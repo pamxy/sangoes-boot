@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.lang.Validator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 

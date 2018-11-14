@@ -1,7 +1,11 @@
 package com.sangoes.boot.uc.modules.admin.mapper;
 
-import com.sangoes.boot.uc.modules.admin.entity.SysRoleMenu;
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.sangoes.boot.uc.modules.admin.entity.SysRoleMenu;
+
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -12,5 +16,19 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2018-11-13
  */
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
+    /**
+     * 根据role主键查询菜单主键
+     * 
+     * @param id
+     * @return
+     */
+    List<Long> listMenuIdByRoleId(@Param("id") Long id);
 
+    /**
+     * 根据role主键查询权限主键
+     * 
+     * @param id
+     * @return
+     */
+    List<Long> listAuthIdByRoleId(@Param("roleId") Long roleId, @Param("menuId") Long menuId);
 }

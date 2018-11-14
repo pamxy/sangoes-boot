@@ -38,4 +38,5 @@ public class RoleDto {
 
     @ApiModelProperty(value = "1启用 0禁用")
     private Integer status;
+
 }

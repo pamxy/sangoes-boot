@@ -13,6 +13,7 @@ import com.sangoes.boot.uc.modules.admin.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,4 +66,31 @@ public class SysRoleController extends BaseController {
         return roleService.selectRolePage(params);
     }
 
+    /**
+     * 查询绑定菜单
+     * 
+     * @param roleId
+     * @return
+     */
+    @GetMapping("/bind/menu/info/{roleId}")
+    @ApiOperation(value = "查询绑定菜单", notes = "返回菜单结果")
+    @ResponseBody
+    public Result<Map<String, Object>> infoBindMenu(@PathVariable Long roleId) {
+
+        return roleService.infoBindMenu(roleId);
+    }
+
+    /**
+     * 查询绑定权限
+     * 
+     * @param roleId
+     * @return
+     */
+    @GetMapping("/bind/auth/info/{roleId}/{menuId}")
+    @ApiOperation(value = "查询绑定权限", notes = "返回权限结果")
+    @ResponseBody
+    public Result<Map<String, Object>> infoBindAuth(@PathVariable Long roleId, @PathVariable Long menuId) {
+
+        return roleService.infoBindAuth(roleId, menuId);
+    }
 }

@@ -33,4 +33,20 @@ public interface ISysRoleService extends IBaseService<SysRole> {
      */
     Result<PageData<SysRole>> selectRolePage(Map<String, Object> params);
 
+    /**
+     * 查询绑定菜单权限
+     * 
+     * @param roleId
+     * @return
+     */
+    Result<Map<String, Object>> infoBindMenu(Long roleId);
+
+    /**
+     * 查询绑定权限
+     * 
+     * @param menuId
+     * @return
+     */
+    Result<Map<String, Object>> infoBindAuth(Long roleId, Long menuId);
+
 }
