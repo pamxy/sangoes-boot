@@ -4,7 +4,7 @@
 
 
     <select id="listRoleIdByUserId" resultType="long">
-        SELECT ur.role_id  FROM sys_user_role ur WHERE ur.user_id = #{id}
+        SELECT ur.role_id  FROM sys_user_role ur WHERE ur.user_id = #{id} AND ur.deleted = 1
     </select>
 
 </mapper>

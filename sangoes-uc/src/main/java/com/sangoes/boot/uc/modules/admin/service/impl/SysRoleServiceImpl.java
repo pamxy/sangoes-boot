@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * <p>
@@ -147,21 +148,25 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         roleAuthMapper.delete(new QueryWrapper<SysRoleAuth>().lambda().eq(SysRoleAuth::getRoleId, roleKey)
                 .eq(SysRoleAuth::getMenuId, menuKey));
         // 判断菜单id
-        String[] menuIds = roleDto.getMenuIds().split(",");
-        for (String menuId : menuIds) {
-            SysRoleMenu roleMenu = new SysRoleMenu();
-            roleMenu.setRoleId(roleKey);
-            roleMenu.setMenuId(Long.parseLong(menuId));
-            roleMenuMapper.insert(roleMenu);
+        if (StrUtil.isNotBlank(roleDto.getMenuIds())) {
+            String[] menuIds = roleDto.getMenuIds().split(",");
+            for (String menuId : menuIds) {
+                SysRoleMenu roleMenu = new SysRoleMenu();
+                roleMenu.setRoleId(roleKey);
+                roleMenu.setMenuId(Long.parseLong(menuId));
+                roleMenuMapper.insert(roleMenu);
+            }
         }
         // 判断权限id
-        String[] authIds = roleDto.getAuthIds().split(",");
-        for (String authId : authIds) {
-            SysRoleAuth roleAuth = new SysRoleAuth();
-            roleAuth.setRoleId(roleKey);
-            roleAuth.setMenuId(menuKey);
-            roleAuth.setAuthId(Long.parseLong(authId));
-            roleAuthMapper.insert(roleAuth);
+        if (StrUtil.isNotBlank(roleDto.getAuthIds())) {
+            String[] authIds = roleDto.getAuthIds().split(",");
+            for (String authId : authIds) {
+                SysRoleAuth roleAuth = new SysRoleAuth();
+                roleAuth.setRoleId(roleKey);
+                roleAuth.setMenuId(menuKey);
+                roleAuth.setAuthId(Long.parseLong(authId));
+                roleAuthMapper.insert(roleAuth);
+            }
         }
     }
 

@@ -56,6 +56,6 @@ public class BaseEntity {
     /**
      * 删除 1未删除 0删除
      */
-    @TableLogic
+    // @TableLogic
     private Integer deleted;
 }

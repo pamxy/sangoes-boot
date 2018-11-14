@@ -3,6 +3,8 @@ package com.sangoes.boot.uc.modules.admin.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.sangoes.boot.common.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,7 +22,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value="SysRoleAuth对象", description="角色权限中间表")
+@ApiModel(value = "SysRoleAuth对象", description = "角色权限中间表")
 public class SysRoleAuth extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -33,6 +35,5 @@ public class SysRoleAuth extends BaseEntity {
 
     @ApiModelProperty(value = "菜单主键")
     private Long menuId;
-
 
 }

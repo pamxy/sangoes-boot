@@ -3,6 +3,6 @@
 <mapper namespace="com.sangoes.boot.uc.modules.admin.mapper.SysRoleAuthMapper">
     <!-- 根据role主键查询权限主键 -->
     <select id="listAuthIdByRoleId" resultType="long">
-        SELECT um.auth_id  FROM sys_role_auth um WHERE um.role_id = #{roleId} AND um.menu_id = #{menuId}
+        SELECT um.auth_id  FROM sys_role_auth um WHERE um.role_id = #{roleId} AND um.menu_id = #{menuId} AND um.deleted = 1
     </select>
 </mapper>
