@@ -1,11 +1,11 @@
 package com.sangoes.boot.uc.security.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -45,6 +46,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private TokenStore redisTokenStore;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     /**
      * 配置客户端
@@ -56,13 +59,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // password 方案三：支持多种编码，通过密码的前缀区分编码方式
         String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("sangoes");
-        //配置两个客户端,一个用于password认证一个用于client认证
-        clients.inMemory().withClient("sangoes")
-                .resourceIds("order")
-                .authorizedGrantTypes("password", "refresh_token")
-                .scopes("select")
-                .authorities("oauth2")
-                .secret(finalSecret);
+        // 配置两个客户端,一个用于password认证一个用于client认证
+        clients.inMemory().withClient("sangoes").resourceIds("order").authorizedGrantTypes("password", "refresh_token")
+                .scopes("select").authorities("oauth2").secret(finalSecret);
 
     }
 
@@ -73,23 +72,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-
+        // token增强配置
+        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+        enhancerChain.setTokenEnhancers(Arrays.asList(jwtTokenEnhancer, jwtAccessTokenConverter));
+        // endpoints
         endpoints
+                // redis
                 .tokenStore(redisTokenStore)
                 .authenticationManager(authenticationManager)
+                .userDetailsService(userDetailsService)
+                .tokenEnhancer(enhancerChain)
+                .accessTokenConverter(jwtAccessTokenConverter)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
 
-        //token增强配置
-        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-        List<TokenEnhancer> enhancerList = new ArrayList<>();
-        enhancerList.add(jwtTokenEnhancer);
-        enhancerList.add(jwtAccessTokenConverter);
-        enhancerChain.setTokenEnhancers(enhancerList);
 
-        // 设置
-        endpoints
-                .tokenEnhancer(enhancerChain)
-                .accessTokenConverter(jwtAccessTokenConverter);
 
     }
 
@@ -100,10 +96,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-        //允许表单认证
-        oauthServer
-                .allowFormAuthenticationForClients()
-                .tokenKeyAccess("isAuthenticated()")
+        // 允许表单认证
+        oauthServer.allowFormAuthenticationForClients().tokenKeyAccess("isAuthenticated()")
                 .checkTokenAccess("permitAll()");
     }
 
