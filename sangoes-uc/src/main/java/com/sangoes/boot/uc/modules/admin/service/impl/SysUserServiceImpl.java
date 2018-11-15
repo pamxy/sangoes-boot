@@ -1,8 +1,8 @@
 /*
  * @Author: jerrychir @sangoes 
  * @Date: 2018-11-09 15:32:03 
- * @Last Modified by:   jerrychir @sangoes 
- * @Last Modified time: 2018-11-09 15:32:03 
+ * @Last Modified by: jerrychir @sangoes
+ * @Last Modified time: 2018-11-15 12:29:20
  */
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
@@ -31,7 +31,6 @@ import com.sangoes.boot.uc.modules.admin.mapper.SysUserRoleMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysRoleService;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
-import com.sangoes.boot.uc.security.JwtTokenProvider;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -41,7 +40,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,8 +65,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    // @Autowired
+    // private PasswordEncoder passwordEncoder;
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -82,8 +80,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     /**
      * jwt工具
      */
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    // @Autowired
+    // private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private SysUserRoleMapper userRoleMapper;
@@ -129,7 +127,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 设置随机真实姓名
         sysUser.setRealName(RandomUtil.randomString(8));
         // 加密密码
-        sysUser.setPassword(passwordEncoder.encode(password));
+        // sysUser.setPassword(passwordEncoder.encode(password));
         // 写入数据库
         boolean save = this.save(sysUser);
         if (!save) {
@@ -182,7 +180,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
                 throw new HandleErrorException("登录失败");
             }
             // 创建token
-            return Result.success(jwtTokenProvider.createToken(userDB.getUsername()), "登录成功");
+            // return Result.success(jwtTokenProvider.createToken(userDB.getUsername()),
+            // "登录成功");
+            return Result.success("ddddd", "登录成功");
         } catch (AuthenticationException ex) {
             log.error(ex.getMessage(), ex);
             throw new HandleErrorException("登陆失败");
@@ -229,9 +229,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         String password = decodePassword(RSAConstants.RANDOM_RSA_PRIVATE_KEY + signInDto.getPublicRandom(),
                 signInDto.getPassword());
         // 比较密码是否相同
-        if (!passwordEncoder.matches(password, userDB.getPassword())) {
-            throw new HandleErrorException("密码不正确");
-        }
+        // if (!passwordEncoder.matches(password, userDB.getPassword())) {
+        // throw new HandleErrorException("密码不正确");
+        // }
         try {
             // 登录
             authenticationManager
@@ -244,7 +244,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
                 throw new HandleErrorException("登录失败");
             }
             // 创建token
-            return Result.success(jwtTokenProvider.createToken(userDB.getUsername()), "登录成功");
+            // return Result.success(jwtTokenProvider.createToken(userDB.getUsername()),
+            // "登录成功");
+            return Result.success("xxxxxx", "登录成功");
         } catch (AuthenticationException ex) {
             log.error(ex.getMessage(), ex);
             throw new HandleErrorException("登陆失败");
@@ -275,7 +277,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 复制bean
         BeanUtils.copyProperties(userDto, user);
         // 加密密码并设置默认密码
-        user.setPassword(passwordEncoder.encode("888888"));
+        // user.setPassword(passwordEncoder.encode("888888"));
         // 设置注册类型
         user.setSignupType(SignUpEnum.ADMIN.getValue());
         // 保存到数据库

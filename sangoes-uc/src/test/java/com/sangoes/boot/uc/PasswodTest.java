@@ -1,12 +1,7 @@
 package com.sangoes.boot.uc;
 
-import cn.hutool.core.codec.Base64;
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
-import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
-import cn.hutool.crypto.asymmetric.KeyType;
+import java.security.KeyPair;
+
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.security.KeyPair;
+import cn.hutool.core.codec.Base64;
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
+import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
+import cn.hutool.crypto.asymmetric.KeyType;
 
 /**
  * Copyright (c) 2018

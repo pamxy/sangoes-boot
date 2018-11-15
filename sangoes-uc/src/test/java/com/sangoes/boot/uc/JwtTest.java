@@ -1,9 +1,7 @@
 package com.sangoes.boot.uc;
 
-import com.sangoes.boot.uc.security.JwtTokenProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -17,11 +15,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class JwtTest {
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    // @Autowired
+    // private JwtTokenProvider jwtTokenProvider;
 
     @Test
-    public void generateToken(){
-        System.out.println(jwtTokenProvider.createToken("jerrychir"));
+    public void generateToken() {
+        // System.out.println(jwtTokenProvider.createToken("jerrychir"));
     }
 }
