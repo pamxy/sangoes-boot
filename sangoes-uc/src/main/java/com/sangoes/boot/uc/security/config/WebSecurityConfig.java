@@ -1,17 +1,20 @@
 package com.sangoes.boot.uc.security.config;
 
+import com.sangoes.boot.uc.security.authention.SecurityProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Copyright (c) 2018
@@ -23,23 +26,17 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    @Override
-    protected UserDetailsService userDetailsService() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String finalPassword = "{bcrypt}" + bCryptPasswordEncoder.encode("123456");
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user_1").password(finalPassword).authorities("USER").build());
-        manager.createUser(User.withUsername("user_2").password(finalPassword).authorities("USER").build());
-        return manager;
-    }
+    @Autowired
+    private SecurityProvider securityProvider;
+
 
     /**
-     * password 方案三：支持多种编码，通过密码的前缀区分编码方式,推荐
+     * 加密
+     * @return
      */
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     /**
@@ -58,5 +55,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/oauth/**").permitAll();
+
+    }
+
+    /**
+     * @return the {@link AuthenticationManager} to use
+     * @throws Exception
+     */
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        ProviderManager providerManager = new ProviderManager(Collections.singletonList(securityProvider));
+        return providerManager;
     }
 }

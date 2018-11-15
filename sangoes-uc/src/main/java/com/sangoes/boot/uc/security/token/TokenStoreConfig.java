@@ -1,6 +1,6 @@
 package com.sangoes.boot.uc.security.token;
 
-import com.sangoes.boot.uc.constants.AuthentionConstants;
+import com.sangoes.boot.uc.constants.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +30,7 @@ public class TokenStoreConfig {
     public TokenStore redisTokenStore(){
         RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
         // 前缀 sangoes:
-        tokenStore.setPrefix(AuthentionConstants.OAUTH_REDIS_PREFIX);
+        tokenStore.setPrefix(SecurityConstants.OAUTH_REDIS_PREFIX);
         return tokenStore;
     }
 }

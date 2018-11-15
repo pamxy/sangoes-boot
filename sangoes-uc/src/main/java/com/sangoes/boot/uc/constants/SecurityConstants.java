@@ -19,4 +19,38 @@ public interface SecurityConstants {
      * Bearer
      */
     String SECURITY_BEARER = "Bearer ";
+
+    /**
+     * 认证redis前缀
+     */
+    String OAUTH_REDIS_PREFIX = "sangoes:";
+
+    /**
+     * jwt增强
+     */
+    String JWT_ENHANCER_PROVIDER = "provider";
+
+    /**
+     * jwt增强名字
+     */
+    String JWT_ENHANCER_NAME = "jerrychir";
+
+    /**
+     * jwt signkeys
+     */
+    String JWT_SIGN_KEY = "sangoes";
+
+    /**
+     * 基本角色
+     */
+    String BASE_ROLE = "user";
+
+    /**
+     * 用户启用状态
+     */
+    String USER_STATUS_NORMAL = "300";
+    /**
+     * 用户禁用状态
+     */
+    String USER_STATUS_LOCKED = "301";
 }
