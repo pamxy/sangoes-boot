@@ -1,7 +1,6 @@
 package com.sangoes.boot.uc.security.config;
 
 import com.sangoes.boot.uc.config.IgnoreUrlsConfig;
-import com.sangoes.boot.uc.security.authention.AuthSuccessHandler;
 import com.sangoes.boot.uc.security.authention.SecurityProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -56,25 +55,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Disable CSRF (cross site request forgery)
-        http.csrf().disable();
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry =
+                http.formLogin().loginPage("/authentication/require")
+                        .loginProcessingUrl("/authentication/form")
+                        .and()
+                        .authorizeRequests();
 
-        // No session will be created or used by spring security
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        ignoreUrlsConfig.getApis().forEach(api -> registry.antMatchers(api).permitAll());
+        registry.anyRequest().authenticated()
+                .and()
+                .csrf().disable();
 
-        // Entry points
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authenticated = http
-                .authorizeRequests();
+    }
 
-        // 允许访问
-        ignoreUrlsConfig.getApis().forEach(api -> {
-            authenticated.antMatchers(api).permitAll();
-        });
-        // 任何尚未匹配的URL只需要验证用户即可访问
-         authenticated.anyRequest().anonymous();
-        // 任何尚未匹配的URL只需要验证用户即可访问
-//        authenticated.anyRequest().authenticated();
-
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        // Allow swagger to be accessed without authentication
+        WebSecurity.IgnoredRequestConfigurer ignoring = web.ignoring().and().ignoring();
+        ignoreUrlsConfig.getUrls().forEach(ignoring::antMatchers);
     }
 
     /**

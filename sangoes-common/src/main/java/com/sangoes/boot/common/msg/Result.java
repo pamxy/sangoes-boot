@@ -1,12 +1,15 @@
 package com.sangoes.boot.common.msg;
 
-import java.io.Serializable;
-
+import cn.hutool.json.JSONUtil;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Serializable;
 
 /**
  * Copyright (c) 2018 api统一返回结果
@@ -46,6 +49,29 @@ public class Result<T> implements Serializable {
     }
 
     /**
+     * 没有返回信息
+     *
+     * @param msg
+     * @param code
+     * @param response
+     * @throws Exception
+     */
+    public static void noReturn(String msg, HttpStatus code, HttpServletResponse response) throws IOException {
+        // 设置code
+        response.setStatus(code.value());
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        // 设置返回result
+        Result<Object> result = new Result<>();
+        result.setCode(code.value());
+        result.setMsg(msg);
+        // 回写数据
+        PrintWriter printWriter = response.getWriter();
+
+        printWriter.write(JSONUtil.toJsonStr(result));
+    }
+
+    /**
      * 成功返回
      *
      * @param <T>
@@ -69,7 +95,7 @@ public class Result<T> implements Serializable {
      * 成功返回
      *
      * @param data
-     * @param      <T>
+     * @param <T>
      * @return
      */
     public static <T> Result<T> success(T data, String msg) {
@@ -80,7 +106,7 @@ public class Result<T> implements Serializable {
      * 失败返回
      *
      * @param msg
-     * @param     <T>
+     * @param <T>
      * @return
      */
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
@@ -92,7 +118,7 @@ public class Result<T> implements Serializable {
      * 失败返回
      *
      * @param msg
-     * @param     <T>
+     * @param <T>
      * @return
      */
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
@@ -104,7 +130,7 @@ public class Result<T> implements Serializable {
      * 其他返回
      *
      * @param msg
-     * @param     <T>
+     * @param <T>
      * @return
      */
     public static <T> Result<T> restResult(String msg, HttpStatus code) {
@@ -115,7 +141,7 @@ public class Result<T> implements Serializable {
      * 其他返回
      *
      * @param msg
-     * @param     <T>
+     * @param <T>
      * @return
      */
     public static <T> Result<T> restResult(T data, String msg, HttpStatus code) {
