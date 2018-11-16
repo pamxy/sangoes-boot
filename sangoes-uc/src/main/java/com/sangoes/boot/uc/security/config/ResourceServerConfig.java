@@ -19,11 +19,11 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    @Autowired
-    private AuthenticationFailHandler authenticationFailHandler;
-
-    @Autowired
-    private AuthSuccessHandler authSuccessHandler;
+//    @Autowired
+//    private AuthenticationFailHandler authenticationFailHandler;
+//
+//    @Autowired
+//    private AuthSuccessHandler authSuccessHandler;
 
 
     @Override
@@ -37,9 +37,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.formLogin()
                 .loginPage("/authentication/require")
-                .failureForwardUrl("/authentication/form")
-                .successHandler(authSuccessHandler)
-                .failureHandler(authenticationFailHandler);
+                .failureForwardUrl("/authentication/form");
+//                .successHandler(authSuccessHandler)
+//                .failureHandler(authenticationFailHandler);
         http.authorizeRequests()
                 //配置order访问控制，必须认证过后才可以访问
                 .antMatchers("/order/**").authenticated();

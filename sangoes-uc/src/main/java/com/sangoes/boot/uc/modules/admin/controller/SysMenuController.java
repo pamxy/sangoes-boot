@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiOperation;
  * @since 2018-11-09
  */
 @RestController
-@RequestMapping("api/admin/menu")
+@RequestMapping("admin/menu")
 @Api("菜单管理类")
 public class SysMenuController extends BaseController {
 

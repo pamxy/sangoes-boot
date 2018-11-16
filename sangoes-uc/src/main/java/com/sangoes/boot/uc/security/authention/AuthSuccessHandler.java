@@ -18,7 +18,7 @@ import java.io.IOException;
  * @date 2018/11/15 6:26 PM
  */
 @Slf4j
-@Component
+@Component("authSuccessHandler")
 public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
 

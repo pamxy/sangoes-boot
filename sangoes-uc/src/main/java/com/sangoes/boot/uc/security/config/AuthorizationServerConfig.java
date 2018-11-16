@@ -92,7 +92,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .userDetailsService(userDetailsService)
                 .tokenEnhancer(enhancerChain)
                 .accessTokenConverter(jwtAccessTokenConverter)
-                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+                // /oauth/token 登录只能用post
+                .allowedTokenEndpointRequestMethods(HttpMethod.POST);
 
 
 

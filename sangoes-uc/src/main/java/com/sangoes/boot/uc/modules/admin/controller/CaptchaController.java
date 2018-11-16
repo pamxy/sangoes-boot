@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api("验证码管理")
-@RequestMapping("api/captcha")
+@RequestMapping("captcha")
 public class CaptchaController extends ApiController {
 
     @Autowired

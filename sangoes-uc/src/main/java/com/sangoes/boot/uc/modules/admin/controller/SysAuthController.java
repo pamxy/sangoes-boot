@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * @since 2018-11-10
  */
 @RestController
-@RequestMapping("api/admin/auth")
+@RequestMapping("admin/auth")
 @Api("权限管理类")
 public class SysAuthController extends BaseController {
 

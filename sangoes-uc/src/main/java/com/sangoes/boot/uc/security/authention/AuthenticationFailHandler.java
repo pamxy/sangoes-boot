@@ -16,7 +16,7 @@ import java.io.IOException;
  * @author jerrychir
  * @date 2018/11/15 6:25 PM
  */
-@Component
+@Component("authenticationFailHandler")
 public class AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHandler {
     /**
      * 登录失败

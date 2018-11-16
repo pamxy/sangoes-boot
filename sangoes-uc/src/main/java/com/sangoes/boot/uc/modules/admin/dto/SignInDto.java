@@ -75,4 +75,6 @@ public class SignInDto {
      */
     @NotEmpty(message = "验证码随机码不能为空", groups = SignInAccountGroup.class)
     private String captchaRandom;
+
+    private String grant_type;
 }

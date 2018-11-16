@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
  * @since 2018-10-29
  */
 @RestController
-@RequestMapping("api/admin/user")
+@RequestMapping("admin/user")
 @Api("用户管理类")
 public class SysUserController extends BaseController {
 

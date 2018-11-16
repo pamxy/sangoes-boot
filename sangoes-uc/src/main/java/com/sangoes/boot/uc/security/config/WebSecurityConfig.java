@@ -1,6 +1,7 @@
 package com.sangoes.boot.uc.security.config;
 
 import com.sangoes.boot.uc.config.IgnoreUrlsConfig;
+import com.sangoes.boot.uc.security.authention.AuthSuccessHandler;
 import com.sangoes.boot.uc.security.authention.SecurityProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -85,4 +86,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         ProviderManager providerManager = new ProviderManager(Collections.singletonList(securityProvider));
         return providerManager;
     }
+
 }

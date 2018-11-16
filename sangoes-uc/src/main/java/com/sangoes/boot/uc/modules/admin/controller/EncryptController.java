@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api("加密管理")
-@RequestMapping("api/encrypt")
+@RequestMapping("encrypt")
 public class EncryptController extends ApiController {
 
     @Autowired
