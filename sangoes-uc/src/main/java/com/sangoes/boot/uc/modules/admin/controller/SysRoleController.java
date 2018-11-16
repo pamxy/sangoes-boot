@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
  * @since 2018-11-04
  */
 @RestController
-@RequestMapping("role")
+@RequestMapping("api/admin/role")
 @Api("角色管理类")
 public class SysRoleController extends BaseController {
 

@@ -65,12 +65,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         // 配置两个客户端,一个用于password认证一个用于client认证
         clients.inMemory()
                 .withClient("sangoes")
-                .resourceIds("order")
+//                .resourceIds("order")
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("select")
-                .authorities("oauth2")
+//                .authorities("oauth2")
                 .secret(passwordEncoder.encode("sangoes"));
-        log.info("========================授权结束=====================");
 
 
     }
