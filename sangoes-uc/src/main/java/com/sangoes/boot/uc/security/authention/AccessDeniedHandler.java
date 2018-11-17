@@ -1,9 +1,7 @@
 package com.sangoes.boot.uc.security.authention;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sangoes.boot.common.msg.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
@@ -16,6 +14,7 @@ import java.io.IOException;
 
 /**
  * Copyright (c) 2018
+ * 授权拒绝处理
  *
  * @author jerrychir
  * @date 2018/11/16 4:39 PM
@@ -23,9 +22,6 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class AccessDeniedHandler extends OAuth2AccessDeniedHandler {
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     /**
      * 授权拒绝处理

@@ -2,4 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sangoes.boot.uc.modules.admin.mapper.SysAuthMapper">
 
+    <select id="listAuthByRoleCode" resultType="com.sangoes.boot.uc.modules.admin.vo.AuthVo">
+        SELECT sa.id, sa.method, sa.action, sa.des, sa.status, sa.auth_code, sa.auth_name
+        FROM sys_role AS sr
+                 LEFT JOIN sys_role_auth AS ra ON ra.role_id = sr.id
+                 LEFT JOIN sys_auth AS sa ON sa.id = ra.auth_id
+        WHERE sr.role_code = #{roleCode}
+
+    </select>
 </mapper>

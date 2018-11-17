@@ -3,7 +3,6 @@ package com.sangoes.boot.uc.modules.admin.entity;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.sangoes.boot.common.entity.BaseEntity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -36,6 +35,9 @@ public class SysMenu extends BaseEntity {
 
     @ApiModelProperty(value = "图标")
     private String icon;
+
+    @ApiModelProperty(value = "请求地址")
+    private String url;
 
     @ApiModelProperty(value = "1启用 0禁用")
     private Integer status;

@@ -1,5 +1,6 @@
 package com.sangoes.boot.uc.security.config;
 
+import com.sangoes.boot.uc.config.IgnoreUrlsConfig;
 import com.sangoes.boot.uc.security.authention.AccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -34,6 +35,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
 
+    @Autowired
+    private IgnoreUrlsConfig ignoreUrlsConfig;
+
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
@@ -44,11 +48,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        // swagger加载问题
         http.headers().frameOptions().disable();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
-        registry.anyRequest().anonymous();
-
+        // 不加入权限过滤的放行
+        ignoreUrlsConfig.getApis().forEach(api -> registry.antMatchers(api).permitAll());
+        // 权限放行
+        registry.anyRequest()
+                .access("@permissionService.hasPermission(request,authentication)");
+        // 授权放行
+//        registry.anyRequest().authenticated();
 
     }
 

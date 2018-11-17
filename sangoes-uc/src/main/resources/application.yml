@@ -89,3 +89,12 @@ swagger:
   base-path: /**
   exclude-path: /error, /ops/**
 
+#系统自定义配置 system customer
+# redis cache
+redis:
+  cache:
+    # 缓存前缀必须加
+    prefix: sangoes
+    # 默认 1天
+    expire: 432000
+

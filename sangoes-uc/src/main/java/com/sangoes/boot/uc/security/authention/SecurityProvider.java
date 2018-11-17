@@ -7,7 +7,6 @@ import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
 import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
 import cn.hutool.crypto.asymmetric.KeyType;
 import com.sangoes.boot.uc.constants.RSAConstants;
-import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,6 +26,7 @@ import java.util.Map;
 
 /**
  * Copyright (c) 2018
+ * 登录自定义用户名密码
  *
  * @author jerrychir
  * @date 2018/11/15 8:59 PM
@@ -53,7 +53,7 @@ public class SecurityProvider implements AuthenticationProvider {
         // 查询userDetails
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationToken.getName());
         if (ObjectUtil.isNull(userDetails)) {
-            throw new UsernameNotFoundException("找不到user");
+            throw new UsernameNotFoundException("用户不存在");
         }
         // 获取其他信息
         Map details = (LinkedHashMap) authenticationToken.getDetails();

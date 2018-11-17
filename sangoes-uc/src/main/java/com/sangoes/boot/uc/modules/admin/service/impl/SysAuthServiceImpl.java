@@ -1,7 +1,6 @@
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
-import java.util.Map;
-
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,11 +13,12 @@ import com.sangoes.boot.uc.modules.admin.dto.AuthDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysAuth;
 import com.sangoes.boot.uc.modules.admin.mapper.SysAuthMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysAuthService;
-
+import com.sangoes.boot.uc.modules.admin.vo.AuthVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import cn.hutool.core.util.ObjectUtil;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -76,4 +76,14 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
         return Result.success(pageData, "成功");
     }
 
+    /**
+     * 根据角色编码查询权限
+     *
+     * @param roleCode
+     * @return
+     */
+    @Override
+    public List<AuthVo> listAuthByRoleCode(String roleCode) {
+        return baseMapper.listAuthByRoleCode(roleCode);
+    }
 }
