@@ -1,15 +1,19 @@
 /*
- * @Author: jerrychir @sangoes 
- * @Date: 2018-11-09 15:32:03 
+ * @Author: jerrychir @sangoes
+ * @Date: 2018-11-09 15:32:03
  * @Last Modified by: jerrychir @sangoes
  * @Last Modified time: 2018-11-15 12:29:20
  */
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
+import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
+import cn.hutool.crypto.asymmetric.KeyType;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
@@ -31,7 +35,7 @@ import com.sangoes.boot.uc.modules.admin.mapper.SysUserRoleMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysRoleService;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,15 +47,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.hutool.core.lang.Validator;
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
-import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
-import cn.hutool.crypto.asymmetric.KeyType;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -291,7 +289,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     /**
      * 解密密码
-     * 
+     *
      * @param key
      * @param password
      * @return
@@ -341,14 +339,20 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Result<String> bindRole(UserDto userDto) {
+        // 创建 user role
         SysUserRole sysUserRole = new SysUserRole();
-        String[] roleIds = userDto.getRoleIds().split(",");
-        for (String roleId : roleIds) {
-            sysUserRole.setRoleId(Long.valueOf(roleId));
-            sysUserRole.setUserId(userDto.getUserId());
-            userRoleMapper.insert(sysUserRole);
+        // 删除为 user id
+        userRoleMapper.delete(new QueryWrapper<SysUserRole>().lambda().eq(SysUserRole::getUserId, userDto.getUserId()));
+        // 判断 roleIds 是否为空
+        if (StrUtil.isNotBlank(userDto.getRoleIds())) {
+            // 转换为数组
+            String[] roleIds = userDto.getRoleIds().split(",");
+            for (String roleId : roleIds) {
+                sysUserRole.setRoleId(Long.valueOf(roleId));
+                sysUserRole.setUserId(userDto.getUserId());
+                userRoleMapper.insert(sysUserRole);
+            }
         }
-
         return Result.success("添加成功");
     }
 }

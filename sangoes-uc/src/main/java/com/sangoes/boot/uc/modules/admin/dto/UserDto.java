@@ -47,7 +47,6 @@ public class UserDto {
     @ApiModelProperty(value = "绑定用户id")
     private Long userId;
 
-    @NotBlank(message = "绑定角色ids不能为空", groups = { BindRoleGroup.class })
     @ApiModelProperty(value = "绑定角色ids")
     private String roleIds;
 

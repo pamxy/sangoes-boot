@@ -103,7 +103,6 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     public List<MenuTree> getUserMenuTree(List<String> roles) {
         // 获取全部菜单
         List<SysMenu> list = baseMapper.findMenuByUserRoleCode(roles);
-//        List<SysMenu> list = this.list(new QueryWrapper<SysMenu>());
         // 变成树形
         List<MenuTree> menuTrees = BuildTreeUtil.buildMenuTree(list, -1L);
         return menuTrees;
