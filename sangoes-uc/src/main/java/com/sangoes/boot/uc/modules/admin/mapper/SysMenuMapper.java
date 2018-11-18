@@ -24,4 +24,12 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      */
     List<MenuVo> findMenuAuthByRoleCode(String roleCode);
 
+    /**
+     * 根据用户角色查询菜单
+     *
+     * @param roles
+     * @return
+     */
+    List<SysMenu> findMenuByUserRoleCode(List<String> roles);
+
 }

@@ -1,18 +1,20 @@
 /*
- * @Author: jerrychir @sangoes 
- * @Date: 2018-11-09 15:23:43 
+ * @Author: jerrychir @sangoes
+ * @Date: 2018-11-09 15:23:43
  * @Last Modified by: jerrychir @sangoes
  * @Last Modified time: 2018-11-09 15:25:37
  */
 package com.sangoes.boot.common.vo;
 
+import cn.hutool.core.util.ObjectUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.hutool.core.util.ObjectUtil;
-
 /**
  * TreeUtil 树形工具
+ *
+ * @author jerrychir
  */
 public class TreeUtil {
     /**

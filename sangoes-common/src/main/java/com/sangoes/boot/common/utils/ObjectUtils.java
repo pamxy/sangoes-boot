@@ -1,4 +1,4 @@
-package com.sangoes.boot.uc.utils;
+package com.sangoes.boot.common.utils;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;

@@ -9,4 +9,17 @@
                  LEFT JOIN sys_menu as sm on sm.id = rm.menu_id
         WHERE sr.role_code = #{roleCode}
     </select>
+    <!--根据用户角色编码查询菜单-->
+    <select id="findMenuByUserRoleCode" parameterType="java.util.List"
+            resultType="com.sangoes.boot.uc.modules.admin.entity.SysMenu">
+        SELECT sm.*
+        FROM sys_role AS sr
+        LEFT JOIN sys_role_menu AS rm ON rm.role_id = sr.id
+        LEFT JOIN sys_menu AS sm ON sm.id = rm.menu_id
+        WHERE sr.role_code IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND sm.deleted = 1
+    </select>
 </mapper>

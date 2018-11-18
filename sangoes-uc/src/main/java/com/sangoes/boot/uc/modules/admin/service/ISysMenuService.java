@@ -54,4 +54,11 @@ public interface ISysMenuService extends IBaseService<SysMenu> {
      */
     List<MenuVo> listMenuByRoleCode(String roleCode);
 
+    /**
+     * 根据用户角色获取树形菜单
+     *
+     * @param roles
+     * @return
+     */
+    List<MenuTree> getUserMenuTree(List<String> roles);
 }

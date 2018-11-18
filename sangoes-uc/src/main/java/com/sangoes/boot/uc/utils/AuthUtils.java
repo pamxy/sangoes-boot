@@ -1,12 +1,17 @@
 package com.sangoes.boot.uc.utils;
 
+import com.sangoes.boot.common.utils.ArrayUtils;
+import com.sangoes.boot.common.utils.ObjectUtils;
 import com.sangoes.boot.uc.constants.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +34,11 @@ public class AuthUtils {
         return Long.parseLong(userDetails.get("userId").toString());
     }
 
+    public static List<String> getUserRoles() {
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        return ArrayUtils.objectArrayToListString(authorities.toArray());
+    }
+
     /**
      * 获取用户详细
      *
@@ -43,6 +53,7 @@ public class AuthUtils {
         }
         return null;
     }
+
 
     /**
      * 获取请求中token

@@ -1,12 +1,10 @@
 /*
- * @Author: jerrychir @sangoes 
- * @Date: 2018-11-09 15:41:43 
+ * @Author: jerrychir @sangoes
+ * @Date: 2018-11-09 15:41:43
  * @Last Modified by: jerrychir @sangoes
  * @Last Modified time: 2018-11-10 13:27:48
  */
 package com.sangoes.boot.uc.modules.admin.controller;
-
-import java.util.List;
 
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
@@ -15,18 +13,14 @@ import com.sangoes.boot.uc.modules.admin.dto.MenuDto.AddMenuGroup;
 import com.sangoes.boot.uc.modules.admin.entity.SysMenu;
 import com.sangoes.boot.uc.modules.admin.service.ISysMenuService;
 import com.sangoes.boot.uc.modules.admin.vo.MenuTree;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.sangoes.boot.uc.utils.AuthUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -46,7 +40,7 @@ public class SysMenuController extends BaseController {
 
     /**
      * 添加菜单
-     * 
+     *
      * @param menuDto
      * @return
      */
@@ -59,7 +53,7 @@ public class SysMenuController extends BaseController {
 
     /**
      * 获取菜单树形结果
-     * 
+     *
      * @return
      */
     @GetMapping("/tree")
@@ -71,7 +65,7 @@ public class SysMenuController extends BaseController {
 
     /**
      * 获取菜单列表
-     * 
+     *
      * @return
      */
     @GetMapping("/list")
@@ -80,4 +74,23 @@ public class SysMenuController extends BaseController {
     public Result<List<SysMenu>> getMenuList() {
         return menuService.getMenuList();
     }
+
+
+    /**
+     * 获取当前用户的菜单树形结果
+     *
+     * @return
+     */
+    @GetMapping("/user/tree")
+    @ApiOperation(value = "获取当前用户的菜单树形结果", notes = "返回树形结果")
+    @ResponseBody
+    public Result<List<MenuTree>> getUserMenuTree() {
+        // 获取当前角色
+        List<String> roles = AuthUtils.getUserRoles();
+        // 获取树形菜单
+        List<MenuTree> menuTrees = menuService.getUserMenuTree(roles);
+        // 返回
+        return Result.success(menuTrees, "成功");
+    }
+
 }

@@ -36,7 +36,7 @@ public class BuildTreeUtil {
             node.setName(menu.getMenuName());
             trees.add(node);
         }
-        return TreeUtil.bulid(trees, root);
+        return TreeUtil.buildByRecursive(trees, root);
     }
 
 }
