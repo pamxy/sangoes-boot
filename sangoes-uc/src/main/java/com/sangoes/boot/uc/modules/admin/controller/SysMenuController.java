@@ -47,7 +47,7 @@ public class SysMenuController extends BaseController {
     /**
      * 添加菜单
      * 
-     * @param roleDto
+     * @param menuDto
      * @return
      */
     @PostMapping("/add")

@@ -55,7 +55,7 @@ public class SysAuthController extends BaseController {
     /**
      * 权限分页
      * 
-     * @param userDto
+     * @param params
      * @return
      */
     @GetMapping("/page")

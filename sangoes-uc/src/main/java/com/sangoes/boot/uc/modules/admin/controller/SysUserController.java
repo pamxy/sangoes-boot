@@ -1,7 +1,5 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
-import java.util.Map;
-
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.page.PageData;
@@ -11,20 +9,17 @@ import com.sangoes.boot.uc.modules.admin.dto.UserDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto.BindRoleGroup;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.sangoes.boot.uc.utils.AuthUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -37,6 +32,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("admin/user")
 @Api("用户管理类")
+@Slf4j
 public class SysUserController extends BaseController {
 
     @Autowired
@@ -58,7 +54,7 @@ public class SysUserController extends BaseController {
 
     /**
      * 根据手机号码登陆
-     * 
+     *
      * @param signInDto
      * @return
      */
@@ -66,14 +62,14 @@ public class SysUserController extends BaseController {
     @ApiOperation(value = "根据手机号码登陆", notes = "登陆返回token")
     @ResponseBody
     public Result<String> signinByMobile(
-            @RequestBody @Validated({ SignInDto.SignInMobileGroup.class }) SignInDto signInDto) {
+            @RequestBody @Validated({SignInDto.SignInMobileGroup.class}) SignInDto signInDto) {
 
         return userService.signinByMobile(signInDto);
     }
 
     /**
      * 根据用户名登陆
-     * 
+     *
      * @param signInDto
      * @return
      */
@@ -81,14 +77,14 @@ public class SysUserController extends BaseController {
     @ApiOperation(value = "根据用户名登陆", notes = "登陆返回token")
     @ResponseBody
     public Result<String> signinByAccount(
-            @RequestBody @Validated({ SignInDto.SignInAccountGroup.class }) SignInDto signInDto) {
+            @RequestBody @Validated({SignInDto.SignInAccountGroup.class}) SignInDto signInDto) {
 
         return userService.signinByAccount(signInDto);
     }
 
     /**
      * 添加用户
-     * 
+     *
      * @param userDto
      * @return
      */
@@ -102,21 +98,20 @@ public class SysUserController extends BaseController {
 
     /**
      * 用户分页
-     * 
-     * @param userDto
+     *
+     * @param params
      * @return
      */
     @GetMapping("/page")
     @ApiOperation(value = "用户分页", notes = "返回分页结果")
     @ResponseBody
     public Result<PageData<SysUser>> getUserPage(@RequestParam Map<String, Object> params) {
-
         return userService.selectUserPage(params);
     }
 
     /**
      * 查询绑定角色
-     * 
+     *
      * @param id
      * @return
      */
@@ -130,14 +125,14 @@ public class SysUserController extends BaseController {
 
     /**
      * 绑定用户
-     * 
+     *
      * @param userDto
      * @return
      */
     @PostMapping("/bind/role")
     @ApiOperation(value = "绑定用户", notes = "返回绑定结果")
     @ResponseBody
-    public Result<String> bindRole(@RequestBody @Validated({ BindRoleGroup.class }) UserDto userDto) {
+    public Result<String> bindRole(@RequestBody @Validated({BindRoleGroup.class}) UserDto userDto) {
 
         return userService.bindRole(userDto);
     }

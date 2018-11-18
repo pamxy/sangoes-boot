@@ -144,7 +144,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         Long menuKey = roleDto.getMenuId();
         // 清空roleID对应的所有菜单
         roleMenuMapper.delete(new QueryWrapper<SysRoleMenu>().lambda().eq(SysRoleMenu::getRoleId, roleKey));
-        // 清空所有的权限
+        // 清空菜单对应的权限
         roleAuthMapper.delete(new QueryWrapper<SysRoleAuth>().lambda().eq(SysRoleAuth::getRoleId, roleKey)
                 .eq(SysRoleAuth::getMenuId, menuKey));
         // 判断菜单id

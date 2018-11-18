@@ -57,8 +57,6 @@ public class SecurityProvider implements AuthenticationProvider {
         }
         // 获取其他信息
         Map details = (LinkedHashMap) authenticationToken.getDetails();
-
-        // TODO 前端密码RSA解密
         // 判断密码是否相同
         String forntPassword = authenticationToken.getCredentials().toString();
         // 解密密码
