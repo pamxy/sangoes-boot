@@ -12,6 +12,7 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -191,11 +192,11 @@ public class RedisCacheConfig {
                 // prefix
                 .prefixKeysWith(prefix + ":")
                 // 序列化
-//                .serializeValuesWith(
-//                        RedisSerializationContext
-//                                .SerializationPair
-//                                .fromSerializer(jackson2JsonRedisSerializer)
-//                )
+                .serializeValuesWith(
+                        RedisSerializationContext
+                                .SerializationPair
+                                .fromSerializer(jackson2JsonRedisSerializer)
+                )
                 // 设置过期时间
                 .entryTtl(Duration.ofSeconds(seconds));
 

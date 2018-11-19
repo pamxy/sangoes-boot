@@ -99,6 +99,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
      * @param roles
      * @return
      */
+    @Cacheable(value = "role_menu", key = "'user:menu:'+#roles")
     @Override
     public List<MenuTree> getUserMenuTree(List<String> roles) {
         // 获取全部菜单

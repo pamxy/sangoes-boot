@@ -14,8 +14,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -135,5 +133,21 @@ public class SysUserController extends BaseController {
     public Result<String> bindRole(@RequestBody @Validated({BindRoleGroup.class}) UserDto userDto) {
 
         return userService.bindRole(userDto);
+    }
+
+    /**
+     * 获取当前用户信息
+     *
+     * @return
+     */
+    @GetMapping("/info")
+    @ApiOperation(value = "获取当前用户信息", notes = "返回用户信息结果")
+    @ResponseBody
+    public Result<SysUser> userInfo() {
+        // 获取当前用户id
+        Long userId = AuthUtils.getUserId();
+        // 获取user
+        SysUser user = userService.userInfo(userId);
+        return Result.success(user, "成功");
     }
 }

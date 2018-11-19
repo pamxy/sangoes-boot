@@ -15,6 +15,7 @@ import com.sangoes.boot.uc.modules.admin.mapper.SysAuthMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysAuthService;
 import com.sangoes.boot.uc.modules.admin.vo.AuthVo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -82,6 +83,7 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
      * @param roleCode
      * @return
      */
+    @Cacheable(value = "auth", key = "'auth:roleCode:'+#roleCode")
     @Override
     public List<AuthVo> listAuthByRoleCode(String roleCode) {
         return baseMapper.listAuthByRoleCode(roleCode);

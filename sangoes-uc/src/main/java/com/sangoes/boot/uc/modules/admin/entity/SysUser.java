@@ -1,5 +1,6 @@
 package com.sangoes.boot.uc.modules.admin.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,7 +26,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @ApiModel(value = "SysUser对象", description = "用户表")
-public class SysUser extends BaseEntity {
+public class SysUser extends BaseEntity{
 
     @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty(value = "编码")

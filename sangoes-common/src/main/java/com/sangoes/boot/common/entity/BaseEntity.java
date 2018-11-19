@@ -1,12 +1,12 @@
 package com.sangoes.boot.common.entity;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Copyright (c) 2018
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * @date 2018/10/29 11:13 AM
  */
 @Data
-public class BaseEntity {
+public class BaseEntity implements Serializable {
     /**
      * 主键
      */
@@ -24,12 +24,12 @@ public class BaseEntity {
     /**
      * 创建时间
      */
-    private LocalDateTime crtTime;
+    private Date crtTime;
 
     /**
      * 更新时间
      */
-    private LocalDateTime updTime;
+    private Date updTime;
 
     /**
      * 创建者用户名

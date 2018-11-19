@@ -39,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -354,5 +355,18 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             }
         }
         return Result.success("添加成功");
+    }
+
+    /**
+     * 获取当前用户信息
+     *
+     * @param userId
+     * @return
+     */
+    @Cacheable(value = "user", key = "'user:info:'+#userId")
+    @Override
+    public SysUser userInfo(Long userId) {
+        SysUser user = baseMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getId, userId));
+        return user;
     }
 }

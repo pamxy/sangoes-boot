@@ -1,7 +1,5 @@
 package com.sangoes.boot.uc.modules.admin.service;
 
-import java.util.Map;
-
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.service.IBaseService;
 import com.sangoes.boot.common.utils.page.PageData;
@@ -10,6 +8,8 @@ import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -37,7 +37,7 @@ public interface ISysUserService extends IBaseService<SysUser> {
 
     /**
      * 根据username查询UserDeatilsVo
-     * 
+     *
      * @param username
      * @return
      */
@@ -50,7 +50,7 @@ public interface ISysUserService extends IBaseService<SysUser> {
 
     /**
      * 添加用户
-     * 
+     *
      * @param userDto
      * @return
      */
@@ -58,7 +58,7 @@ public interface ISysUserService extends IBaseService<SysUser> {
 
     /**
      * 分页获取用户
-     * 
+     *
      * @param params
      * @return
      */
@@ -66,7 +66,7 @@ public interface ISysUserService extends IBaseService<SysUser> {
 
     /**
      * 查询用户绑定的角色
-     * 
+     *
      * @param id
      * @return
      */
@@ -74,10 +74,17 @@ public interface ISysUserService extends IBaseService<SysUser> {
 
     /**
      * 绑定角色
-     * 
+     *
      * @param userDto
      * @return
      */
     Result<String> bindRole(UserDto userDto);
 
+    /**
+     * 获取当前用户信息
+     *
+     * @param userId
+     * @return
+     */
+    SysUser userInfo(Long userId);
 }

@@ -30,38 +30,6 @@
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-parameter-names</artifactId>
         </dependency>
-        <!--&lt;!&ndash;mybatis starter&ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>org.mybatis.spring.boot</groupId>-->
-        <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
-        <!--<version>${mybatis.starter.version}</version>-->
-        <!--</dependency>-->
-
-        <!--&lt;!&ndash;mapper&ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>tk.mybatis</groupId>-->
-        <!--<artifactId>mapper-spring-boot-starter</artifactId>-->
-        <!--<version>${mapper.starter.version}</version>-->
-        <!--</dependency>-->
-        <!--&lt;!&ndash;pagehelper&ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>com.github.pagehelper</groupId>-->
-        <!--<artifactId>pagehelper-spring-boot-starter</artifactId>-->
-        <!--<version>${pagehelper.starter.version}</version>-->
-        <!--<exclusions>-->
-        <!--<exclusion>-->
-        <!--<groupId>org.mybatis.spring.boot</groupId>-->
-        <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
-        <!--</exclusion>-->
-        <!--</exclusions>-->
-        <!--</dependency>-->
-        <!--alibaba-->
-        <!--<dependency>-->
-        <!--<groupId>com.alibaba</groupId>-->
-        <!--<artifactId>druid-spring-boot-starter</artifactId>-->
-        <!--<version>${druid.starter.version}</version>-->
-        <!--</dependency>-->
-        <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
         <!-- 数据库加密 -->
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
