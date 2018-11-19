@@ -8,6 +8,7 @@ import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -87,4 +88,12 @@ public interface ISysUserService extends IBaseService<SysUser> {
      * @return
      */
     SysUser userInfo(Long userId);
+
+    /**
+     * 用户上传头像
+     *
+     * @param file
+     * @return
+     */
+    String uploadAvatar(Long userId, MultipartFile file);
 }

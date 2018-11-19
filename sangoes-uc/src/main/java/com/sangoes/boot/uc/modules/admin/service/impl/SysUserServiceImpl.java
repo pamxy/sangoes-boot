@@ -15,6 +15,7 @@ import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
 import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
 import cn.hutool.crypto.asymmetric.KeyType;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.sangoes.boot.common.core.componet.AliyunOSSUploader;
 import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.service.impl.BaseServiceImpl;
@@ -35,10 +36,12 @@ import com.sangoes.boot.uc.modules.admin.mapper.SysUserRoleMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysRoleService;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
+import com.sangoes.boot.uc.utils.AuthUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -47,6 +50,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,17 +80,15 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Lazy
     @Autowired
     private AuthenticationManager authenticationManager;
-    /**
-     * jwt工具
-     */
-    // @Autowired
-    // private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private SysUserRoleMapper userRoleMapper;
 
     @Autowired
     private ISysRoleService roleService;
+
+    @Autowired
+    private AliyunOSSUploader aliyunOSSUploader;
 
     /**
      * 根据手机号码注册
@@ -276,9 +278,11 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 复制bean
         BeanUtils.copyProperties(userDto, user);
         // 加密密码并设置默认密码
-        // user.setPassword(passwordEncoder.encode("888888"));
+//         user.setPassword(passwordEncoder.encode("888888"));
         // 设置注册类型
         user.setSignupType(SignUpEnum.ADMIN.getValue());
+        // 设置创建者
+        user.setCreatorId(AuthUtils.getUserId());
         // 保存到数据库
         boolean save = this.save(user);
         // 添加失败
@@ -368,5 +372,32 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public SysUser userInfo(Long userId) {
         SysUser user = baseMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getId, userId));
         return user;
+    }
+
+
+    /**
+     * 用户上传头像
+     *
+     * @param file
+     * @return
+     */
+    @CacheEvict(value = "user", key = "'user:info:'+#userId")
+    @Override
+    public String uploadAvatar(Long userId, MultipartFile file) {
+        // 根据用户id查询
+        SysUser user = baseMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getId, userId));
+        if (ObjectUtil.isNull(user)) {
+            throw new HandleErrorException("用户不存在");
+        }
+        // 上传图片
+        String imgUrl = aliyunOSSUploader.uploadMultipartFile(file);
+        // 设置头像
+        user.setAvatar(imgUrl);
+        // 设置更新者
+        user.setUpdatorId(userId);
+        user.setUpdator(user.getUsername());
+        // 更新user
+        baseMapper.updateById(user);
+        return imgUrl;
     }
 }

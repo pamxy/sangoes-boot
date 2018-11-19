@@ -15,6 +15,7 @@ import com.sangoes.boot.uc.modules.admin.mapper.SysAuthMapper;
 import com.sangoes.boot.uc.modules.admin.service.ISysAuthService;
 import com.sangoes.boot.uc.modules.admin.vo.AuthVo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
     /**
      * 添加菜单
      */
+    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.authCode")
     @Override
     public Result<String> addAuth(AuthDto authDto) {
         // 判断authCode是否重复

@@ -1,6 +1,7 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
 import com.sangoes.boot.common.controller.BaseController;
+import com.sangoes.boot.common.core.componet.AliyunOSSUploader;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -35,6 +37,10 @@ public class SysUserController extends BaseController {
 
     @Autowired
     private ISysUserService userService;
+
+
+    @Autowired
+    private AliyunOSSUploader aliyunOSSUploader;
 
     /**
      * 根据手机号码注册
@@ -149,5 +155,22 @@ public class SysUserController extends BaseController {
         // 获取user
         SysUser user = userService.userInfo(userId);
         return Result.success(user, "成功");
+    }
+
+    /**
+     * 用户上传头像
+     *
+     * @param file
+     * @return
+     */
+    @PostMapping("/upload/avatar")
+    @ApiOperation(value = "用户上传头像", notes = "返回头像结果")
+    @ResponseBody
+    public Result<String> uploadAvatar(@RequestParam("file") MultipartFile file) {
+        // 用户id
+        Long userId = AuthUtils.getUserId();
+        // 上传头像
+        String imgUrl = userService.uploadAvatar(userId,file);
+        return Result.success(imgUrl, "成功");
     }
 }
