@@ -48,6 +48,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,9 +68,6 @@ import java.util.Map;
 @Service
 @Slf4j
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
-
-    // @Autowired
-    // private PasswordEncoder passwordEncoder;
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -278,7 +276,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 复制bean
         BeanUtils.copyProperties(userDto, user);
         // 加密密码并设置默认密码
-//         user.setPassword(passwordEncoder.encode("888888"));
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode("888888"));
         // 设置注册类型
         user.setSignupType(SignUpEnum.ADMIN.getValue());
         // 设置创建者

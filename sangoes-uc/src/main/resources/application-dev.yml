@@ -59,8 +59,7 @@ ignore:
   - /encrypt/rsa/*
   - /captcha/sms/*
   - /captcha/image/*
-  # 临时添加
-  #  - /oauth/token
+  - /oauth/logout
 
   urls:
   - /v2/api-docs

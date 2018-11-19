@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sangoes.boot.uc.modules.admin.entity.SysUserRole;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>

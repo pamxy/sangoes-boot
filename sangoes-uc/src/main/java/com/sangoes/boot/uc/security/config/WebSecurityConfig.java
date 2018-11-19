@@ -64,6 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         ignoreUrlsConfig.getApis().forEach(api -> registry.antMatchers(api).permitAll());
         registry.anyRequest().authenticated()
                 .and()
+                .logout()
+                .and()
                 .csrf().disable();
 
     }
