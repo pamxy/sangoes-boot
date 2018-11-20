@@ -25,8 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Copyright (c) 2018
- * 登录自定义用户名密码
+ * Copyright (c) 2018 登录自定义用户名密码
  *
  * @author jerrychir
  * @date 2018/11/15 8:59 PM

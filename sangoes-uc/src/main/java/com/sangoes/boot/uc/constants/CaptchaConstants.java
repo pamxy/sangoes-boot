@@ -31,4 +31,23 @@ public interface CaptchaConstants {
      * 图片验证码保存的时间 (分钟)
      */
     long CAPTCHA_IMAGE_EXPIRE_TIME = 5;
+
+    /**
+     * 短信验证码
+     */
+    String CAPTCHA_SMS_CODE = "smsCode";
+
+    /**
+     * 图片验证码
+     */
+    String CAPTCHA_IMG_CODE = "imgCode";
+    /**
+     * 验证码
+     */
+    String CAPTCHA_CAPTCHA = "captcha";
+
+    /**
+     * 验证码随机数
+     */
+    String CAPTCHA_RANDOM = "captchaRandom";
 }

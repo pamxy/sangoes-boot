@@ -58,7 +58,7 @@ public class Result<T> implements Serializable {
      */
     public static void noReturn(String msg, HttpStatus code, HttpServletResponse response) throws IOException {
         // 设置code
-        response.setStatus(code.value());
+//        response.setStatus(code.value());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         // 设置返回result
@@ -67,7 +67,6 @@ public class Result<T> implements Serializable {
         result.setMsg(msg);
         // 回写数据
         PrintWriter printWriter = response.getWriter();
-
         printWriter.write(JSONUtil.toJsonStr(result));
     }
 

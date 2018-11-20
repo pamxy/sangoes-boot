@@ -21,6 +21,21 @@ public interface SecurityConstants {
     String SECURITY_BEARER = "Bearer ";
 
     /**
+     * Grant Type
+     */
+    String GRANT_TYPE = "grant_type";
+
+    /**
+     * Password
+     */
+    String PASSWORD = "password";
+
+    /**
+     * Mobile
+     */
+    String MOBILE = "mobile";
+
+    /**
      * 认证redis前缀
      */
     String OAUTH_REDIS_PREFIX = "sangoes:";

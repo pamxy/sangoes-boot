@@ -1,25 +1,22 @@
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.LineCaptcha;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.uc.constants.CaptchaConstants;
 import com.sangoes.boot.uc.modules.admin.service.ICaptchaService;
 import com.sangoes.boot.uc.modules.admin.service.IEncryptService;
-
-import org.apache.commons.io.IOUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.LineCaptcha;
-import cn.hutool.core.util.RandomUtil;
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright (c) 2018
@@ -74,12 +71,20 @@ public class CaptchaServiceImpl implements ICaptchaService {
         redisTemplate.opsForValue().set(CaptchaConstants.CAPTCHA_IMAGE + random, code,
                 CaptchaConstants.CAPTCHA_IMAGE_EXPIRE_TIME, TimeUnit.MINUTES);
         // 写入流
+        ServletOutputStream out = null;
         try {
-            ServletOutputStream out = response.getOutputStream();
+            out = response.getOutputStream();
             captcha.write(out);
-            IOUtils.closeQuietly(out);
         } catch (IOException e) {
             throw new HandleErrorException("生成验证码失败");
+        } finally {
+            if (ObjectUtil.isNotNull(out)) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
