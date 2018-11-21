@@ -1,0 +1,10 @@
+version: "2"
+services:
+  sangoes:
+    build:
+      context: ./sangoes-uc/src/main/docker
+      dockerfile: Dockerfile
+    restart: always
+    command: java -Xmx2000m -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+    ports:
+    - 8080:8080
