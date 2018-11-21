@@ -1,13 +1,13 @@
-package com.sangoes.boot.uc.security.config;
+package com.sangoes.boot.uc.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -28,6 +28,7 @@ import java.util.Arrays;
  * @date 2018/11/15 3:41 PM
  */
 @Slf4j
+@Order(Integer.MIN_VALUE)
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -69,7 +70,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("select")
 //                .authorities("oauth2")
-                .secret(passwordEncoder.encode("sangoes"));
+                .secret(passwordEncoder.encode("sangoes"))
+                .autoApprove(true);
 
 
     }
@@ -96,7 +98,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .allowedTokenEndpointRequestMethods(HttpMethod.POST);
 
 
-
     }
 
     /**
@@ -107,7 +108,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
         // 允许表单认证
-        oauthServer.allowFormAuthenticationForClients().tokenKeyAccess("isAuthenticated()")
+        oauthServer
+                .allowFormAuthenticationForClients()
+                // 开启/oauth/token_key验证端口无权限访问
+                .tokenKeyAccess("isAuthenticated()")
+                // 开启/oauth/check_token验证端口认证权限访问
                 .checkTokenAccess("permitAll()");
     }
 

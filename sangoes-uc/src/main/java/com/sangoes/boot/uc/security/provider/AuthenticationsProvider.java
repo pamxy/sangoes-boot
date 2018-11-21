@@ -1,4 +1,4 @@
-package com.sangoes.boot.uc.security.authention;
+package com.sangoes.boot.uc.security.provider;
 
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -7,6 +7,10 @@ import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
 import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
 import cn.hutool.crypto.asymmetric.KeyType;
 import com.sangoes.boot.uc.constants.RSAConstants;
+import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
+import com.sangoes.boot.uc.modules.admin.utils.UserDetailsImpl;
+import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
+import com.sangoes.boot.uc.security.token.AuthenticationsToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,52 +19,48 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
- * Copyright (c) 2018 登录自定义用户名密码
+ * Copyright (c) 2018
  *
  * @author jerrychir
- * @date 2018/11/15 8:59 PM
+ * @date 2018/11/20 1:40 PM
  */
 @Slf4j
-@Component
-public class SecurityProvider implements AuthenticationProvider {
+public class AuthenticationsProvider implements AuthenticationProvider {
+
+    private ISysUserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
     /**
+     * @param authentication
+     * @return
+     * @throws AuthenticationException
      */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         // 转换
-        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
-        // 查询userDetails
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationToken.getName());
-        if (ObjectUtil.isNull(userDetails)) {
+        AuthenticationsToken token = (AuthenticationsToken) authentication;
+        // 查询用户
+        UserDetailsVo userDetailsVo = userService.selectUserDetailsByUsername(token.getName());
+        log.error("authenticationToken:{}", token.getName());
+        if (ObjectUtil.isNull(userDetailsVo)) {
             throw new UsernameNotFoundException("用户不存在");
         }
-        // 获取其他信息
-        Map details = (LinkedHashMap) authenticationToken.getDetails();
+        // 转换
+        UserDetailsImpl userDetails = new UserDetailsImpl(userDetailsVo);
         // 判断密码是否相同
-        String forntPassword = authenticationToken.getCredentials().toString();
+        String newPassword = token.getCredentials().toString();
         // 解密密码
-        String password = decodePassword(RSAConstants.RANDOM_RSA_PRIVATE_KEY + details.get("publicRandom").toString(),
-                forntPassword);
+        String password = decodePassword(RSAConstants.RANDOM_RSA_PRIVATE_KEY + token.getPublicRandom(),
+                newPassword);
         String passwordDb = userDetails.getPassword();
         if (!passwordEncoder.matches(password, passwordDb)) {
             throw new BadCredentialsException("密码不正确");
@@ -69,10 +69,12 @@ public class SecurityProvider implements AuthenticationProvider {
     }
 
     /**
+     * @param authentication
+     * @return
      */
     @Override
     public boolean supports(Class<?> authentication) {
-        return UsernamePasswordAuthenticationToken.class.equals(authentication);
+        return AuthenticationsToken.class.isAssignableFrom(authentication);
     }
 
     /**
@@ -88,5 +90,9 @@ public class SecurityProvider implements AuthenticationProvider {
         // 解密密码
         AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, null);
         return StrUtil.str(crypto.decryptFromBase64(password, KeyType.PrivateKey), CharsetUtil.CHARSET_UTF_8);
+    }
+
+    public void setUserService(ISysUserService userService) {
+        this.userService = userService;
     }
 }

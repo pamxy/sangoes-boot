@@ -33,21 +33,21 @@ public interface CaptchaConstants {
     long CAPTCHA_IMAGE_EXPIRE_TIME = 5;
 
     /**
-     * 短信验证码
-     */
-    String CAPTCHA_SMS_CODE = "smsCode";
-
-    /**
-     * 图片验证码
-     */
-    String CAPTCHA_IMG_CODE = "imgCode";
-    /**
      * 验证码
      */
-    String CAPTCHA_CAPTCHA = "captcha";
+    String CAPTCHA = "captcha";
 
     /**
      * 验证码随机数
      */
     String CAPTCHA_RANDOM = "captchaRandom";
+
+    /**
+     * 公共随机数
+     */
+    String PUBLIC_RANDOM = "publicRandom";
+    /**
+     * 登录类型
+     */
+    String SIGNIN_TYPE = "signinType";
 }

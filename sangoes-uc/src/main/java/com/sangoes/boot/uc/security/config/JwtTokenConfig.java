@@ -1,4 +1,4 @@
-package com.sangoes.boot.uc.security.token;
+package com.sangoes.boot.uc.security.config;
 
 import com.sangoes.boot.uc.constants.SecurityConstants;
 import org.springframework.context.annotation.Bean;

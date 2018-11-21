@@ -1,7 +1,7 @@
-package com.sangoes.boot.uc.security.config;
+package com.sangoes.boot.uc.security;
 
 import com.sangoes.boot.uc.config.IgnoreUrlsConfig;
-import com.sangoes.boot.uc.security.authention.AccessDeniedHandler;
+import com.sangoes.boot.uc.security.handler.AccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;

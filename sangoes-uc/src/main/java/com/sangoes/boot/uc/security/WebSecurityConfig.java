@@ -1,12 +1,17 @@
-package com.sangoes.boot.uc.security.config;
+package com.sangoes.boot.uc.security;
 
 import com.sangoes.boot.uc.config.IgnoreUrlsConfig;
-import com.sangoes.boot.uc.security.authention.SecurityProvider;
+import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
+import com.sangoes.boot.uc.security.filter.AuthenticationsFilter;
+import com.sangoes.boot.uc.security.handler.AuthSuccessHandler;
+import com.sangoes.boot.uc.security.handler.AuthenticationFailHandler;
+import com.sangoes.boot.uc.security.provider.AuthenticationsProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,8 +19,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Collections;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 
 /**
  * Copyright (c) 2018
@@ -23,15 +28,23 @@ import java.util.Collections;
  * @author jerrychir
  * @date 2018/11/15 3:54 PM
  */
+@Order(SecurityProperties.BASIC_AUTH_ORDER - 1)
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private SecurityProvider securityProvider;
 
     @Autowired
     private IgnoreUrlsConfig ignoreUrlsConfig;
+
+    @Autowired
+    private ClientDetailsService clientDetailsService;
+
+    @Autowired
+    private ISysUserService userService;
+
+    @Autowired
+    private AuthorizationServerTokenServices authorizationServerTokenServices;
 
 
     /**
@@ -56,8 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry =
-                http.formLogin().loginPage("/authentication/require")
-                        .loginProcessingUrl("/authentication/form")
+                http.formLogin().loginPage("/signin").permitAll()
                         .and()
                         .authorizeRequests();
 
@@ -67,7 +79,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .and()
                 .csrf().disable();
-
     }
 
     @Override
@@ -78,13 +89,41 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * @return the {@link AuthenticationManager} to use
-     * @throws Exception
+     * 自定义登录类
+     *
+     * @return
      */
-    @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        ProviderManager providerManager = new ProviderManager(Collections.singletonList(securityProvider));
-        return providerManager;
+    @Bean
+    public AuthenticationsFilter authenticationsFilter() {
+        // 创建对象
+        AuthenticationsFilter filter = new AuthenticationsFilter();
+        // 设置授权
+        try {
+            filter.setAuthenticationManager(this.authenticationManagerBean());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 登录成功回调
+        AuthSuccessHandler authSuccessHandler = new AuthSuccessHandler();
+        authSuccessHandler.setClientDetailsService(clientDetailsService);
+        authSuccessHandler.setPasswordEncoder(passwordEncoder());
+        authSuccessHandler.setAuthorizationServerTokenServices(authorizationServerTokenServices);
+        filter.setAuthenticationSuccessHandler(authSuccessHandler);
+        // 登录失败回调
+        filter.setAuthenticationFailureHandler(new AuthenticationFailHandler());
+        return filter;
+    }
+
+    /**
+     * provider
+     *
+     * @return
+     */
+    @Bean
+    public AuthenticationsProvider authenticationsProvider() {
+        AuthenticationsProvider provider = new AuthenticationsProvider();
+        provider.setUserService(userService);
+        return provider;
     }
 
 }

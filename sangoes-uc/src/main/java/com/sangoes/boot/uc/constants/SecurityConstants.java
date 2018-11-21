@@ -7,6 +7,11 @@ package com.sangoes.boot.uc.constants;
  * @date 2018/11/5 2:36 PM
  */
 public interface SecurityConstants {
+
+    /**
+     * 登录
+     */
+    String SIGN_IN = "/signin";
     /**
      * Authorization
      */
@@ -29,6 +34,12 @@ public interface SecurityConstants {
      * Password
      */
     String PASSWORD = "password";
+
+    /**
+     * account
+     */
+    String ACCOUNT = "account";
+
 
     /**
      * Mobile
@@ -59,6 +70,10 @@ public interface SecurityConstants {
      * 基本角色
      */
     String BASE_ROLE = "user";
+    /**
+     * 用户名
+     */
+    String USER_NAME = "username";
 
     /**
      * 用户启用状态
@@ -68,4 +83,14 @@ public interface SecurityConstants {
      * 用户禁用状态
      */
     String USER_STATUS_LOCKED = "301";
+
+    /**
+     * Type
+     */
+    String TYPE = "type";
+    /**
+     * POST
+     */
+    String POST = "POST";
+
 }

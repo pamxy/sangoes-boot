@@ -52,6 +52,7 @@ aliyun:
 #忽略请求api
 ignore:
   apis:
+  - /signin
   - /user/signup
   - /user/signin/mobile
   - /user/signin/account

@@ -1,4 +1,4 @@
-package com.sangoes.boot.uc.security.authention;
+package com.sangoes.boot.uc.security.handler;
 
 import com.sangoes.boot.common.msg.Result;
 import lombok.extern.slf4j.Slf4j;

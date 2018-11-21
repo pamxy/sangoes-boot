@@ -71,6 +71,29 @@ public class Result<T> implements Serializable {
     }
 
     /**
+     * 成功没有返回信息
+     *
+     * @param msg
+     * @param data
+     * @param response
+     * @throws Exception
+     */
+    public static void success(Object data, String msg, HttpServletResponse response) throws IOException {
+        // 设置code
+        response.setStatus(HttpStatus.OK.value());
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        // 设置返回result
+        Result<Object> result = new Result<>();
+        result.setCode(HttpStatus.OK.value());
+        result.setData(data);
+        result.setMsg(msg);
+        // 回写数据
+        PrintWriter printWriter = response.getWriter();
+        printWriter.write(JSONUtil.toJsonStr(result));
+    }
+
+    /**
      * 成功返回
      *
      * @param <T>
