@@ -198,6 +198,17 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         return userDetailsVo;
     }
 
+    /**
+     * 根据mobile查询UserDetailsVo
+     *
+     * @param mobile
+     * @return
+     */
+    @Override
+    public UserDetailsVo selectUserDetailsByMobile(String mobile) {
+        return baseMapper.userDetailsByMobile(mobile);
+    }
+
     @Override
     public Result<String> signinByAccount(SignInDto signInDto) {
         // 根据username查询sys user

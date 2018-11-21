@@ -87,11 +87,6 @@ public class AuthenticationsFilter extends AbstractAuthenticationProcessingFilte
             Result.noReturn("登录类型(signType)为空", HttpStatus.EXPECTATION_FAILED, response);
             return null;
         }
-        // 判断公共随机数
-        if (StrUtil.isBlank(publicRandom)) {
-            Result.noReturn("公共随机数(publicRandom)为空", HttpStatus.EXPECTATION_FAILED, response);
-            return null;
-        }
         // 判断验证码随机数
         if (StrUtil.isBlank(captchaRandom)) {
             Result.noReturn("验证码随机数(captchaRandom)为空", HttpStatus.EXPECTATION_FAILED, response);
@@ -110,6 +105,11 @@ public class AuthenticationsFilter extends AbstractAuthenticationProcessingFilte
         String credentials;
         // 判断type account
         if (StrUtil.equals(type, SecurityConstants.ACCOUNT)) {
+            // 判断公共随机数
+            if (StrUtil.isBlank(publicRandom)) {
+                Result.noReturn("公共随机数(publicRandom)为空", HttpStatus.EXPECTATION_FAILED, response);
+                return null;
+            }
             // 判断username
             if (StrUtil.isBlank(username)) {
                 Result.noReturn("用户名为空", HttpStatus.EXPECTATION_FAILED, response);
@@ -133,7 +133,7 @@ public class AuthenticationsFilter extends AbstractAuthenticationProcessingFilte
                 return null;
             }
             // 获取key
-            key = CaptchaConstants.CAPTCHA_MOBILE_SMS + captchaRandom;
+            key = CaptchaConstants.CAPTCHA_MOBILE_SMS + mobile;
             // 手机
             principal = mobile;
             credentials = captcha;

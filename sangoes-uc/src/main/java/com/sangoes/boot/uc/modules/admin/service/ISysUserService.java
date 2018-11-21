@@ -45,6 +45,14 @@ public interface ISysUserService extends IBaseService<SysUser> {
     UserDetailsVo selectUserDetailsByUsername(String username);
 
     /**
+     * 根据mobile查询UserDetailsVo
+     *
+     * @param mobile
+     * @return
+     */
+    UserDetailsVo selectUserDetailsByMobile(String mobile);
+
+    /**
      * 根据用户名登录
      */
     Result<String> signinByAccount(SignInDto signInDto);
