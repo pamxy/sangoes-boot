@@ -1,0 +1,65 @@
+#datasource
+spring:
+  #datasource
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://47.105.125.60:3306/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: ENC(xu/yBD/eE9NW+s6OTS0EN6aWVAjDoFrB)
+    continue-on-error: true
+    platform: mysql
+  #redis
+  redis:
+    database: 0 # Redis数据库索引
+    host: 47.105.125.60
+    port: 6379
+    password: ENC(xu/yBD/eE9NW+s6OTS0EN6aWVAjDoFrB)     # 密码（默认为空）
+    timeout: 6000ms  # 连接超时时长（毫秒）
+    jedis:
+      pool:
+        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接
+#logging
+logging:
+  level: warn
+  level.org.springframework.security: DEBUG
+#===================自定义================#
+#oauth
+security:
+  jwt:
+    token:
+      secret-key: sangoes-boot #私钥
+      expire-length: 3600000 #1小时 过期时间
+#oss
+aliyun:
+  oss:
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    accessKeyId: ENC(5yr62XP5himTTP3J6/sZ1WG28e48iqxhl/e5yHjdWvU=)
+    accessKeySecret: ENC(4tBqIZaUbqrMy9Mji441tLPg6lw3VJBJa3/5rWbSqTQ0IoR77d4tcA==)
+    bucketName: sangoes
+    host: https://sangoes.oss-cn-hangzhou.aliyuncs.com/
+    key:
+    fileHost: boot
+
+#忽略请求api
+ignore:
+  apis:
+  - /signin
+  - /user/signup
+  - /user/signin/mobile
+  - /user/signin/account
+  - /encrypt/mobile/*
+  - /encrypt/rsa/*
+  - /captcha/sms/*
+  - /captcha/image/*
+  - /oauth/logout
+
+  urls:
+  - /v2/api-docs
+  - /swagger-resources/**
+  - /swagger-ui.html
+  - /configuration/**
+  - /webjars/**
+  - /public

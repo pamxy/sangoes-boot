@@ -36,7 +36,7 @@ public class PasswodTest {
 
     @Test
     public void testPasswod() {
-        String result = stringEncryptor.encrypt("LTAIRskhhzv0nGKO");
+        String result = stringEncryptor.encrypt("xxx@xx");
         System.out.println(result);
     }
 
