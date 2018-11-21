@@ -1,7 +1,6 @@
 package com.sangoes.boot.uc.security;
 
 import com.sangoes.boot.uc.config.IgnoreUrlsConfig;
-import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.security.filter.AuthenticationsFilter;
 import com.sangoes.boot.uc.security.handler.AuthSuccessHandler;
 import com.sangoes.boot.uc.security.handler.AuthenticationFailHandler;
@@ -33,15 +32,11 @@ import org.springframework.security.oauth2.provider.token.AuthorizationServerTok
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     @Autowired
     private IgnoreUrlsConfig ignoreUrlsConfig;
 
     @Autowired
     private ClientDetailsService clientDetailsService;
-
-    @Autowired
-    private ISysUserService userService;
 
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
@@ -122,7 +117,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationsProvider authenticationsProvider() {
         AuthenticationsProvider provider = new AuthenticationsProvider();
-        provider.setUserService(userService);
         return provider;
     }
 

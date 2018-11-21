@@ -31,6 +31,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Slf4j
 public class AuthenticationsProvider implements AuthenticationProvider {
 
+    @Autowired
     private ISysUserService userService;
 
     @Autowired
@@ -90,9 +91,5 @@ public class AuthenticationsProvider implements AuthenticationProvider {
         // 解密密码
         AsymmetricCrypto crypto = new AsymmetricCrypto(AsymmetricAlgorithm.RSA, privateKey, null);
         return StrUtil.str(crypto.decryptFromBase64(password, KeyType.PrivateKey), CharsetUtil.CHARSET_UTF_8);
-    }
-
-    public void setUserService(ISysUserService userService) {
-        this.userService = userService;
     }
 }

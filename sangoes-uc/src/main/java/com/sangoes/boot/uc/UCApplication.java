@@ -22,6 +22,5 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class UCApplication {
     public static void main(String[] args) {
         SpringApplication.run(UCApplication.class, args);
-
     }
 }
