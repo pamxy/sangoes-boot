@@ -20,7 +20,7 @@ logging:
 #application
 spring:
   profiles:
-    active: dev #dev 开发 prod 生产(部署)
+    active: prod #dev 开发 prod 生产(部署)
   servlet:
     multipart:
       max-file-size: 100MB

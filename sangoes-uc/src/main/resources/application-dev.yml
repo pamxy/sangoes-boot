@@ -3,6 +3,8 @@ debug: false
 
 #datasource
 spring:
+  profiles:
+    include: dev #开发
   devtools:
     restart:
       enabled: true #devtools

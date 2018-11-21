@@ -1,5 +1,7 @@
 #datasource
 spring:
+  profiles:
+    include: prod #生产
   #datasource
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
