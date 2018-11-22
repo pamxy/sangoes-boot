@@ -25,6 +25,8 @@ echo '2.data is already exit,not init...'
 else
 echo '-----------------mysql first start------'
 echo '2.start into data......'
+mysql create database ${DATABASE} default character set utf8mb4 collate utf8mb4_general_ci
+mysql use ${DATABASE}
 
 mysql < /mysql/boot.sql
 echo '3.finally into data'
