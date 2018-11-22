@@ -165,7 +165,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PROT:3306}/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: root
+    username: sangoes
     password: ENC(qxEYSC5UI1VloP3lVRLgjb72+oggaJff)
     continue-on-error: true
     platform: mysql
@@ -174,7 +174,7 @@ spring:
     database: 0 # Redis数据库索引
     host: ${REDIS_PORT:localhost}
     port: ${REDIS_PORT:6379}
-#    password: ENC(qxEYSC5UI1VloP3lVRLgjb72+oggaJff)     # 密码（默认为空）
+    password: ENC(qxEYSC5UI1VloP3lVRLgjb72+oggaJff)     # 密码（默认为空）
     timeout: 6000ms  # 连接超时时长（毫秒）
     lettuce:
       pool:
