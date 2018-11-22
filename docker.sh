@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
-echo "delete old jar file"
+
+#define
+projectName=sangoes-uc
+
 # delete docker .jar
-rm -rf ./sangoes-uc/src/docker/sangoes-uc.jar
+echo "delete old jar file"
+rm -rf ./sangoes-uc/src/docker/${projectName}.jar
 # docker
+echo "remove docker compose"
+docker-compose rm -f ${projectName}
+
+echo "remove docker images"
+docker rmi -f samgoes/${projectName}
 
 echo "maven install"
 # maven
@@ -10,8 +19,9 @@ mvn clean install -DskipTests
 
 echo "copy new jar file to docker"
 # copy
-cp ./sangoes-uc/target/sangoes-uc.jar ./sangoes-uc/src/docker/
+cp ./sangoes-uc/target/${projectName}.jar ./sangoes-uc/src/docker/
 
-echo "docker compose"
 #docker compose
-docker-compose up
+echo "docker compose"
+read -p "input profile:" profile
+docker-compose -f docker-compose-${profile}.yml up

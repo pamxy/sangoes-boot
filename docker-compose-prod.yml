@@ -1,0 +1,13 @@
+version: "3"
+services:
+  sangoes-uc:
+    build:
+      context: ./sangoes-uc/src/docker
+    restart: always
+    image: sangoes/sangoes-uc
+    container_name: sangoes-uc
+    environment:
+    - spring.profiles.active=prod
+    command: java -Xmx2000m -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+    ports:
+    - 8080:8080
