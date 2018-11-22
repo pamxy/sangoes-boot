@@ -18,3 +18,8 @@ services:
     command: java -Xmx1000m -Djava.security.egd=file:/dev/./urandom -jar /app.jar
     ports:
     - 8080:8080
+    networks:
+    - net-sangoes
+networks:
+  net-sangoes:
+    external: true
