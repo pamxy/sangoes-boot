@@ -8,7 +8,8 @@ echo "delete old jar file"
 rm -rf ./sangoes-uc/src/docker/${projectName}.jar
 # docker
 echo "remove docker compose"
-docker-compose rm -f ${projectName}
+read -p "input profile:" profile
+docker-compose -f docker-compose-${profile}.yml rm -f ${projectName}
 
 echo "remove docker images"
 docker rmi -f samgoes/${projectName}
@@ -23,5 +24,4 @@ cp ./sangoes-uc/target/${projectName}.jar ./sangoes-uc/src/docker/
 
 #docker compose
 echo "docker compose"
-read -p "input profile:" profile
 docker-compose -f docker-compose-${profile}.yml up
