@@ -9,7 +9,7 @@ services:
     depends_on:
     - mysql
     - redis
-#    - rabbit
+    - rabbit
     environment:
     - spring.profiles.active=test
     - MYSQL_HOST=10.211.55.7
@@ -22,9 +22,7 @@ services:
     networks:
     - net-sangoes
   mysql:
-    build:
-      context: dockerfile/mysql
-    image: sangoes:mysql
+    image: mysql:5.7.23
     restart: always
     container_name: mysql
     ports:
@@ -50,22 +48,22 @@ services:
     - ./dockerfile/redis/redis.conf:/usr/local/etc/redis/redis.conf
     networks:
     - net-sangoes
-#  rabbit:
-#    image: rabbitmq:management
-#    hostname: rabbit
-#    restart: always
-#    container_name: rabbit
-#    ports:
-#    - "4369:4369"
-#    - "5671:5671"
-#    - "5672:5672"
-#    - "15671:15671"
-#    - "15672:15672"
-#    environment:
-#    - RABBITMQ_DEFAULT_USER=sangoes
-#    - RABBITMQ_DEFAULT_PASS=Sangoes123456
-#    networks:
-#    - net-sangoes
+  rabbit:
+    image: rabbitmq:management
+    hostname: rabbit
+    restart: always
+    container_name: rabbit
+    ports:
+    - "4369:4369"
+    - "5671:5671"
+    - "5672:5672"
+    - "15671:15671"
+    - "15672:15672"
+    environment:
+    - RABBITMQ_DEFAULT_USER=sangoes
+    - RABBITMQ_DEFAULT_PASS=Sangoes123456
+    networks:
+    - net-sangoes
 networks:
   net-sangoes:
     external: true
