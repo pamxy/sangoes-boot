@@ -1,7 +1,7 @@
-FROM mysql:5.7
+FROM mysql:5.7.23
 
 #将所需文件放到容器中
-COPY steup.sh /mysql/setup.sh
+COPY setup.sh /mysql/setup.sh
 COPY boot.sql /mysql/boot.sql
 COPY my.cnf /etc/mysql/conf.d/mysqlutf8.cnf
 
