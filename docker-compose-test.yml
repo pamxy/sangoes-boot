@@ -42,12 +42,12 @@ services:
     image: redis:4.0.11
     restart: always
     container_name: redis
-    #command: redis-server /usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
     ports:
     - "6379:6379"
-#    volumes:
-#    - /usr/local/docker/redis/data:/data
-#    - ./dockerfile/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    volumes:
+    - /usr/local/docker/redis/data:/data
+    - ./dockerfile/redis/redis.conf:/usr/local/etc/redis/redis.conf
     networks:
     - net-sangoes
 #  rabbit:
