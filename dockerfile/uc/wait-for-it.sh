@@ -9,7 +9,7 @@ usage()
 {
     cat << USAGE >&2
 Usage:
-    $cmdname host:port [-s] [-t timeout] [-- command args]
+    ${cmdname} host:port [-s] [-t timeout] [-- command args]
     -h HOST | --host=HOST       Host or IP under test
     -p PORT | --port=PORT       TCP port under test
                                 Alternatively, you specify the host and port as host:port
@@ -24,7 +24,7 @@ USAGE
 
 wait_for()
 {
-    if [[ $TIMEOUT -gt 0 ]]; then
+    if [[ ${TIMEOUT} -gt 0 ]]; then
         echoerr "$cmdname: waiting $TIMEOUT seconds for $HOST:$PORT"
     else
         echoerr "$cmdname: waiting for $HOST:$PORT without a timeout"
@@ -32,39 +32,39 @@ wait_for()
     start_ts=$(date +%s)
     while :
     do
-        if [[ $ISBUSY -eq 1 ]]; then
-            nc -z $HOST $PORT
+        if [[ ${ISBUSY} -eq 1 ]]; then
+            nc -z ${HOST} ${PORT}
             result=$?
         else
-            (echo > /dev/tcp/$HOST/$PORT) >/dev/null 2>&1
+            (echo > /dev/tcp/${HOST}/${PORT}) >/dev/null 2>&1
             result=$?
         fi
-        if [[ $result -eq 0 ]]; then
+        if [[ ${result} -eq 0 ]]; then
             end_ts=$(date +%s)
             echoerr "$cmdname: $HOST:$PORT is available after $((end_ts - start_ts)) seconds"
             break
         fi
         sleep 1
     done
-    return $result
+    return ${result}
 }
 
 wait_for_wrapper()
 {
     # In order to support SIGINT during timeout: http://unix.stackexchange.com/a/57692
-    if [[ $QUIET -eq 1 ]]; then
-        timeout $BUSYTIMEFLAG $TIMEOUT $0 --quiet --child --host=$HOST --port=$PORT --timeout=$TIMEOUT &
+    if [[ ${QUIET} -eq 1 ]]; then
+        timeout ${BUSYTIMEFLAG} ${TIMEOUT} $0 --quiet --child --host=${HOST} --port=${PORT} --timeout=${TIMEOUT} &
     else
-        timeout $BUSYTIMEFLAG $TIMEOUT $0 --child --host=$HOST --port=$PORT --timeout=$TIMEOUT &
+        timeout ${BUSYTIMEFLAG} ${TIMEOUT} $0 --child --host=${HOST} --port=${PORT} --timeout=${TIMEOUT} &
     fi
     PID=$!
     trap "kill -INT -$PID" INT
-    wait $PID
+    wait ${PID}
     RESULT=$?
-    if [[ $RESULT -ne 0 ]]; then
+    if [[ ${RESULT} -ne 0 ]]; then
         echoerr "$cmdname: timeout occurred after waiting $TIMEOUT seconds for $HOST:$PORT"
     fi
-    return $RESULT
+    return ${RESULT}
 }
 
 # process arguments
@@ -91,7 +91,7 @@ do
         ;;
         -h)
         HOST="$2"
-        if [[ $HOST == "" ]]; then break; fi
+        if [[ ${HOST} == "" ]]; then break; fi
         shift 2
         ;;
         --host=*)
@@ -100,7 +100,7 @@ do
         ;;
         -p)
         PORT="$2"
-        if [[ $PORT == "" ]]; then break; fi
+        if [[ ${PORT} == "" ]]; then break; fi
         shift 2
         ;;
         --port=*)
@@ -109,7 +109,7 @@ do
         ;;
         -t)
         TIMEOUT="$2"
-        if [[ $TIMEOUT == "" ]]; then break; fi
+        if [[ ${TIMEOUT} == "" ]]; then break; fi
         shift 2
         ;;
         --timeout=*)
@@ -144,7 +144,7 @@ QUIET=${QUIET:-0}
 # check to see if timeout is from busybox?
 # check to see if timeout is from busybox?
 TIMEOUT_PATH=$(realpath $(which timeout))
-if [[ $TIMEOUT_PATH =~ "busybox" ]]; then
+if [[ ${TIMEOUT_PATH} =~ "busybox" ]]; then
         ISBUSY=1
         BUSYTIMEFLAG="-t"
 else
@@ -152,12 +152,12 @@ else
         BUSYTIMEFLAG=""
 fi
 
-if [[ $CHILD -gt 0 ]]; then
+if [[ ${CHILD} -gt 0 ]]; then
     wait_for
     RESULT=$?
-    exit $RESULT
+    exit ${RESULT}
 else
-    if [[ $TIMEOUT -gt 0 ]]; then
+    if [[ ${TIMEOUT} -gt 0 ]]; then
         wait_for_wrapper
         RESULT=$?
     else
@@ -166,12 +166,12 @@ else
     fi
 fi
 
-if [[ $CLI != "" ]]; then
-    if [[ $RESULT -ne 0 && $STRICT -eq 1 ]]; then
+if [[ ${CLI} != "" ]]; then
+    if [[ ${RESULT} -ne 0 && ${STRICT} -eq 1 ]]; then
         echoerr "$cmdname: strict mode, refusing to execute subprocess"
-        exit $RESULT
+        exit ${RESULT}
     fi
-    exec $CLI
+    exec ${CLI}
 else
-    exit $RESULT
+    exit ${RESULT}
 fi

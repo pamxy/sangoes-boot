@@ -1,9 +1,9 @@
 FROM mysql:5.7
 
 #将所需文件放到容器中
-COPY ./steup.sh /mysql/setup.sh
-COPY ./boot.sql /mysql/boot.sql
-COPY ./my.cnf /etc/mysql/conf.d/mysqlutf8.cnf
+COPY steup.sh /mysql/setup.sh
+COPY boot.sql /mysql/boot.sql
+COPY my.cnf /etc/mysql/conf.d/mysqlutf8.cnf
 
 #设置容器启动时执行的命令
 CMD ["bash", "/mysql/setup.sh"]

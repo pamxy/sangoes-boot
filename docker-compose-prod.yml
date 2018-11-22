@@ -2,7 +2,7 @@ version: "3"
 services:
   sangoes-uc:
     build:
-      context: ../sangoes-uc/src/docker
+      context: sangoes-uc/src/docker
     restart: always
     image: sangoes/sangoes-uc
     container_name: sangoes-uc

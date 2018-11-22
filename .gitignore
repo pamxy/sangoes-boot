@@ -24,3 +24,4 @@ target/
 #projects
 .vscode/
 logs
+/dockerfile/uc/sangoes-uc.jar

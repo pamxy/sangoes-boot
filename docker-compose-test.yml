@@ -2,9 +2,9 @@ version: "3"
 services:
   sangoes-uc:
     build:
-      context: ../sangoes-uc/src/docker
+      context: dockerfile/uc
     restart: always
-    image: sangoes/sangoes-uc
+    image: sangoes:sangoes-uc
     container_name: sangoes-uc
     depends_on:
     - mysql
@@ -23,14 +23,14 @@ services:
     - net-sangoes
   mysql:
     build:
-      context: ./mysql
+      context: dockerfile/mysql
     image: sangoes:mysql
     restart: always
     container_name: mysql
     ports:
     - "3306:3306"
     volumes:
-    - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+    - ./dockerfile/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
     - /usr/local/docker/mysql/:/var/lib/mysql/:rw
     environment:
       MYSQL_USER: sangoes
@@ -47,7 +47,7 @@ services:
     - "6379:6379"
     volumes:
     - /usr/local/docker/redis/data:/data
-    - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    - ./dockerfile/redis/redis.conf:/usr/local/etc/redis/redis.conf
     networks:
     - net-sangoes
   rabbit:
