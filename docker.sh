@@ -10,11 +10,7 @@ mvn clean install -DskipTests
 
 echo "copy new jar file to docker"
 # copy
-copy ./sangoes-uc/target/sangoes-uc.jar ./sangoes-uc/src/docker/
-
-echo "docker build"
-# docker build
-docker:build -f pom.xml
+cp ./sangoes-uc/target/sangoes-uc.jar ./sangoes-uc/src/docker/
 
 echo "docker compose"
 #docker compose
