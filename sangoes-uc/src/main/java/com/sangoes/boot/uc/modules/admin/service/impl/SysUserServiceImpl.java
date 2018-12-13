@@ -6,6 +6,8 @@
  */
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -293,6 +295,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         user.setSignupType(SignUpEnum.ADMIN.getValue());
         // 设置创建者
         user.setCreatorId(AuthUtils.getUserId());
+        user.setCreator(AuthUtils.getUserName());
         // 保存到数据库
         boolean save = this.save(user);
         // 添加失败
@@ -409,5 +412,44 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 更新user
         baseMapper.updateById(user);
         return imgUrl;
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param userDto
+     */
+    @CacheEvict(value = "user", key = "'user:info:'+#userDto.userId")
+    @Override
+    public void deleteUser(UserDto userDto) {
+        // 删除
+        boolean flag = this.removeById(userDto.getUserId());
+        if (!flag) {
+            throw new HandleErrorException("删除失败");
+        }
+    }
+
+    /**
+     * 更新用户
+     *
+     * @param userDto
+     */
+    @CacheEvict(value = "user", key = "'user:info:'+#userDto.userId")
+    @Override
+    public void updateUser(UserDto userDto) {
+        // 查询
+        SysUser userDB = this.getById(userDto.getId());
+        if (ObjectUtil.isNull(userDB)) {
+            throw new HandleErrorException("用户为空或已删除");
+        }
+        // 新建
+        SysUser user = new SysUser();
+        // 复制
+        BeanUtil.copyProperties(userDto, user, CopyOptions.create().setIgnoreNullValue(true));
+        // 更新
+        boolean flag = this.updateById(user);
+        if (!flag) {
+            throw new HandleErrorException("更新失败");
+        }
     }
 }

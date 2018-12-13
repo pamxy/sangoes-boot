@@ -104,4 +104,18 @@ public interface ISysUserService extends IBaseService<SysUser> {
      * @return
      */
     String uploadAvatar(Long userId, MultipartFile file);
+
+    /**
+     * 删除用户
+     *
+     * @param userDto
+     */
+    void deleteUser(UserDto userDto);
+
+    /**
+     * 更新用户
+     *
+     * @param userDto
+     */
+    void updateUser(UserDto userDto);
 }

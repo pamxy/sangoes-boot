@@ -44,4 +44,17 @@ public interface ISysAuthService extends IBaseService<SysAuth> {
      */
     List<AuthVo> listAuthByRoleCode(String roleCode);
 
+    /**
+     * 更新权限
+     *
+     * @param authDto
+     */
+    void updateAuth(AuthDto authDto);
+
+    /**
+     * 删除权限
+     *
+     * @param authDto
+     */
+    void deleteAuth(AuthDto authDto);
 }

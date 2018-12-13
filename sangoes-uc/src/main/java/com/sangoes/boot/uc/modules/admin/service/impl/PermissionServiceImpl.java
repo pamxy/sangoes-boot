@@ -54,7 +54,7 @@ public class PermissionServiceImpl implements PermissionService {
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
         log.info("========判断请求是否有权限开始==========");
         Object principal = authentication.getPrincipal();
-        log.error("principal:" + principal);
+        log.info("principal:" + principal);
         // 获取权限
         List<SimpleGrantedAuthority> authorityList = (List<SimpleGrantedAuthority>) authentication.getAuthorities();
         // 线程安全原子类
@@ -76,8 +76,9 @@ public class PermissionServiceImpl implements PermissionService {
                         List<AuthVo> authVos = authService.listAuthByRoleCode(authority.getAuthority());
                         CollUtil.addAll(actions, authVos);
                     });
-            log.error("请求地址:{}", request.getRequestURI());
-            log.error("权限:{}", actions);
+            log.info("请求地址:{}", request.getRequestURI());
+            log.info("请求方法:{}" ,request.getMethod());
+            log.info("权限:{}", actions);
             // 遍历权限action
             actions.stream()
                     .filter(action -> StrUtil.isNotEmpty(action.getAction())

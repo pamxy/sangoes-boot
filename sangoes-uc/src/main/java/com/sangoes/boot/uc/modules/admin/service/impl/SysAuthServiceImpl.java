@@ -1,9 +1,12 @@
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.service.impl.BaseServiceImpl;
 import com.sangoes.boot.common.utils.page.PageData;
@@ -34,9 +37,9 @@ import java.util.Map;
 public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> implements ISysAuthService {
 
     /**
-     * 添加菜单
+     * 添加权限
      */
-    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.authCode")
+    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.roleCode")
     @Override
     public Result<String> addAuth(AuthDto authDto) {
         // 判断authCode是否重复
@@ -89,5 +92,44 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
     @Override
     public List<AuthVo> listAuthByRoleCode(String roleCode) {
         return baseMapper.listAuthByRoleCode(roleCode);
+    }
+
+    /**
+     * 更新权限
+     *
+     * @param authDto
+     */
+    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.roleCode")
+    @Override
+    public void updateAuth(AuthDto authDto) {
+        // 查询权限
+        SysAuth authDB = this.getById(authDto.getId());
+        if (ObjectUtil.isNull(authDB)) {
+            throw new HandleErrorException("权限主键不能为空");
+        }
+        // 复制
+        SysAuth auth = new SysAuth();
+        BeanUtil.copyProperties(authDto, auth, CopyOptions.create().setIgnoreNullValue(true));
+        // 更新
+        boolean flag = this.updateById(auth);
+        if (!flag) {
+            throw new HandleErrorException("更新失败");
+        }
+
+    }
+
+    /**
+     * 删除权限
+     *
+     * @param authDto
+     */
+    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.roleCode")
+    @Override
+    public void deleteAuth(AuthDto authDto) {
+        // 删除
+        boolean flag = this.removeById(authDto.getAuthId());
+        if(!flag){
+            throw new HandleErrorException("权限不存在或权限已删除");
+        }
     }
 }

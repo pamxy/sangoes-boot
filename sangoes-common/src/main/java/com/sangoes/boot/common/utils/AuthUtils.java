@@ -45,11 +45,21 @@ public class AuthUtils {
     /**
      * 获取角色
      *
-     * @return
+     * @return List<String>
      */
-    public static List<String> getUserRoles() {
+    public static List<String> getListUserRoles() {
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         return ArrayUtils.objectArrayToListString(authorities.toArray());
+    }
+
+    /**
+     * 获取角色String
+     *
+     * @return String
+     */
+    public static String getUserRoles() {
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        return StringUtils.join(authorities.toArray(),",");
     }
 
     /**

@@ -1,27 +1,21 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
-import java.util.Map;
-
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.common.utils.AuthUtils;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.uc.modules.admin.dto.AuthDto;
 import com.sangoes.boot.uc.modules.admin.dto.AuthDto.AddAuthGroup;
 import com.sangoes.boot.uc.modules.admin.entity.SysAuth;
 import com.sangoes.boot.uc.modules.admin.service.ISysAuthService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -31,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
  * @author jerrychir
  * @since 2018-11-10
  */
+@Slf4j
 @RestController
 @RequestMapping("admin/auth")
 @Api("权限管理类")
@@ -41,20 +36,56 @@ public class SysAuthController extends BaseController {
 
     /**
      * 添加权限
-     * 
+     *
      * @param authDto
      * @return
      */
     @PostMapping("/add")
     @ApiOperation(value = "添加权限", notes = "返回添加结果")
     @ResponseBody
-    public Result<String> addRole(@RequestBody @Validated(AddAuthGroup.class) AuthDto authDto) {
+    public Result<String> add(@RequestBody @Validated(AddAuthGroup.class) AuthDto authDto) {
         return authService.addAuth(authDto);
     }
 
     /**
+     * 更新(修改)权限
+     *
+     * @param authDto
+     * @return
+     */
+    @PutMapping("/update")
+    @ApiOperation(value = "更新(修改)权限", notes = "返回更新结果")
+    @ResponseBody
+    public Result<String> updateAuth(@RequestBody @Validated(AuthDto.UpdateAuthGroup.class) AuthDto authDto) {
+        // 查询登录用户的角色名
+        String userRoles = AuthUtils.getUserRoles();
+        authDto.setRoleCode(userRoles);
+        // 更新
+        authService.updateAuth(authDto);
+        return Result.success("更新成功");
+    }
+
+    /**
+     * 删除权限
+     *
+     * @param authDto
+     * @return
+     */
+    @DeleteMapping("/delete")
+    @ApiOperation(value = "删除权限", notes = "返回删除结果")
+    @ResponseBody
+    public Result<String> deleteAuth(@RequestBody @Validated(AuthDto.DeleteAuthGroup.class) AuthDto authDto) {
+        // 查询登录用户的角色名
+        String userRoles = AuthUtils.getUserRoles();
+        authDto.setRoleCode(userRoles);
+        // 更新
+        authService.deleteAuth(authDto);
+        return Result.success("删除成功");
+    }
+
+    /**
      * 权限分页
-     * 
+     *
      * @param params
      * @return
      */

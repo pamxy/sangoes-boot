@@ -108,13 +108,14 @@ ignore:
 
 ---
 #调试
-debug: false
+debug: true
 #datasource
 spring:
   profiles: dev #开发
   devtools:
     restart:
-      enabled: true #devtools
+      enabled: false #devtools true开启热部署 false关闭热部署
+    add-properties: false
   #datasource
   datasource:
     type: com.zaxxer.hikari.HikariDataSource

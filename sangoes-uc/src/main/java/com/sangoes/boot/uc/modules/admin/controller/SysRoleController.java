@@ -2,7 +2,10 @@ package com.sangoes.boot.uc.modules.admin.controller;
 
 import java.util.Map;
 
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sangoes.boot.common.controller.BaseController;
+import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.uc.modules.admin.dto.RoleDto;
@@ -102,6 +105,13 @@ public class SysRoleController extends BaseController {
     @ApiOperation(value = "绑定菜单权限", notes = "返回绑定结果")
     @ResponseBody
     public Result<String> bindMenuAuth(@RequestBody @Validated({ BindMenu.class }) RoleDto roleDto) {
+        // 获取role
+        SysRole role = roleService.getOne(new QueryWrapper<SysRole>().lambda().eq(SysRole::getId, roleDto.getRoleId()));
+        if (ObjectUtil.isNull(role)){
+            throw new HandleErrorException("权限主键为空");
+        }
+        roleDto.setRoleCode(role.getRoleCode());
+        // 绑定
         roleService.bindMenuAuth(roleDto);
         return Result.success("绑定成功");
     }

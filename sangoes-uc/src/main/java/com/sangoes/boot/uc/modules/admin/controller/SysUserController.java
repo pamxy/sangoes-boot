@@ -101,6 +101,36 @@ public class SysUserController extends BaseController {
     }
 
     /**
+     * 删除用户
+     *
+     * @param userDto
+     * @return
+     */
+    @PutMapping("/delete")
+    @ApiOperation(value = "删除用户", notes = "返回删除结果")
+    @ResponseBody
+    public Result<String> deleteUser(@RequestBody @Validated({UserDto.DeleteUserGroup.class}) UserDto userDto) {
+        // 删除用户
+        userService.deleteUser(userDto);
+        return Result.success("删除成功");
+    }
+    /**
+     * 更新(修改)用户
+     *
+     * @param userDto
+     * @return
+     */
+    @PostMapping("/update")
+    @ApiOperation(value = "更新(修改)用户", notes = "返回更新结果")
+    @ResponseBody
+    public Result<String> updateUser(@RequestBody @Validated UserDto userDto) {
+        // 更新
+        userService.updateUser(userDto);
+        return userService.addUser(userDto);
+    }
+
+
+    /**
      * 用户分页
      *
      * @param params
@@ -170,7 +200,7 @@ public class SysUserController extends BaseController {
         // 用户id
         Long userId = AuthUtils.getUserId();
         // 上传头像
-        String imgUrl = userService.uploadAvatar(userId,file);
+        String imgUrl = userService.uploadAvatar(userId, file);
         return Result.success(imgUrl, "成功");
     }
 }

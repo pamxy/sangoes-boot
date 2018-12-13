@@ -1,14 +1,13 @@
 package com.sangoes.boot.uc.modules.admin.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * UserDto
@@ -22,6 +21,22 @@ public class UserDto {
      * BindRoleGroup
      */
     public interface BindRoleGroup {
+
+    }
+
+    /**
+     * DeleteUserGroup
+     * 删除用户
+     */
+    public interface DeleteUserGroup {
+
+    }
+
+    /**
+     * UpdateUserGroup
+     * 更新用户
+     */
+    public interface UpdateUserGroup {
 
     }
 
@@ -43,11 +58,14 @@ public class UserDto {
     @ApiModelProperty(value = "手机号")
     private String mobile;
 
-    @NotNull(message = "绑定用户id不能为空", groups = { BindRoleGroup.class })
-    @ApiModelProperty(value = "绑定用户id")
+    @NotNull(message = "用户id不能为空", groups = {BindRoleGroup.class, DeleteUserGroup.class})
+    @ApiModelProperty(value = "用户id")
     private Long userId;
 
     @ApiModelProperty(value = "绑定角色ids")
     private String roleIds;
 
+    @NotNull(message = "用户id不能为空", groups = {UpdateUserGroup.class})
+    @ApiModelProperty(value = "用户id")
+    private Long id;
 }

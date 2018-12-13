@@ -86,7 +86,7 @@ public class SysMenuController extends BaseController {
     @ResponseBody
     public Result<List<MenuTree>> getUserMenuTree() {
         // 获取当前角色
-        List<String> roles = AuthUtils.getUserRoles();
+        List<String> roles = AuthUtils.getListUserRoles();
         // 获取树形菜单
         List<MenuTree> menuTrees = menuService.getUserMenuTree(roles);
         // 返回
