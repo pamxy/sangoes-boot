@@ -57,4 +57,11 @@ public interface ISysAuthService extends IBaseService<SysAuth> {
      * @param authDto
      */
     void deleteAuth(AuthDto authDto);
+
+    /**
+     * 批量删除权限
+     *
+     * @param authDto
+     */
+    void batchDeleteAuth(AuthDto authDto);
 }

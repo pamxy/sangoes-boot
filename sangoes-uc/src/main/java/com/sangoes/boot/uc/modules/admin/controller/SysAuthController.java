@@ -6,6 +6,8 @@ import com.sangoes.boot.common.utils.AuthUtils;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.uc.modules.admin.dto.AuthDto;
 import com.sangoes.boot.uc.modules.admin.dto.AuthDto.AddAuthGroup;
+import com.sangoes.boot.uc.modules.admin.dto.AuthDto.BatchDeleteAuthGroup;
+import com.sangoes.boot.uc.modules.admin.dto.AuthDto.DeleteAuthGroup;
 import com.sangoes.boot.uc.modules.admin.entity.SysAuth;
 import com.sangoes.boot.uc.modules.admin.service.ISysAuthService;
 import io.swagger.annotations.Api;
@@ -74,12 +76,30 @@ public class SysAuthController extends BaseController {
     @DeleteMapping("/delete")
     @ApiOperation(value = "删除权限", notes = "返回删除结果")
     @ResponseBody
-    public Result<String> deleteAuth(@RequestBody @Validated(AuthDto.DeleteAuthGroup.class) AuthDto authDto) {
+    public Result<String> deleteAuth(@RequestBody @Validated(DeleteAuthGroup.class) AuthDto authDto) {
         // 查询登录用户的角色名
         String userRoles = AuthUtils.getUserRoles();
         authDto.setRoleCode(userRoles);
-        // 更新
+        // 删除
         authService.deleteAuth(authDto);
+        return Result.success("删除成功");
+    }
+
+    /**
+     * 批量删除权限
+     *
+     * @param authDto
+     * @return
+     */
+    @DeleteMapping("/batch/delete")
+    @ApiOperation(value = "批量删除权限", notes = "返回删除结果")
+    @ResponseBody
+    public Result<String> batchDeleteAuth(@RequestBody @Validated(BatchDeleteAuthGroup.class) AuthDto authDto) {
+        // 查询登录用户的角色名
+        String userRoles = AuthUtils.getUserRoles();
+        authDto.setRoleCode(userRoles);
+        // 删除
+        authService.batchDeleteAuth(authDto);
         return Result.success("删除成功");
     }
 

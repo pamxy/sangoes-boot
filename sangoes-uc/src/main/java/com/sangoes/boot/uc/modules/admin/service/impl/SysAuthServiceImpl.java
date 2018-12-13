@@ -128,8 +128,23 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
     public void deleteAuth(AuthDto authDto) {
         // 删除
         boolean flag = this.removeById(authDto.getAuthId());
-        if(!flag){
+        if (!flag) {
             throw new HandleErrorException("权限不存在或权限已删除");
+        }
+    }
+
+    /**
+     * 批量删除权限
+     *
+     * @param authDto
+     */
+    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.roleCode")
+    @Override
+    public void batchDeleteAuth(AuthDto authDto) {
+        // 批量删除
+        boolean flag = this.removeByIds(authDto.getAuthIds());
+        if (!flag) {
+            throw new HandleErrorException("批量删除失败");
         }
     }
 }

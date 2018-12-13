@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * AuthDto
@@ -43,6 +44,17 @@ public class AuthDto {
     public interface DeleteAuthGroup {
 
     }
+
+    /**
+     * BatchDeleteAuthGroup
+     */
+    public interface BatchDeleteAuthGroup {
+
+    }
+
+    @NotNull(message = "权限主键不能为空", groups = {BatchDeleteAuthGroup.class})
+    @ApiModelProperty(value = "权限主键")
+    private List<Long> authIds;
 
     @NotNull(message = "权限主键不能为空", groups = {DeleteAuthGroup.class})
     @ApiModelProperty(value = "权限主键")

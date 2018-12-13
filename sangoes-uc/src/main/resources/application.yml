@@ -108,7 +108,7 @@ ignore:
 
 ---
 #调试
-debug: true
+debug: false
 #datasource
 spring:
   profiles: dev #开发
