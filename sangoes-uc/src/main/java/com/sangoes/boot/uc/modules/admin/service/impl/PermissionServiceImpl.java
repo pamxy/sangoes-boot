@@ -3,7 +3,7 @@ package com.sangoes.boot.uc.modules.admin.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.sangoes.boot.uc.constants.SecurityConstants;
+import com.sangoes.boot.common.constants.SecurityConstants;
 import com.sangoes.boot.uc.modules.admin.service.ISysAuthService;
 import com.sangoes.boot.uc.modules.admin.service.ISysMenuService;
 import com.sangoes.boot.uc.modules.admin.service.PermissionService;

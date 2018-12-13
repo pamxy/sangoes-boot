@@ -1,4 +1,4 @@
-package com.sangoes.boot.uc.constants;
+package com.sangoes.boot.common.constants;
 
 /**
  * Copyright (c) 2018

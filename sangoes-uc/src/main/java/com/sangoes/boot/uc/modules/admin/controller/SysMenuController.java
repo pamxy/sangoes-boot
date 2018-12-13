@@ -8,12 +8,12 @@ package com.sangoes.boot.uc.modules.admin.controller;
 
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.common.utils.AuthUtils;
 import com.sangoes.boot.uc.modules.admin.dto.MenuDto;
 import com.sangoes.boot.uc.modules.admin.dto.MenuDto.AddMenuGroup;
 import com.sangoes.boot.uc.modules.admin.entity.SysMenu;
 import com.sangoes.boot.uc.modules.admin.service.ISysMenuService;
 import com.sangoes.boot.uc.modules.admin.vo.MenuTree;
-import com.sangoes.boot.uc.utils.AuthUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.sangoes.boot.uc.security.config;
 
-import com.sangoes.boot.uc.constants.SecurityConstants;
+import com.sangoes.boot.common.constants.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

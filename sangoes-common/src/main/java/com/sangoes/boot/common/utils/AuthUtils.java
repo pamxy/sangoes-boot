@@ -1,8 +1,6 @@
-package com.sangoes.boot.uc.utils;
+package com.sangoes.boot.common.utils;
 
-import com.sangoes.boot.common.utils.ArrayUtils;
-import com.sangoes.boot.common.utils.ObjectUtils;
-import com.sangoes.boot.uc.constants.SecurityConstants;
+import com.sangoes.boot.common.constants.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
@@ -34,6 +32,21 @@ public class AuthUtils {
         return Long.parseLong(userDetails.get("userId").toString());
     }
 
+    /**
+     * 用户名
+     *
+     * @return
+     */
+    public static String getUserName() {
+        Map<String, Object> userDetails = getUserDetails();
+        return userDetails.get("username").toString();
+    }
+
+    /**
+     * 获取角色
+     *
+     * @return
+     */
     public static List<String> getUserRoles() {
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         return ArrayUtils.objectArrayToListString(authorities.toArray());

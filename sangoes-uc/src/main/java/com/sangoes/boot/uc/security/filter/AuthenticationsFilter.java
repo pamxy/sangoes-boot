@@ -1,9 +1,9 @@
 package com.sangoes.boot.uc.security.filter;
 
 import cn.hutool.core.util.StrUtil;
+import com.sangoes.boot.common.constants.SecurityConstants;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.constants.CaptchaConstants;
-import com.sangoes.boot.uc.constants.SecurityConstants;
 import com.sangoes.boot.uc.security.token.AuthenticationsToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

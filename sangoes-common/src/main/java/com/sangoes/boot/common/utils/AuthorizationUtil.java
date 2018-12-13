@@ -1,8 +1,8 @@
-package com.sangoes.boot.uc.utils;
+package com.sangoes.boot.common.utils;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
-import com.sangoes.boot.uc.constants.SecurityConstants;
+import com.sangoes.boot.common.constants.SecurityConstants;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 
 import javax.servlet.http.HttpServletRequest;

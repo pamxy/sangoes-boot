@@ -1,9 +1,9 @@
 package com.sangoes.boot.uc.security.handler;
 
 import cn.hutool.core.map.MapUtil;
+import com.sangoes.boot.common.constants.SecurityConstants;
 import com.sangoes.boot.common.msg.Result;
-import com.sangoes.boot.uc.constants.SecurityConstants;
-import com.sangoes.boot.uc.utils.AuthorizationUtil;
+import com.sangoes.boot.common.utils.AuthorizationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;

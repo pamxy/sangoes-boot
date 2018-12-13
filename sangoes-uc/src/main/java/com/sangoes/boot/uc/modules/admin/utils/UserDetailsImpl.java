@@ -1,6 +1,6 @@
 package com.sangoes.boot.uc.modules.admin.utils;
 
-import com.sangoes.boot.uc.constants.SecurityConstants;
+import com.sangoes.boot.common.constants.SecurityConstants;
 import com.sangoes.boot.uc.modules.admin.entity.SysRole;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
 import lombok.Data;
