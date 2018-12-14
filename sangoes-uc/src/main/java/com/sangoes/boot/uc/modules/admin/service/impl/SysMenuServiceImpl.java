@@ -6,6 +6,8 @@
  */
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sangoes.boot.common.exception.HandleErrorException;
@@ -19,6 +21,7 @@ import com.sangoes.boot.uc.modules.admin.vo.MenuTree;
 import com.sangoes.boot.uc.modules.admin.vo.MenuVo;
 import com.sangoes.boot.uc.utils.BuildTreeUtil;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +35,6 @@ import java.util.List;
  * @author jerrychir
  * @since 2018-11-09
  */
-//@CacheConfig(cacheNames = "common")
 @Service
 public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
 
@@ -107,5 +109,48 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         // 变成树形
         List<MenuTree> menuTrees = BuildTreeUtil.buildMenuTree(list, -1L);
         return menuTrees;
+    }
+
+    /**
+     * 更新菜单
+     *
+     * @param menuDto
+     */
+    @CacheEvict(value = {"menu", "role_menu"})
+    @Override
+    public void updateMenu(MenuDto menuDto) {
+        // 查询菜单
+        SysMenu menuDB = this.getById(menuDto.getId());
+        if (ObjectUtil.isNull(menuDB)) {
+            throw new HandleErrorException("菜单为空或已被删除");
+        }
+        // 复制
+        SysMenu menu = new SysMenu();
+        BeanUtil.copyProperties(menuDto, menu, CopyOptions.create().setIgnoreNullValue(true));
+        // 更新
+        boolean flag = this.updateById(menu);
+        if (!flag) {
+            throw new HandleErrorException("更新失败");
+        }
+    }
+
+    /**
+     * 删除菜单
+     *
+     * @param menuDto
+     */
+    @CacheEvict(value = {"menu", "role_menu"})
+    @Override
+    public void deleteMenu(MenuDto menuDto) {
+        // 查询菜单
+        SysMenu menuDB = this.getById(menuDto.getMenuId());
+        if (ObjectUtil.isNull(menuDB)) {
+            throw new HandleErrorException("菜单为空或已被删除");
+        }
+        // 删除
+        boolean flag = this.removeById(menuDto.getMenuId());
+        if (!flag) {
+            throw new HandleErrorException("删除失败");
+        }
     }
 }

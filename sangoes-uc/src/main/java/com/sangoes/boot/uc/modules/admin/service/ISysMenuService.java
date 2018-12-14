@@ -13,7 +13,6 @@ import com.sangoes.boot.uc.modules.admin.entity.SysMenu;
 import com.sangoes.boot.uc.modules.admin.vo.MenuTree;
 import com.sangoes.boot.uc.modules.admin.vo.MenuVo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,4 +61,18 @@ public interface ISysMenuService extends IBaseService<SysMenu> {
      * @return
      */
     List<MenuTree> getUserMenuTree(List<String> roles);
+
+    /**
+     * 更新菜单
+     *
+     * @param menuDto
+     */
+    void updateMenu(MenuDto menuDto);
+
+    /**
+     * 删除菜单
+     *
+     * @param menuDto
+     */
+    void deleteMenu(MenuDto menuDto);
 }
