@@ -126,7 +126,7 @@ public class SysUserController extends BaseController {
     public Result<String> updateUser(@RequestBody @Validated UserDto userDto) {
         // 更新
         userService.updateUser(userDto);
-        return userService.addUser(userDto);
+        return Result.success("更新成功");
     }
 
 
