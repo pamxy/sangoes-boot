@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 /**
  * UserDto
@@ -40,6 +41,14 @@ public class UserDto {
 
     }
 
+    /**
+     * BatchDeleteUserGroup
+     * 删除用户
+     */
+    public interface BatchDeleteUserGroup {
+
+    }
+
     @NotEmpty(message = "用户名不能为空")
     @NotNull(message = "用户名不能为空")
     @Pattern(regexp = "^[a-zA-Z0-9]{6,18}", message = "用户名最小6位最大18位英文和数字组合")
@@ -68,4 +77,8 @@ public class UserDto {
     @NotNull(message = "用户id不能为空", groups = {UpdateUserGroup.class})
     @ApiModelProperty(value = "用户id")
     private Long id;
+
+    @NotNull(message = "用户主键集合不能为空", groups = {BatchDeleteUserGroup.class})
+    @ApiModelProperty(value = "用户主键集合")
+    private List<Long> userIds;
 }

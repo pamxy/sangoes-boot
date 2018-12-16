@@ -429,6 +429,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         }
     }
 
+
+
     /**
      * 更新用户
      *
@@ -450,6 +452,21 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         boolean flag = this.updateById(user);
         if (!flag) {
             throw new HandleErrorException("更新失败");
+        }
+    }
+
+    /**
+     * 批量删除用户
+     *
+     * @param userDto
+     */
+    @CacheEvict(value = "user")
+    @Override
+    public void batchDeleteUser(UserDto userDto) {
+        // 批量删除
+        boolean flag = this.removeByIds(userDto.getUserIds());
+        if (!flag){
+            throw new HandleErrorException("批量删除失败");
         }
     }
 }

@@ -118,4 +118,11 @@ public interface ISysUserService extends IBaseService<SysUser> {
      * @param userDto
      */
     void updateUser(UserDto userDto);
+
+    /**
+     * 批量删除用户
+     *
+     * @param userDto
+     */
+    void batchDeleteUser(UserDto userDto);
 }

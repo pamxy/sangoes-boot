@@ -138,7 +138,7 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
      *
      * @param authDto
      */
-    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.roleCode")
+    @CacheEvict(value = "auth")
     @Override
     public void batchDeleteAuth(AuthDto authDto) {
         // 批量删除

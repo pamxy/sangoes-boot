@@ -114,6 +114,22 @@ public class SysUserController extends BaseController {
         userService.deleteUser(userDto);
         return Result.success("删除成功");
     }
+
+    /**
+     * 批量删除用户
+     *
+     * @param userDto
+     * @return
+     */
+    @DeleteMapping("/batch/delete")
+    @ApiOperation(value = "批量删除用户", notes = "返回删除结果")
+    @ResponseBody
+    public Result<String> batchDeleteUser(@RequestBody @Validated({UserDto.BatchDeleteUserGroup.class}) UserDto userDto) {
+        // 删除用户
+        userService.batchDeleteUser(userDto);
+        return Result.success("删除成功");
+    }
+
     /**
      * 更新(修改)用户
      *
