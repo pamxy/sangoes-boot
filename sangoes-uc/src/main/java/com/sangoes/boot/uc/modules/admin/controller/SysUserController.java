@@ -106,7 +106,7 @@ public class SysUserController extends BaseController {
      * @param userDto
      * @return
      */
-    @PutMapping("/delete")
+    @DeleteMapping("/delete")
     @ApiOperation(value = "删除用户", notes = "返回删除结果")
     @ResponseBody
     public Result<String> deleteUser(@RequestBody @Validated({UserDto.DeleteUserGroup.class}) UserDto userDto) {
@@ -120,7 +120,7 @@ public class SysUserController extends BaseController {
      * @param userDto
      * @return
      */
-    @PostMapping("/update")
+    @PutMapping("/update")
     @ApiOperation(value = "更新(修改)用户", notes = "返回更新结果")
     @ResponseBody
     public Result<String> updateUser(@RequestBody @Validated UserDto userDto) {

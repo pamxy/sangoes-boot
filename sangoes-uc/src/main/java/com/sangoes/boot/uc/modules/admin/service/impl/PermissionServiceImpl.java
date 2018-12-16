@@ -68,6 +68,7 @@ public class PermissionServiceImpl implements PermissionService {
             }
             // 权限action
             Set<AuthVo> actions = new HashSet<>();
+            log.error("authorityList:{}",authorityList);
             // 遍历角色
             authorityList.stream()
                     .filter(authority -> !StrUtil.equals(authority.getAuthority(), SecurityConstants.BASE_ROLE))

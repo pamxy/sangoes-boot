@@ -116,7 +116,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
      *
      * @param menuDto
      */
-    @CacheEvict(value = {"menu", "role_menu"})
+    @CacheEvict(value = {"menu", "role_menu","auth"})
     @Override
     public void updateMenu(MenuDto menuDto) {
         // 查询菜单
@@ -139,7 +139,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
      *
      * @param menuDto
      */
-    @CacheEvict(value = {"menu", "role_menu"})
+    @CacheEvict(value = {"menu", "role_menu","auth"})
     @Override
     public void deleteMenu(MenuDto menuDto) {
         // 查询菜单
