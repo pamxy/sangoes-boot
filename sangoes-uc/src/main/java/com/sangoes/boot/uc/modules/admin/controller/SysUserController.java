@@ -139,7 +139,7 @@ public class SysUserController extends BaseController {
     @PutMapping("/update")
     @ApiOperation(value = "更新(修改)用户", notes = "返回更新结果")
     @ResponseBody
-    public Result<String> updateUser(@RequestBody @Validated UserDto userDto) {
+    public Result<String> updateUser(@RequestBody @Validated({UserDto.UpdateUserGroup.class}) UserDto userDto) {
         // 更新
         userService.updateUser(userDto);
         return Result.success("更新成功");

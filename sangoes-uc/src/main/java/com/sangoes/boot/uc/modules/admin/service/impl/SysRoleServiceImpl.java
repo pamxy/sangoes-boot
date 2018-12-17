@@ -1,9 +1,10 @@
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
@@ -12,11 +13,7 @@ import com.sangoes.boot.common.utils.ArrayUtils;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.common.utils.page.PageQuery;
 import com.sangoes.boot.uc.modules.admin.dto.RoleDto;
-import com.sangoes.boot.uc.modules.admin.entity.SysAuth;
-import com.sangoes.boot.uc.modules.admin.entity.SysMenu;
-import com.sangoes.boot.uc.modules.admin.entity.SysRole;
-import com.sangoes.boot.uc.modules.admin.entity.SysRoleAuth;
-import com.sangoes.boot.uc.modules.admin.entity.SysRoleMenu;
+import com.sangoes.boot.uc.modules.admin.entity.*;
 import com.sangoes.boot.uc.modules.admin.mapper.SysRoleAuthMapper;
 import com.sangoes.boot.uc.modules.admin.mapper.SysRoleMapper;
 import com.sangoes.boot.uc.modules.admin.mapper.SysRoleMenuMapper;
@@ -25,16 +22,15 @@ import com.sangoes.boot.uc.modules.admin.service.ISysMenuService;
 import com.sangoes.boot.uc.modules.admin.service.ISysRoleService;
 import com.sangoes.boot.uc.modules.admin.vo.MenuTree;
 import com.sangoes.boot.uc.utils.BuildTreeUtil;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.hutool.core.lang.Validator;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -172,4 +168,58 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         }
     }
 
+    /**
+     * 删除角色
+     *
+     * @param roleDto
+     */
+    @Override
+    public void deleteRole(RoleDto roleDto) {
+        // 查询role
+        SysRole roleDB = this.getById(roleDto.getRoleId());
+        if (ObjectUtil.isNull(roleDB)) {
+            throw new HandleErrorException("角色被删除或不存在");
+        }
+        // 删除
+        boolean flag = this.removeById(roleDto.getRoleId());
+        if (!flag) {
+            throw new HandleErrorException("删除失败");
+        }
+    }
+
+    /**
+     * 批量删除角色
+     *
+     * @param roleDto
+     */
+    @Override
+    public void batchDeleteRole(RoleDto roleDto) {
+        // 批量删除
+        boolean flag = this.removeByIds(roleDto.getRoleIds());
+        if (!flag) {
+            throw new HandleErrorException("批量删除失败");
+        }
+    }
+
+    /**
+     * 更新角色
+     *
+     * @param roleDto
+     */
+    @Override
+    public void updateRole(RoleDto roleDto) {
+        // 查询
+        SysRole roleDB = this.getById(roleDto.getId());
+        if (ObjectUtil.isNull(roleDB)) {
+            throw new HandleErrorException("角色为空或已删除");
+        }
+        // 新建
+        SysRole role = new SysRole();
+        BeanUtil.copyProperties(roleDto, role, CopyOptions.create().setIgnoreNullValue(true));
+        // 更新
+        boolean flag = this.updateById(role);
+        if (!flag) {
+            throw new HandleErrorException("更新失败");
+        }
+    }
 }

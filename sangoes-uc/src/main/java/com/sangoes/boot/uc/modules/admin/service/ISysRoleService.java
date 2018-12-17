@@ -1,12 +1,12 @@
 package com.sangoes.boot.uc.modules.admin.service;
 
-import java.util.Map;
-
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.service.IBaseService;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.uc.modules.admin.dto.RoleDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysRole;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -19,7 +19,7 @@ import com.sangoes.boot.uc.modules.admin.entity.SysRole;
 public interface ISysRoleService extends IBaseService<SysRole> {
     /**
      * 添加角色
-     * 
+     *
      * @param roleDto
      * @return
      */
@@ -27,7 +27,7 @@ public interface ISysRoleService extends IBaseService<SysRole> {
 
     /**
      * 角色分页
-     * 
+     *
      * @param params
      * @return
      */
@@ -35,7 +35,7 @@ public interface ISysRoleService extends IBaseService<SysRole> {
 
     /**
      * 查询绑定菜单权限
-     * 
+     *
      * @param roleId
      * @return
      */
@@ -43,7 +43,7 @@ public interface ISysRoleService extends IBaseService<SysRole> {
 
     /**
      * 查询绑定权限
-     * 
+     *
      * @param menuId
      * @return
      */
@@ -54,4 +54,24 @@ public interface ISysRoleService extends IBaseService<SysRole> {
      */
     void bindMenuAuth(RoleDto roleDto);
 
+    /**
+     * 删除角色
+     *
+     * @param roleDto
+     */
+    void deleteRole(RoleDto roleDto);
+
+    /**
+     * 批量删除角色
+     *
+     * @param roleDto
+     */
+    void batchDeleteRole(RoleDto roleDto);
+
+    /**
+     * 更新角色
+     *
+     * @param roleDto
+     */
+    void updateRole(RoleDto roleDto);
 }

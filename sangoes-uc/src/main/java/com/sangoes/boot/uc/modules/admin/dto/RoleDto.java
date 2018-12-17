@@ -1,14 +1,14 @@
 package com.sangoes.boot.uc.modules.admin.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * RoleDto 角色
@@ -31,13 +31,34 @@ public class RoleDto {
 
     }
 
-    @NotBlank(message = "角色名称不能为空", groups = { AddRoleGroup.class })
-    @Length(min = 2, max = 10, message = "角色名称2-10位", groups = { AddRoleGroup.class })
+    /**
+     * DeleteRoleGroup
+     */
+    public interface DeleteRoleGroup {
+
+    }
+
+    /**
+     * BatchDeleteRoleGroup
+     */
+    public interface BatchDeleteRoleGroup {
+
+    }
+
+    /**
+     * UpdateRoleGroup
+     */
+    public interface UpdateRoleGroup {
+
+    }
+
+    @NotBlank(message = "角色名称不能为空", groups = {AddRoleGroup.class})
+    @Length(min = 2, max = 10, message = "角色名称2-10位", groups = {AddRoleGroup.class})
     @ApiModelProperty(value = "角色名称")
     private String roleName;
 
-    @NotBlank(message = "角色编码不能为空", groups = { AddRoleGroup.class })
-    @Length(min = 2, max = 18, message = "角色编码2-18位", groups = { AddRoleGroup.class })
+    @NotBlank(message = "角色编码不能为空", groups = {AddRoleGroup.class})
+    @Length(min = 2, max = 18, message = "角色编码2-18位", groups = {AddRoleGroup.class})
     @ApiModelProperty(value = "角色编码")
     private String roleCode;
 
@@ -49,11 +70,11 @@ public class RoleDto {
 
     ///////////// BindMenu//////////////
 
-    @NotNull(message = "角色ID不能为空", groups = { BindMenu.class })
+    @NotNull(message = "角色ID不能为空", groups = {BindMenu.class, DeleteRoleGroup.class})
     @ApiModelProperty(value = "角色id")
     private Long roleId;
 
-    @NotNull(message = "菜单id不能为空", groups = { BindMenu.class })
+    @NotNull(message = "菜单id不能为空", groups = {BindMenu.class})
     @ApiModelProperty(value = "菜单id")
     private Long menuId;
 
@@ -63,4 +84,13 @@ public class RoleDto {
     @ApiModelProperty(value = "绑定权限id")
     private String authIds;
 
+
+    @NotNull(message = "角色主键集合不能为空", groups = {BatchDeleteRoleGroup.class})
+    @ApiModelProperty(value = "角色主键集合")
+    private List<Long> roleIds;
+
+
+    @NotNull(message = "菜单主键不能为空", groups = {UpdateRoleGroup.class})
+    @ApiModelProperty(value = "菜单主键")
+    private Long id;
 }
