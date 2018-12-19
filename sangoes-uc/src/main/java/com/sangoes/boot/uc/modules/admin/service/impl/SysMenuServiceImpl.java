@@ -89,7 +89,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
      * @param roleCode
      * @return
      */
-    @Cacheable(value = "menu", key = "'permission:'+#roleCode")
+//    @Cache(value = "menu", key = "'permission:'+#roleCode")
     @Override
     public List<MenuVo> listMenuByRoleCode(String roleCode) {
         return baseMapper.findMenuAuthByRoleCode(roleCode);
@@ -101,7 +101,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
      * @param roles
      * @return
      */
-    @Cacheable(value = "role_menu", key = "'user:menu:'+#roles")
+//    @Cache(value = "role_menu", key = "'user:menu:'+#roles")
     @Override
     public List<MenuTree> getUserMenuTree(List<String> roles) {
         // 获取全部菜单
@@ -116,7 +116,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
      *
      * @param menuDto
      */
-    @CacheEvict(value = {"menu", "role_menu","auth"})
+//    @CacheEvict(value = {"menu", "role_menu", "auth"}, allEntries = true)
     @Override
     public void updateMenu(MenuDto menuDto) {
         // 查询菜单
@@ -139,7 +139,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
      *
      * @param menuDto
      */
-    @CacheEvict(value = {"menu", "role_menu","auth"})
+//    @CacheEvict(value = {"menu", "role_menu", "auth"}, allEntries = true)
     @Override
     public void deleteMenu(MenuDto menuDto) {
         // 查询菜单

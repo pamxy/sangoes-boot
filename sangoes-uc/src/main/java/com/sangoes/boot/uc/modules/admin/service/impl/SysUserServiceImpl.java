@@ -380,7 +380,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      * @param userId
      * @return
      */
-    @Cacheable(value = "user", key = "'user:info:'+#userId")
+//    @Cache(value = "user", key = "'user:info:'+#userId")
     @Override
     public SysUser userInfo(Long userId) {
         SysUser user = baseMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getId, userId));
@@ -394,7 +394,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      * @param file
      * @return
      */
-    @CacheEvict(value = "user", key = "'user:info:'+#userId")
+//    @CacheEvict(value = "user", key = "'user:info:'+#userId")
     @Override
     public String uploadAvatar(Long userId, MultipartFile file) {
         // 根据用户id查询
@@ -419,7 +419,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      *
      * @param userDto
      */
-    @CacheEvict(value = "user", key = "'user:info:'+#userDto.userId")
+//    @CacheEvict(value = "user", key = "'user:info:'+#userDto.userId")
     @Override
     public void deleteUser(UserDto userDto) {
         // 删除
@@ -436,7 +436,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      *
      * @param userDto
      */
-    @CacheEvict(value = "user", key = "'user:info:'+#userDto.userId")
+//    @CacheEvict(value = "user", key = "'user:info:'+#userDto.userId")
     @Override
     public void updateUser(UserDto userDto) {
         // 查询
@@ -460,7 +460,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      *
      * @param userDto
      */
-    @CacheEvict(value = "user")
+//    @CacheEvict(value = "user")
     @Override
     public void batchDeleteUser(UserDto userDto) {
         // 批量删除

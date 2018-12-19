@@ -84,7 +84,7 @@ redis:
     # 缓存前缀必须加
     prefix: sangoes
     # 默认 1天
-    expire: 432000
+    expire: 3600
   # 设置cache value过期时间(秒)
   ttl:
     users: 86400

@@ -3,8 +3,12 @@ package com.sangoes.boot.common.core.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sangoes.boot.common.constants.TTLConstants;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -14,6 +18,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 
+import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,124 +31,27 @@ import java.util.Map;
  * @date 2018/10/29 9:47 PM
  */
 @Configuration
+@EnableCaching
+@Slf4j
 public class RedisCacheConfig {
-
-//    /**
-//     * redisTemplate
-//     *
-//     * @param redisConnectionFactory
-//     * @return
-//     */
-//    @Bean
-//    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-//        RedisTemplate<Object, Object> template = new RedisTemplate<>();
-//        template.setConnectionFactory(redisConnectionFactory);
-//
-//        // 使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
-//        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-//        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-//        serializer.setObjectMapper(mapper);
-//
-//        template.setValueSerializer(serializer);
-//        // 使用StringRedisSerializer来序列化和反序列化redis的key值
-//        template.setKeySerializer(new StringRedisSerializer());
-//        template.afterPropertiesSet();
-//        return template;
-//    }
-//
-//    /**
-//     * redis缓存和EhCache缓存不能同时存在
-//     *
-//     * @param redisConnectionFactory
-//     * @return
-//     */
-//    @Bean
-//    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-//        // 生成一个默认配置，通过config对象即可对缓存进行自定义配置
-//        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
-//        config = config
-//                // 设置缓存的默认过期时间，也是使用Duration设置
-//                .prefixKeysWith(CommonConstants.COMMON_REDIS_PREFIX).entryTtl(Duration.ofDays(1))
-//                // 不缓存空值
-//                .disableCachingNullValues();
-//        // 设置一个初始化的缓存空间set集合
-////        Set<String> cacheNames = new HashSet<>();
-////        cacheNames.add("common");
-//        // 对每个缓存空间应用不同的配置
-//        Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
-//        configMap.put("common", config.entryTtl(Duration.ofSeconds(120)));
-//        // RedisCacheManager
-//        RedisCacheManager cacheManager =
-//                RedisCacheManager.builder(redisConnectionFactory)
-//                        // 使用自定义的缓存配置初始化一个cacheManager
-////                        .initialCacheNames(cacheNames)
-//                        // 注意这两句的调用顺序，一定要先调用该方法设置初始化的缓存名，再初始化相关的配置
-//                        .withInitialCacheConfigurations(configMap).build();
-//        return cacheManager;
-//    } /**
-//     * redisTemplate
-//     *
-//     * @param redisConnectionFactory
-//     * @return
-//     */
-//    @Bean
-//    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-//        RedisTemplate<Object, Object> template = new RedisTemplate<>();
-//        template.setConnectionFactory(redisConnectionFactory);
-//
-//        // 使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
-//        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-//        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-//        serializer.setObjectMapper(mapper);
-//
-//        template.setValueSerializer(serializer);
-//        // 使用StringRedisSerializer来序列化和反序列化redis的key值
-//        template.setKeySerializer(new StringRedisSerializer());
-//        template.afterPropertiesSet();
-//        return template;
-//    }
-//
-//    /**
-//     * redis缓存和EhCache缓存不能同时存在
-//     *
-//     * @param redisConnectionFactory
-//     * @return
-//     */
-//    @Bean
-//    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-//        // 生成一个默认配置，通过config对象即可对缓存进行自定义配置
-//        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
-//        config = config
-//                // 设置缓存的默认过期时间，也是使用Duration设置
-//                .prefixKeysWith(CommonConstants.COMMON_REDIS_PREFIX).entryTtl(Duration.ofDays(1))
-//                // 不缓存空值
-//                .disableCachingNullValues();
-//        // 设置一个初始化的缓存空间set集合
-////        Set<String> cacheNames = new HashSet<>();
-////        cacheNames.add("common");
-//        // 对每个缓存空间应用不同的配置
-//        Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
-//        configMap.put("common", config.entryTtl(Duration.ofSeconds(120)));
-//        // RedisCacheManager
-//        RedisCacheManager cacheManager =
-//                RedisCacheManager.builder(redisConnectionFactory)
-//                        // 使用自定义的缓存配置初始化一个cacheManager
-////                        .initialCacheNames(cacheNames)
-//                        // 注意这两句的调用顺序，一定要先调用该方法设置初始化的缓存名，再初始化相关的配置
-//                        .withInitialCacheConfigurations(configMap).build();
-//        return cacheManager;
-//    }
 
     @Value("${redis.cache.prefix:sangoes}")
     private String prefix;
     @Value("${redis.cache.expire:3600}")
     private Integer expire;
+
+    @Autowired
+    private RedisTTLConfig redisTTLConfig;
+
+    @PostConstruct
+    public void loadDefaultTTLConfig() {
+        Map<String, String> ttl = new HashMap<>();
+        ttl.put(TTLConstants.LISTS, String.valueOf(TTLConstants.TTL_DAY));
+        ttl.put(TTLConstants.PAGES, String.valueOf(TTLConstants.TTL_DAY));
+        ttl.put(TTLConstants.INFOS, String.valueOf(TTLConstants.TTL_DAY));
+        redisTTLConfig.getTtl().putAll(ttl);
+    }
+
 
     /**
      * 增强redis
@@ -169,8 +77,7 @@ public class RedisCacheConfig {
      */
     private Map<String, RedisCacheConfiguration> getRedisCacheConfigurationMap() {
         Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>();
-//        redisCacheConfigurationMap.put("permission", this.redisCacheConfiguration(30));
-
+        redisTTLConfig.ttl.forEach((k, v) -> redisCacheConfigurationMap.put(k, this.redisCacheConfiguration(Integer.valueOf(v))));
         return redisCacheConfigurationMap;
     }
 

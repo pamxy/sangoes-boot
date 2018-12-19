@@ -14,6 +14,7 @@
    * rabbitmq
    * HikariCP连接池
    * elk
+   * oss和fastdfs
    
    前端:
    * react.js
@@ -51,9 +52,14 @@
    * 用户管理:用户添加 用户删除 用户修改 绑定角色 修改密码 批量删除用户
    * 角色管理:添加角色 删除角色 修改角色 绑定菜单权限 批量删除角色
    * 菜单管理:添加菜单 修改菜单 删除菜单 添加权限 修改权限 删除权限 批量删除权限
-   
+   * 上传文件:OSS(阿里云)
+   * 工具:cache正则删除 
     
 ## 待做
+   * 队列
+   * ELK
+   * 个人中心
+   * CacheCloud
 
 ## 开发
    1.环境
@@ -72,6 +78,15 @@
  
 ## 部署
    * 运行sangoes-boot/docker.sh
+   
+## 注意
+   * 使用redis cache约定
+    
+        * @Cacheable(value=,key=) value的值尽可能不与key的重复
+        * @Caching() 多用
+        * @CacheRegexRemove(key=) key为表达式
+        * @CacheRegexRemove(value=) 尽量少用 如果value表达式的值和key的表达式的值重复将会一起删除 *尽量少用*
+    
 
 ## 问题
 

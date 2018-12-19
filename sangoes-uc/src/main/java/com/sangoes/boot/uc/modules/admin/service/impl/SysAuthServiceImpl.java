@@ -39,7 +39,7 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
     /**
      * 添加权限
      */
-    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.roleCode")
+//    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.roleCode")
     @Override
     public Result<String> addAuth(AuthDto authDto) {
         // 判断authCode是否重复
@@ -88,7 +88,7 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
      * @param roleCode
      * @return
      */
-    @Cacheable(value = "auth", key = "'auth:roleCode:'+#roleCode")
+//    @Cache(value = "auth", key = "'auth:roleCode:'+#roleCode")
     @Override
     public List<AuthVo> listAuthByRoleCode(String roleCode) {
         return baseMapper.listAuthByRoleCode(roleCode);
@@ -99,7 +99,7 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
      *
      * @param authDto
      */
-    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.roleCode")
+//    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.roleCode")
     @Override
     public void updateAuth(AuthDto authDto) {
         // 查询权限
@@ -123,7 +123,7 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
      *
      * @param authDto
      */
-    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.roleCode")
+//    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#authDto.roleCode")
     @Override
     public void deleteAuth(AuthDto authDto) {
         // 删除
@@ -138,7 +138,7 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
      *
      * @param authDto
      */
-    @CacheEvict(value = "auth")
+//    @CacheEvict(value = "auth")
     @Override
     public void batchDeleteAuth(AuthDto authDto) {
         // 批量删除

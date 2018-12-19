@@ -132,7 +132,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     /**
      * 绑定菜单权限
      */
-    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#roleDto.getRoleCode()")
+//    @CacheEvict(value = "auth", key = "'auth:roleCode:'+#roleDto.getRoleCode()")
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void bindMenuAuth(RoleDto roleDto) {
