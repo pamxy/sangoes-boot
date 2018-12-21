@@ -15,10 +15,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -84,6 +87,23 @@ public class SysUserController extends BaseController {
             @RequestBody @Validated({SignInDto.SignInAccountGroup.class}) SignInDto signInDto) {
 
         return userService.signinByAccount(signInDto);
+    }
+
+    /**
+     * 退出登录
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @DeleteMapping("/logout")
+    @ApiOperation(value = "退出登录", notes = "返回退出登录信息")
+    @ResponseBody
+    public Result<String> logout(HttpServletRequest request, HttpServletResponse response) {
+        // FIXME: 注销登录
+        // 退出
+        new SecurityContextLogoutHandler().logout(request, response, null);
+        return Result.success("注销成功");
     }
 
     /**

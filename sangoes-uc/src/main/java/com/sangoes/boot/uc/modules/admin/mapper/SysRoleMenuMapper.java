@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sangoes.boot.uc.modules.admin.entity.SysRoleMenu;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -15,6 +16,7 @@ import org.apache.ibatis.annotations.Param;
  * @author jerrychir
  * @since 2018-11-13
  */
+@Repository
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
     /**
      * 根据role主键查询菜单主键

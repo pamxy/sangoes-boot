@@ -3,6 +3,7 @@ package com.sangoes.boot.uc.modules.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sangoes.boot.uc.modules.admin.entity.SysMenu;
 import com.sangoes.boot.uc.modules.admin.vo.MenuVo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author jerrychir
  * @since 2018-11-09
  */
+@Repository
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     /**

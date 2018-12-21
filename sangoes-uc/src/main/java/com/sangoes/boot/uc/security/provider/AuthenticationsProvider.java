@@ -54,7 +54,6 @@ public class AuthenticationsProvider implements AuthenticationProvider {
         if (StrUtil.equals(token.getType(), SecurityConstants.ACCOUNT)) {
             // 查询用户
             UserDetailsVo userDetailsVo = userService.selectUserDetailsByUsername(token.getName());
-            log.error("username:{}", token.getName());
             if (ObjectUtil.isNull(userDetailsVo)) {
                 throw new UsernameNotFoundException("用户不存在");
             }

@@ -2,17 +2,18 @@ package com.sangoes.boot.uc.modules.admin.controller;
 
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.common.utils.page.PageData;
+import com.sangoes.boot.uc.modules.admin.dto.OAuthDto;
+import com.sangoes.boot.uc.modules.admin.entity.OauthClientDetails;
+import com.sangoes.boot.uc.modules.admin.service.IOauthClientDetailsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * Copyright (c) 2018
@@ -21,25 +22,40 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2018/11/19 3:24 PM
  */
 @RestController
-@RequestMapping("oauth")
-@Api("OAUTH管理类")
+@RequestMapping("/admin/oauth")
+@Api("授权管理类")
 @Slf4j
 public class OAuthController extends BaseController {
 
+
+    @Autowired
+    private IOauthClientDetailsService oauthService;
+
     /**
-     * 退出登录
+     * 添加授权
      *
-     * @param request
-     * @param response
+     * @param oauthDto
      * @return
      */
-    @DeleteMapping("/logout")
-    @ApiOperation(value = "退出登录", notes = "返回退出登录信息")
+    @PostMapping("/add")
+    @ApiOperation(value = "添加授权", notes = "返回添加信息")
     @ResponseBody
-    public Result<String> logout(HttpServletRequest request, HttpServletResponse response) {
-        // FIXME: 注销登录
-        // 退出
-        new SecurityContextLogoutHandler().logout(request, response, null);
-        return Result.success("注销成功");
+    public Result<String> addOAuth(@RequestBody @Validated(OAuthDto.AddOAuthGroup.class) OAuthDto oauthDto) {
+        oauthService.saveOAuth(oauthDto);
+        return Result.success("添加成功");
+    }
+
+    /**
+     * 授权分页
+     *
+     * @param params
+     * @return
+     */
+    @GetMapping("/page")
+    @ApiOperation(value = "授权分页", notes = "返回分页结果")
+    @ResponseBody
+    public Result<PageData<OauthClientDetails>> getOAuthPage(@RequestParam Map<String, Object> params) {
+        PageData<OauthClientDetails> result = oauthService.selectOAuthPage(params);
+        return Result.success(result, "返回成功");
     }
 }

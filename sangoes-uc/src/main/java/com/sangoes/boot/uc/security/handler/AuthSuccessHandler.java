@@ -1,6 +1,7 @@
 package com.sangoes.boot.uc.security.handler;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import com.sangoes.boot.common.constants.SecurityConstants;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.AuthorizationUtil;
@@ -72,7 +73,12 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         // 校验secret
         log.error("clientDetails:{}", clientDetails);
         log.error("type:{}", request.getParameter("type"));
-        if (!passwordEncoder.matches(secret, clientDetails.getClientSecret())) {
+//        if (!passwordEncoder.matches(secret, clientDetails.getClientSecret())) {
+//            Result.noReturn("client错误", HttpStatus.EXPECTATION_FAILED, response);
+//            return;
+//        }
+
+        if (!StrUtil.equals(secret, clientDetails.getClientSecret())) {
             Result.noReturn("client错误", HttpStatus.EXPECTATION_FAILED, response);
             return;
         }

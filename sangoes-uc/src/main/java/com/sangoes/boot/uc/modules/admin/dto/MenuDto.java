@@ -64,6 +64,9 @@ public class MenuDto {
     @ApiModelProperty(value = "图标")
     private String icon;
 
+    @ApiModelProperty(value = "请求地址")
+    private String url;
+
     @Length(max = 50, message = "菜单描述最多50位", groups = {AddMenuGroup.class})
     @ApiModelProperty(value = "菜单描述")
     private String des;

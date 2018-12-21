@@ -2,6 +2,8 @@ package com.sangoes.boot.uc.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -14,11 +16,15 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 import java.util.Arrays;
 
 /**
@@ -54,6 +60,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Qualifier("dataSource")
+    @Resource
+    private DataSource dataSource;
+
     /**
      * 配置客户端
      *
@@ -62,18 +72,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        log.info("========================开始授权=====================");
         // 配置两个客户端,一个用于password认证一个用于client认证
-        clients.inMemory()
-                .withClient("sangoes")
-//                .resourceIds("order")
-                .authorizedGrantTypes("password", "refresh_token")
-                .scopes("select")
-//                .authorities("oauth2")
-                .secret(passwordEncoder.encode("sangoes"))
-                .autoApprove(true);
+//        clients.inMemory()
+//                .withClient("sangoes")
+//                .secret(passwordEncoder.encode("sangoes"))
+//                .authorizedGrantTypes("password", "refresh_token")
+//                .scopes("select")
+//                .accessTokenValiditySeconds(6660)
+//                .refreshTokenValiditySeconds(299000)
+//                .autoApprove(true);
 
-
+        // 从数据库中取
+        clients.withClientDetails(clientDetails());
     }
 
     /**
@@ -116,4 +126,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .checkTokenAccess("permitAll()");
     }
 
+    @Bean
+    public ClientDetailsService clientDetails() {
+        return new JdbcClientDetailsService(dataSource);
+    }
 }

@@ -3,6 +3,7 @@ package com.sangoes.boot.uc.modules.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -12,6 +13,7 @@ import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
  * @author jerrychir
  * @since 2018-10-29
  */
+@Repository
 public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 根据用户名查询
