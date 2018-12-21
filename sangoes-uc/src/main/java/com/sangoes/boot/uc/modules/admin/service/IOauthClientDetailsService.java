@@ -31,4 +31,26 @@ public interface IOauthClientDetailsService extends IBaseService<OauthClientDeta
      * @return
      */
     PageData<OauthClientDetails> selectOAuthPage(Map<String, Object> params);
+
+    /**
+     * 删除授权
+     *
+     * @param oauthDto
+     */
+    void deleteOAuth(OAuthDto oauthDto);
+
+    /**
+     * 批量删除授权
+     *
+     * @param oauthDto
+     */
+    void batchDeleteOAuth(OAuthDto oauthDto);
+
+    /**
+     * 更新授权
+     *
+     * @param oauthDto
+     */
+    void updateOAuth(OAuthDto oauthDto);
+
 }

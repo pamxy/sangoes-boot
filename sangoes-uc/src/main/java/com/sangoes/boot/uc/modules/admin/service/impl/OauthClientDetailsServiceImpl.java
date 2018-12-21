@@ -1,5 +1,7 @@
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sangoes.boot.common.exception.HandleErrorException;
@@ -59,5 +61,55 @@ public class OauthClientDetailsServiceImpl extends BaseServiceImpl<OauthClientDe
     @Override
     public PageData<OauthClientDetails> selectOAuthPage(Map<String, Object> params) {
         return this.selectPage(new PageQuery(params));
+    }
+
+    /**
+     * 删除授权
+     *
+     * @param oauthDto
+     */
+    @Override
+    public void deleteOAuth(OAuthDto oauthDto) {
+        // 删除授权
+        boolean flag = this.removeById(oauthDto.getOauthId());
+        if (!flag) {
+            throw new HandleErrorException("删除授权失败");
+        }
+    }
+
+    /**
+     * 批量删除授权
+     *
+     * @param oauthDto
+     */
+    @Override
+    public void batchDeleteOAuth(OAuthDto oauthDto) {
+        // 批量删除授权
+        boolean flag = this.removeByIds(oauthDto.getOauthIds());
+        if (!flag) {
+            throw new HandleErrorException("批量删除失败");
+        }
+    }
+
+    /**
+     * 更新授权
+     *
+     * @param oauthDto
+     */
+    @Override
+    public void updateOAuth(OAuthDto oauthDto) {
+        // 查询授权
+        OauthClientDetails oauthDB = this.getById(oauthDto.getId());
+        if (ObjectUtil.isNull(oauthDB)) {
+            throw new HandleErrorException("授权为空或已删除");
+        }
+        // 复制
+        OauthClientDetails oauth = new OauthClientDetails();
+        BeanUtil.copyProperties(oauthDto, oauth, CopyOptions.create().setIgnoreNullValue(true));
+        // 更新
+        boolean flag = this.updateById(oauth);
+        if (!flag) {
+            throw new HandleErrorException("更新失败");
+        }
     }
 }

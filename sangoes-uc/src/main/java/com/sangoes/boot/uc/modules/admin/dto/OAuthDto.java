@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Copyright (c) sangoes 2018
@@ -25,6 +27,39 @@ public class OAuthDto {
     public interface AddOAuthGroup {
 
     }
+
+    /**
+     * 删除授权组
+     */
+    public interface DeleteOAuthGroup {
+
+    }
+
+    /**
+     * 批量删除授权组
+     */
+    public interface BatchDeleteOAuthGroup {
+
+    }
+
+    /**
+     * 更新授权组
+     */
+    public interface UpdateOAuthGroup {
+
+    }
+
+    @NotNull(message = "授权不能为空", groups = {UpdateOAuthGroup.class})
+    @ApiModelProperty(value = "授权主键")
+    private Long id;
+
+    @NotNull(message = "授权不能为空", groups = {DeleteOAuthGroup.class})
+    @ApiModelProperty(value = "授权主键")
+    private Long oauthId;
+
+    @NotNull(message = "授权主键集合不能为空", groups = {BatchDeleteOAuthGroup.class})
+    @ApiModelProperty(value = "授权主键集合")
+    private List<Long> oauthIds;
 
     @NotBlank(message = "客户端id不能为空", groups = {AddOAuthGroup.class})
     @ApiModelProperty(value = "客户端id")

@@ -58,4 +58,49 @@ public class OAuthController extends BaseController {
         PageData<OauthClientDetails> result = oauthService.selectOAuthPage(params);
         return Result.success(result, "返回成功");
     }
+
+    /**
+     * 删除授权
+     *
+     * @param oauthDto
+     * @return
+     */
+    @DeleteMapping("/delete")
+    @ApiOperation(value = "删除授权", notes = "返回删除结果")
+    @ResponseBody
+    public Result<String> deleteUser(@RequestBody @Validated({OAuthDto.DeleteOAuthGroup.class}) OAuthDto oauthDto) {
+        // 删除授权
+        oauthService.deleteOAuth(oauthDto);
+        return Result.success("删除成功");
+    }
+
+    /**
+     * 批量删除授权
+     *
+     * @param oauthDto
+     * @return
+     */
+    @DeleteMapping("/batch/delete")
+    @ApiOperation(value = "批量删除授权", notes = "返回删除结果")
+    @ResponseBody
+    public Result<String> batchDeleteUser(@RequestBody @Validated({OAuthDto.BatchDeleteOAuthGroup.class}) OAuthDto oauthDto) {
+        // 删除授权
+        oauthService.batchDeleteOAuth(oauthDto);
+        return Result.success("删除成功");
+    }
+
+    /**
+     * 更新(修改)授权
+     *
+     * @param oauthDto
+     * @return
+     */
+    @PutMapping("/update")
+    @ApiOperation(value = "更新(修改)授权", notes = "返回更新结果")
+    @ResponseBody
+    public Result<String> updateUser(@RequestBody @Validated({OAuthDto.UpdateOAuthGroup.class}) OAuthDto oauthDto) {
+        // 更新
+        oauthService.updateOAuth(oauthDto);
+        return Result.success("更新成功");
+    }
 }
