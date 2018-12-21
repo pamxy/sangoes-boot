@@ -15,6 +15,7 @@
    * HikariCP连接池
    * elk
    * oss和fastdfs
+   * docker docker-compose
    
    前端:
    * react.js
@@ -54,7 +55,8 @@
    * 菜单管理:添加菜单 修改菜单 删除菜单 添加权限 修改权限 删除权限 批量删除权限
    * 上传文件:OSS(阿里云)
    * 工具:cache正则删除 
-   * 授权管理:添加授权 删除授权
+   * 文档管理
+   * 授权管理:添加授权 删除授权 批量删除授权
     
 ## 待做
    * 队列
@@ -78,6 +80,8 @@
    * sangoes-boot/sangoes-uc/src/UCApplication
  
 ## 部署
+   * 安装docker docker-compose
+   * 导入sql
    * 运行sangoes-boot/docker.sh
    
 ## 注意
