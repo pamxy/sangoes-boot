@@ -269,7 +269,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      * 添加用户
      */
     @Override
-    public Result<String> addUser(UserDto userDto) {
+    public void addUser(UserDto userDto) {
         // 判断用户名是否存在
         SysUser userNameDB = this
                 .getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername, userDto.getUsername()));
@@ -300,9 +300,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         boolean save = this.save(user);
         // 添加失败
         if (!save) {
-            return Result.failed("添加失败");
+            throw new HandleErrorException("添加失败");
         }
-        return Result.success("添加成功");
+
     }
 
     /**

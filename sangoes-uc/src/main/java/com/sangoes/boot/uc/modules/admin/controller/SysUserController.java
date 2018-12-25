@@ -115,9 +115,9 @@ public class SysUserController extends BaseController {
     @PostMapping("/add")
     @ApiOperation(value = "添加用户", notes = "返回添加结果")
     @ResponseBody
-    public Result<String> addUser(@RequestBody @Validated UserDto userDto) {
-
-        return userService.addUser(userDto);
+    public Result<String> addUser(@RequestBody @Validated(UserDto.AddUserGroup.class) UserDto userDto) {
+        userService.addUser(userDto);
+        return Result.success("添加成功");
     }
 
     /**

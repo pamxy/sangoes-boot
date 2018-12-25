@@ -63,7 +63,7 @@ public interface ISysUserService extends IBaseService<SysUser> {
      * @param userDto
      * @return
      */
-    Result<String> addUser(UserDto userDto);
+    void addUser(UserDto userDto);
 
     /**
      * 分页获取用户
