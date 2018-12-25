@@ -1,4 +1,4 @@
-package com.sangoes.boot.common.cache.redis.annotation;
+package com.sangoes.boot.common.aop.redis.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

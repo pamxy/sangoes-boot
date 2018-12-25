@@ -5,4 +5,4 @@
  * @author jerrychir
  * @date 2018 2018/12/19 12:37 PM
  */
-package com.sangoes.boot.common.cache;
+package com.sangoes.boot.common.aop;

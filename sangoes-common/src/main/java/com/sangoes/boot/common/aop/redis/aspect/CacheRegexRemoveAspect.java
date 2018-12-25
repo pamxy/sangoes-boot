@@ -1,8 +1,8 @@
-package com.sangoes.boot.common.cache.redis.aspect;
+package com.sangoes.boot.common.aop.redis.aspect;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.sangoes.boot.common.cache.redis.annotation.CacheRegexRemove;
+import com.sangoes.boot.common.aop.redis.annotation.CacheRegexRemove;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -34,7 +34,7 @@ public class CacheRegexRemoveAspect {
     /**
      * 截获标有@CacheRemove的方法
      */
-    @Pointcut(value = "(execution(* *.*(..)) && @annotation(com.sangoes.boot.common.cache.redis.annotation.CacheRegexRemove))")
+    @Pointcut(value = "(execution(* *.*(..)) && @annotation(com.sangoes.boot.common.aop.redis.annotation.CacheRegexRemove))")
     private void pointcut() {
     }
 

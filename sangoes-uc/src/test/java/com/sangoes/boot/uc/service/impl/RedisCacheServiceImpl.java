@@ -1,6 +1,6 @@
 package com.sangoes.boot.uc.service.impl;
 
-import com.sangoes.boot.common.cache.redis.annotation.CacheRegexRemove;
+import com.sangoes.boot.common.aop.redis.annotation.CacheRegexRemove;
 import com.sangoes.boot.uc.entity.User;
 import com.sangoes.boot.uc.service.IRedisCacheService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.sangoes.boot.common.cache.redis;
+package com.sangoes.boot.common.aop.redis;
 
 import org.springframework.context.annotation.Import;
 
