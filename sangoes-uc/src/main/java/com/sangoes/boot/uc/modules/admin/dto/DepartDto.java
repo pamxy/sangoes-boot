@@ -27,6 +27,28 @@ public class DepartDto {
 
     }
 
+    /**
+     * 删除部门组
+     */
+    public interface DeleteDepartGroup {
+
+    }
+
+    /**
+     * 更新部门组
+     */
+    public interface UpdateDepartGroup {
+
+    }
+
+    @NotNull(message = "主键不能为空", groups = {UpdateDepartGroup.class})
+    @ApiModelProperty(value = "主键")
+    private Long id;
+
+    @NotNull(message = "主键不能为空", groups = {DeleteDepartGroup.class})
+    @ApiModelProperty(value = "主键")
+    private Long departId;
+
     @NotNull(message = "父主键不能为空", groups = {AddDepartGroup.class})
     @ApiModelProperty(value = "父主键 默认-1")
     private Long parentId;

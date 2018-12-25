@@ -47,6 +47,34 @@ public class DepartController extends BaseController {
     }
 
     /**
+     * 更新(修改)部门
+     *
+     * @param departDto
+     * @return
+     */
+    @PutMapping("/update")
+    @ApiOperation(value = "更新(修改)部门", notes = "返回更新结果")
+    @ResponseBody
+    public Result<String> updateDepart(@RequestBody @Validated(DepartDto.UpdateDepartGroup.class) DepartDto departDto) {
+        departService.updateDepart(departDto);
+        return Result.success("更新成功");
+    }
+
+    /**
+     * 删除部门
+     *
+     * @param departDto
+     * @return
+     */
+    @DeleteMapping("/delete")
+    @ApiOperation(value = "删除部门", notes = "返回删除结果")
+    @ResponseBody
+    public Result<String> deleteMenu(@RequestBody @Validated(DepartDto.DeleteDepartGroup.class) DepartDto departDto) {
+        departService.deleteDepart(departDto);
+        return Result.success("删除成功");
+    }
+
+    /**
      * 获取部门树形结果
      *
      * @return

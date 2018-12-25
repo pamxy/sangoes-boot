@@ -31,4 +31,17 @@ public interface IDepartService extends IBaseService<Depart> {
      */
     List<DepartTree> getDepartTree();
 
+    /**
+     * 更新部门
+     *
+     * @param departDto
+     */
+    void updateDepart(DepartDto departDto);
+
+    /**
+     * 删除部门
+     *
+     * @param departDto
+     */
+    void deleteDepart(DepartDto departDto);
 }

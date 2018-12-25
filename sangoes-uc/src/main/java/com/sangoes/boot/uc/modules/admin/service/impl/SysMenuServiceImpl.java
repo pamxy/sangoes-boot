@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.service.impl.BaseServiceImpl;
+import com.sangoes.boot.common.utils.AuthUtils;
 import com.sangoes.boot.uc.modules.admin.dto.MenuDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysMenu;
 import com.sangoes.boot.uc.modules.admin.mapper.SysMenuMapper;
@@ -127,6 +128,8 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         // 复制
         SysMenu menu = new SysMenu();
         BeanUtil.copyProperties(menuDto, menu, CopyOptions.create().setIgnoreNullValue(true));
+        menu.setUpdator(AuthUtils.getUserName());
+        menu.setUpdatorId(AuthUtils.getUserId());
         // 更新
         boolean flag = this.updateById(menu);
         if (!flag) {

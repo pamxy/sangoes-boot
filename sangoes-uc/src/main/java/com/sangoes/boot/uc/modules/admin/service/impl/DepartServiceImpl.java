@@ -1,5 +1,8 @@
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.service.impl.BaseServiceImpl;
@@ -42,6 +45,49 @@ public class DepartServiceImpl extends BaseServiceImpl<DepartMapper, Depart> imp
         boolean flag = this.save(depart);
         if (!flag) {
             throw new HandleErrorException("保存失败");
+        }
+    }
+
+    /**
+     * 更新部门
+     *
+     * @param departDto
+     */
+    @Override
+    public void updateDepart(DepartDto departDto) {
+        // 查询部门
+        Depart departDB = this.getById(departDto.getId());
+        if (ObjectUtil.isNull(departDB)) {
+            throw new HandleErrorException("部门为空或已被删除");
+        }
+        // 复制
+        Depart depart = new Depart();
+        BeanUtil.copyProperties(departDto, depart, CopyOptions.create().setIgnoreNullValue(true));
+        depart.setUpdator(AuthUtils.getUserName());
+        depart.setUpdatorId(AuthUtils.getUserId());
+        // 更新
+        boolean flag = this.updateById(depart);
+        if (!flag) {
+            throw new HandleErrorException("更新失败");
+        }
+    }
+
+    /**
+     * 删除部门
+     *
+     * @param departDto
+     */
+    @Override
+    public void deleteDepart(DepartDto departDto) {
+        // 查询部门
+        Depart departDB = this.getById(departDto.getDepartId());
+        if (ObjectUtil.isNull(departDB)) {
+            throw new HandleErrorException("部门为空或已被删除");
+        }
+        // 删除部门
+        boolean flag = this.removeById(departDto.getDepartId());
+        if (!flag) {
+            throw new HandleErrorException("删除失败");
         }
     }
 
