@@ -2,12 +2,9 @@ package com.sangoes.boot.common.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -18,6 +15,8 @@ import java.util.Date;
  */
 @Data
 public class BaseEntity implements Serializable {
+
+
     /**
      * 主键
      */
@@ -64,5 +63,6 @@ public class BaseEntity implements Serializable {
     /**
      * 排序
      */
-    private BigDecimal sort;
+//    @JsonSerialize(using = ToStringSerializer.class)
+//    private Long sort;
 }
