@@ -103,8 +103,9 @@ public class MysqlGenerator {
         strategy.setRestControllerStyle(true);
         strategy.setSuperControllerClass("com.sangoes.boot.common.controller.BaseController");
         strategy.setInclude(scanner("表名"));
+        // 添加BaseEntity
         strategy.setSuperEntityColumns("id", "crt_time", "upd_time", "creator", "creator_id", "updator", "updator_id",
-                "deleted");
+                "deleted", "sort");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setLogicDeleteFieldName("deleted");// 逻辑删除属性名称
         strategy.setEntityBooleanColumnRemoveIsPrefix(true);
