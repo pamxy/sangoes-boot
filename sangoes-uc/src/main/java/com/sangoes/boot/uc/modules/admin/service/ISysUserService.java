@@ -3,6 +3,7 @@ package com.sangoes.boot.uc.modules.admin.service;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.service.IBaseService;
 import com.sangoes.boot.common.utils.page.PageData;
+import com.sangoes.boot.common.utils.page.PageQuery;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
 import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto;
@@ -140,5 +141,13 @@ public interface ISysUserService extends IBaseService<SysUser> {
      * @param userDto
      */
     void bindDepart(UserDto userDto);
+
+    /**
+     * 部门成员列表
+     *
+     * @param query 部门id
+     * @return
+     */
+    PageData<SysUser> listDepartMembers(PageQuery query);
 
 }

@@ -1,9 +1,14 @@
 package com.sangoes.boot.uc.modules.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -31,4 +36,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      */
     UserDetailsVo userDetailsByMobile(String mobile);
 
+    /**
+     * 部门成员分页
+     *
+     * @param page
+     * @param departId
+     * @return
+     */
+    IPage<SysUser> listDepartMembers(@Param("page") Page<SysUser> page, @Param("departId") Long departId);
 }

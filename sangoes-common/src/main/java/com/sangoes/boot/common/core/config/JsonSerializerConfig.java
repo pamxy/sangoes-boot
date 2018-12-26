@@ -15,7 +15,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
  * @author jerrychir
  * @date 2018 2018/12/26 9:05 AM
  */
-@JsonComponent
+//@JsonComponent
 public class JsonSerializerConfig {
     @Bean
     public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {

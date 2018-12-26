@@ -17,6 +17,8 @@ import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
 import cn.hutool.crypto.asymmetric.AsymmetricCrypto;
 import cn.hutool.crypto.asymmetric.KeyType;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sangoes.boot.common.core.componet.AliyunOSSUploader;
 import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
@@ -25,6 +27,7 @@ import com.sangoes.boot.common.utils.ArrayUtils;
 import com.sangoes.boot.common.utils.AuthUtils;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.common.utils.page.PageQuery;
+import com.sangoes.boot.common.utils.page.Pagination;
 import com.sangoes.boot.uc.constants.CaptchaConstants;
 import com.sangoes.boot.uc.constants.RSAConstants;
 import com.sangoes.boot.uc.modules.admin.dto.SignInDto;
@@ -529,5 +532,29 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             throw new HandleErrorException("绑定失败");
         }
 
+    }
+
+    /**
+     * 部门成员列表
+     *
+     * @param query 部门id
+     * @return
+     */
+    @Override
+    public PageData<SysUser> listDepartMembers(PageQuery query) {
+        // 获取departId
+        Object departIdObj = query.get("departId");
+        if (ObjectUtil.isNull(departIdObj)) {
+            throw new HandleErrorException("部门主键不能为空");
+        }
+        // 转换
+        Long departId = Long.valueOf(departIdObj.toString());
+        // 分页
+        Page<SysUser> page = new Page<>(query.getCurrent(), query.getPageSize());
+        // 分页查询
+        IPage<SysUser> members = baseMapper.listDepartMembers(page, departId);
+        // 返回结果
+        Pagination pagination = new Pagination(members.getTotal(), members.getSize(), members.getCurrent());
+        return new PageData<>(pagination, members.getRecords());
     }
 }

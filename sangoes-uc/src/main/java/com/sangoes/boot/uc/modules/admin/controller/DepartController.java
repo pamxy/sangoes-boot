@@ -1,10 +1,15 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.common.utils.page.PageData;
+import com.sangoes.boot.common.utils.page.PageQuery;
 import com.sangoes.boot.uc.modules.admin.dto.DepartDto;
+import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.service.IDepartService;
+import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.modules.admin.vo.DepartTree;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,6 +37,9 @@ public class DepartController extends BaseController {
 
     @Autowired
     private IDepartService departService;
+
+    @Autowired
+    private ISysUserService userService;
 
     /**
      * 添加部门/公司
@@ -87,4 +96,19 @@ public class DepartController extends BaseController {
         return Result.success(departTrees, "获取成功");
     }
 
+
+    /**
+     * 获取部门成员
+     *
+     * @param params
+     * @return
+     */
+    @GetMapping("/members/page")
+    @ApiOperation(value = "获取部门成员", notes = "返回列表结果")
+    @ResponseBody
+    public Result<PageData<SysUser>> listDepartMembers(@RequestParam Map<String, Object> params) {
+
+        PageData<SysUser>users = userService.listDepartMembers(new PageQuery(params));
+        return Result.success(users, "成功");
+    }
 }

@@ -3,6 +3,8 @@
    sangoes-boot开源,由springboot2.x+mybatis-plus+rabbitmq+redis+oauth2.0+react+antd等完成的单体架构，
    旨在解决Java单体工程的快速搭建和部署，sangoes-cloud(分布式架构)正在开发中....
 
+## 使用说明
+
 ## 相关技术
 
    后端:
@@ -50,23 +52,32 @@
 ## 功能列表
 
    * 登录:账号登录(密码登录) 短信登录(暂时没接入短信方)
-   * 用户管理:用户添加 用户删除 用户修改 绑定角色 修改密码 批量删除用户
+   * 用户管理:用户添加 用户删除 用户修改 绑定角色 修改密码 批量删除用户 绑定部门
    * 角色管理:添加角色 删除角色 修改角色 绑定菜单权限 批量删除角色
    * 菜单管理:添加菜单 修改菜单 删除菜单 添加权限 修改权限 删除权限 批量删除权限
    * 上传文件:OSS(阿里云)
    * 工具:cache正则删除 
    * 文档管理
    * 授权管理:添加授权 删除授权 批量删除授权
+   * 部门管理:添加部门 编辑部门 删除部门
     
 ## 待做
+
+   * 部门管理
+   * 字典管理
    * 队列
    * ELK
-   * 个人中心
+   * 个人中心 个人设置
    * CacheCloud
    * 限流
    * 白名单 黑名单
    * 使用文档
-   * 消息
+   * 消息中心
+   * 一二级缓存
+   * 监控
+   * 数据库读写分离
+   * 文件管理
+   * 定时(计划)管理
 
 ## 开发
    1.环境
@@ -105,7 +116,11 @@
 
 ## 感谢
 
-    mybatis-plus:https://github.com/baomidou/mybatis-plus
-    hutools:https://github.com/looly/hutool
-    umijs:https://github.com/umijs/umi
-    antd:https://github.com/ant-design/ant-design
+   [mybatis-plus](https://github.com/baomidou/mybatis-plus)
+   
+   [hutools](https://github.com/looly/hutool)
+   
+   [umijs](https://github.com/umijs/umi)
+    
+   [antd](https://github.com/ant-design/ant-design)
+    

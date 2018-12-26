@@ -50,6 +50,13 @@
         WHERE u.mobile = #{mobile}
           AND u.deleted = 1
     </select>
+    <!--部门成员列表-->
+    <select id="listDepartMembers" resultType="com.sangoes.boot.uc.modules.admin.entity.SysUser">
+        SELECT *
+        FROM sys_user AS su
+                 LEFT JOIN user_depart AS ud on ud.user_id = su.id
+        WHERE ud.depart_id = #{departId}
+    </select>
 
 
 </mapper>
