@@ -34,6 +34,7 @@
         <lombok.version>1.18.2</lombok.version>
         <hutool.version>4.1.19</hutool.version>
         <ttl.version>2.9.0</ttl.version>
+        <fastjson.version>1.2.51</fastjson.version>
         <swagger.starter.version>1.8.0.RELEASE</swagger.starter.version>
 
         <commons-collections4.version>4.1</commons-collections4.version>

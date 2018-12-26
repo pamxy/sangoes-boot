@@ -189,7 +189,6 @@ public class SysUserController extends BaseController {
     @ApiOperation(value = "查询绑定角色", notes = "返回角色列表以及用户对应角色结果")
     @ResponseBody
     public Result<Map<String, Object>> infoBindRole(@PathVariable Long id) {
-
         return userService.infoBindRole(id);
     }
 
@@ -238,5 +237,33 @@ public class SysUserController extends BaseController {
         // 上传头像
         String imgUrl = userService.uploadAvatar(userId, file);
         return Result.success(imgUrl, "成功");
+    }
+
+    /**
+     * 查询绑定部门树形
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/bind/depart/{id}")
+    @ApiOperation(value = "查询绑定部门树形", notes = "返回绑定树形结果")
+    @ResponseBody
+    public Result<Map<String, Object>> infoBindDepartTree(@PathVariable Long id) {
+        Map<String, Object> results = userService.infoBindDepartTree(id);
+        return Result.success(results, "成功");
+    }
+
+    /**
+     * 绑定部门
+     *
+     * @param userDto
+     * @return
+     */
+    @PostMapping("/bind/depart")
+    @ApiOperation(value = "绑定部门", notes = "返回绑定结果")
+    @ResponseBody
+    public Result<String> bindDepart(@RequestBody @Validated({UserDto.BindDepartGroup.class}) UserDto userDto) {
+        userService.bindDepart(userDto);
+        return Result.success("绑定成功");
     }
 }

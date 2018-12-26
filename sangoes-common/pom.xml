@@ -58,6 +58,12 @@
             <artifactId>transmittable-thread-local</artifactId>
             <version>${ttl.version}</version>
         </dependency>
+        <!--fastjson-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.51</version>
+        </dependency>
         <!-- commons-io -->
         <dependency>
             <groupId>commons-io</groupId>

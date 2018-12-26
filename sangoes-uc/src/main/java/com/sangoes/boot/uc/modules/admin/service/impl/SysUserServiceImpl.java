@@ -33,18 +33,20 @@ import com.sangoes.boot.uc.modules.admin.dto.UserDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysRole;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.entity.SysUserRole;
+import com.sangoes.boot.uc.modules.admin.entity.UserDepart;
 import com.sangoes.boot.uc.modules.admin.entity.enums.SignUpEnum;
 import com.sangoes.boot.uc.modules.admin.mapper.SysUserMapper;
 import com.sangoes.boot.uc.modules.admin.mapper.SysUserRoleMapper;
+import com.sangoes.boot.uc.modules.admin.service.IDepartService;
 import com.sangoes.boot.uc.modules.admin.service.ISysRoleService;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
+import com.sangoes.boot.uc.modules.admin.service.IUserDepartService;
+import com.sangoes.boot.uc.modules.admin.vo.DepartTree;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,6 +57,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,6 +92,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Autowired
     private AliyunOSSUploader aliyunOSSUploader;
+
+    @Autowired
+    private IDepartService departService;
+
+    @Autowired
+    private IUserDepartService userDepartService;
 
     /**
      * 根据手机号码注册
@@ -368,6 +377,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             for (String roleId : roleIds) {
                 sysUserRole.setRoleId(Long.valueOf(roleId));
                 sysUserRole.setUserId(userDto.getUserId());
+                sysUserRole.setCreator(AuthUtils.getUserName());
+                sysUserRole.setCreatorId(AuthUtils.getUserId());
                 userRoleMapper.insert(sysUserRole);
             }
         }
@@ -430,7 +441,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
 
-
     /**
      * 更新用户
      *
@@ -465,8 +475,59 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public void batchDeleteUser(UserDto userDto) {
         // 批量删除
         boolean flag = this.removeByIds(userDto.getUserIds());
-        if (!flag){
+        if (!flag) {
             throw new HandleErrorException("批量删除失败");
         }
+    }
+
+    /**
+     * 查询绑定部门树形
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Map<String, Object> infoBindDepartTree(Long id) {
+        // 判断id为空
+        if (Validator.isNull(id)) {
+            throw new HandleErrorException("用户为空或已被删除");
+        }
+        // 查询所有部门
+        List<DepartTree> departTree = departService.getDepartTree();
+        // 查询被绑定的key
+        List<String> keys = ArrayUtils.longListToStringList(userDepartService.listDepartKeysByUserId(id));
+        // 包装
+        Map<String, Object> map = new HashMap<>();
+        map.put("trees", departTree);
+        map.put("keys", keys);
+        return map;
+    }
+
+    /**
+     * 绑定部门
+     *
+     * @param userDto
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void bindDepart(UserDto userDto) {
+        // 删除已经绑定的
+        userDepartService.remove(new QueryWrapper<UserDepart>().lambda().eq(UserDepart::getUserId, userDto.getUserId()));
+        // 遍历
+        List<UserDepart> userDeparts = new ArrayList<>();
+        userDto.getDepartIds().forEach(id -> {
+            UserDepart userDepart = new UserDepart();
+            userDepart.setDepartId(id);
+            userDepart.setUserId(userDto.getUserId());
+            userDepart.setCreator(AuthUtils.getUserName());
+            userDepart.setCreatorId(AuthUtils.getUserId());
+            userDeparts.add(userDepart);
+        });
+        // 批量写入
+        boolean flag = userDepartService.saveBatch(userDeparts);
+        if (!flag) {
+            throw new HandleErrorException("绑定失败");
+        }
+
     }
 }

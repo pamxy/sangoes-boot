@@ -125,4 +125,20 @@ public interface ISysUserService extends IBaseService<SysUser> {
      * @param userDto
      */
     void batchDeleteUser(UserDto userDto);
+
+    /**
+     * 查询绑定部门树形
+     *
+     * @param id
+     * @return
+     */
+    Map<String, Object> infoBindDepartTree(Long id);
+
+    /**
+     * 绑定部门
+     *
+     * @param userDto
+     */
+    void bindDepart(UserDto userDto);
+
 }

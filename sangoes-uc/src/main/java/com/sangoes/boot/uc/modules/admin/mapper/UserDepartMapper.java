@@ -1,7 +1,10 @@
 package com.sangoes.boot.uc.modules.admin.mapper;
 
-import com.sangoes.boot.uc.modules.admin.entity.UserDepart;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.sangoes.boot.uc.modules.admin.entity.UserDepart;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -11,6 +14,14 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author jerrychir
  * @since 2018-12-25
  */
+@Repository
 public interface UserDepartMapper extends BaseMapper<UserDepart> {
 
+    /**
+     * 根据userId查询部门id
+     *
+     * @param id
+     * @return
+     */
+    List<Long> listDepartKeysByUserId(Long id);
 }

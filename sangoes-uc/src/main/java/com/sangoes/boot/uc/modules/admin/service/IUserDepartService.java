@@ -2,6 +2,9 @@ package com.sangoes.boot.uc.modules.admin.service;
 
 import com.sangoes.boot.uc.modules.admin.entity.UserDepart;
 import com.sangoes.boot.common.service.IBaseService;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,10 @@ import com.sangoes.boot.common.service.IBaseService;
  */
 public interface IUserDepartService extends IBaseService<UserDepart> {
 
+    /**
+     * 更具userId查询绑定的部门id
+     * @param id
+     * @return
+     */
+    List<Long> listDepartKeysByUserId(Long id);
 }

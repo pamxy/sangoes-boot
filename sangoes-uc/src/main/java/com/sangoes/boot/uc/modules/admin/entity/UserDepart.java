@@ -1,8 +1,8 @@
 package com.sangoes.boot.uc.modules.admin.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.sangoes.boot.common.entity.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,14 +20,16 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value="UserDepart对象", description="用户部门中间表")
+@ApiModel(value = "UserDepart对象", description = "用户部门中间表")
 public class UserDepart extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty(value = "用户主键")
     private Long userId;
 
+    @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty(value = "部门主键")
     private Long departId;
 

@@ -57,6 +57,15 @@ public class UserDto {
 
     }
 
+    /**
+     * BindDepartGroup
+     * 绑定部门
+     */
+    public interface BindDepartGroup {
+
+    }
+
+
     @NotBlank(message = "用户名不能为空")
     @Pattern(regexp = "^[a-zA-Z0-9]{6,18}", message = "用户名最小6位最大18位英文和数字组合")
     @ApiModelProperty(value = "用户名")
@@ -72,7 +81,7 @@ public class UserDto {
     @ApiModelProperty(value = "手机号")
     private String mobile;
 
-    @NotNull(message = "用户id不能为空", groups = {BindRoleGroup.class, DeleteUserGroup.class})
+    @NotNull(message = "用户id不能为空", groups = {BindRoleGroup.class, DeleteUserGroup.class, BindDepartGroup.class})
     @ApiModelProperty(value = "用户id")
     private Long userId;
 
@@ -90,5 +99,9 @@ public class UserDto {
     @NotNull(message = "部门id不能为空")
     @ApiModelProperty(value = "部门id")
     private Long departId;
+
+    @NotNull(message = "部门id集合不能为空", groups = {BindDepartGroup.class})
+    @ApiModelProperty(value = "部门id集合")
+    private List<Long> departIds;
 
 }
