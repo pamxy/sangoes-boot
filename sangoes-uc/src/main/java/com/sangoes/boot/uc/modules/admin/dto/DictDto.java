@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Copyright (c) sangoes 2018
@@ -24,6 +26,29 @@ public class DictDto {
     public interface AddDictGroup {
 
     }
+
+    /**
+     * 删除字典组
+     */
+    public interface DeleteDictGroup {
+
+    }
+
+
+    /**
+     * 批量删除字典组
+     */
+    public interface BatchDeleteDictGroup {
+
+    }
+
+    @NotNull(message = "字典主键集合不能为空", groups = {BatchDeleteDictGroup.class})
+    @ApiModelProperty(value = "字典主键集合")
+    private List<Long> dictIds;
+
+    @NotNull(message = "字典主键不能为空", groups = {DeleteDictGroup.class})
+    @ApiModelProperty(value = "字典主键")
+    private Long dictId;
 
     @ApiModelProperty(value = "父主键 默认-1")
     private Long parentId;

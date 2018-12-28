@@ -44,6 +44,36 @@ public class DictController extends BaseController {
     }
 
     /**
+     * 删除字典
+     *
+     * @param dictDto
+     * @return
+     */
+    @DeleteMapping("/delete")
+    @ApiOperation(value = "删除字典", notes = "返回删除结果")
+    @ResponseBody
+    public Result<String> deleteDict(@RequestBody @Validated(DictDto.DeleteDictGroup.class) DictDto dictDto) {
+        // 删除字典
+        dictService.deleteDict(dictDto);
+        return Result.success("删除成功");
+    }
+
+    /**
+     * 批量删除字典
+     *
+     * @param dictDto
+     * @return
+     */
+    @DeleteMapping("/batch/delete")
+    @ApiOperation(value = "批量删除字典", notes = "返回删除结果")
+    @ResponseBody
+    public Result<String> batchDeleteDict(@RequestBody @Validated(DictDto.BatchDeleteDictGroup.class) DictDto dictDto) {
+        // 批量删除字典
+        dictService.batchDeleteDict(dictDto);
+        return Result.success("删除成功");
+    }
+
+    /**
      * 字典分页
      *
      * @param params

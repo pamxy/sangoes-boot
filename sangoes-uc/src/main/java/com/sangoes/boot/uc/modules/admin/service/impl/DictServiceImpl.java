@@ -53,6 +53,34 @@ public class DictServiceImpl extends BaseServiceImpl<DictMapper, Dict> implement
     }
 
     /**
+     * 删除字典
+     *
+     * @param dictDto
+     */
+    @Override
+    public void deleteDict(DictDto dictDto) {
+        //  删除
+        boolean flag = this.removeById(dictDto.getDictId());
+        if (!flag) {
+            throw new HandleErrorException("字典不存在或已被删除");
+        }
+    }
+
+    /**
+     * 批量删除字典
+     *
+     * @param dictDto
+     */
+    @Override
+    public void batchDeleteDict(DictDto dictDto) {
+        // 批量删除字典
+        boolean flag = this.removeByIds(dictDto.getDictIds());
+        if (!flag) {
+            throw new HandleErrorException("字典不存在或已被删除");
+        }
+    }
+
+    /**
      * 字典分页
      *
      * @param params

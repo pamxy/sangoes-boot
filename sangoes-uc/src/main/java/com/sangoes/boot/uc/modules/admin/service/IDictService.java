@@ -31,4 +31,18 @@ public interface IDictService extends IBaseService<Dict> {
      * @return
      */
     PageData<Dict> pageDict(Map<String, Object> params);
+
+    /**
+     * 删除字典
+     *
+     * @param dictDto
+     */
+    void deleteDict(DictDto dictDto);
+
+    /**
+     * 批量删除字典
+     *
+     * @param dictDto
+     */
+    void batchDeleteDict(DictDto dictDto);
 }
