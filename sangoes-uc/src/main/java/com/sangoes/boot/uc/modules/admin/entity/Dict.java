@@ -1,9 +1,8 @@
 package com.sangoes.boot.uc.modules.admin.entity;
 
-import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.sangoes.boot.common.entity.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -37,6 +36,9 @@ public class Dict extends BaseEntity {
 
     @ApiModelProperty(value = "字典描述")
     private String des;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long sort;
 
 
 }

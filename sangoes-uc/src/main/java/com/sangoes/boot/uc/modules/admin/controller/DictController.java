@@ -7,11 +7,13 @@ import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.uc.modules.admin.dto.DictDto;
 import com.sangoes.boot.uc.modules.admin.entity.Dict;
 import com.sangoes.boot.uc.modules.admin.service.IDictService;
+import com.sangoes.boot.uc.modules.admin.vo.DictTree;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,15 +77,30 @@ public class DictController extends BaseController {
 
     /**
      * 字典分页
+     * parentId为-1
      *
      * @param params
      * @return
      */
     @GetMapping("/page")
-    @ApiOperation(value = "字典分页", notes = "返回分页结果")
+    @ApiOperation(value = "字典分页", notes = "返回分页结果 parentId为-1")
     @ResponseBody
     public Result<PageData<Dict>> pageDict(@RequestParam Map<String, Object> params) {
         PageData<Dict> dicts = dictService.pageDict(params);
         return Result.success(dicts, "成功");
+    }
+
+    /**
+     * 获取字典树形结果
+     * 当不传dictId查询全部
+     *
+     * @return
+     */
+    @GetMapping("/tree/{dictId}")
+    @ApiOperation(value = "获取字典树形结果", notes = "返回树形结果 当不传dictId查询全部")
+    @ResponseBody
+    public Result<List<DictTree>> dictTree(@PathVariable Long dictId) {
+        List<DictTree> trees = dictService.dictTree(dictId);
+        return Result.success(trees, "获取成功");
     }
 }

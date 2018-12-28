@@ -4,7 +4,9 @@ import com.sangoes.boot.common.service.IBaseService;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.uc.modules.admin.dto.DictDto;
 import com.sangoes.boot.uc.modules.admin.entity.Dict;
+import com.sangoes.boot.uc.modules.admin.vo.DictTree;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,4 +47,12 @@ public interface IDictService extends IBaseService<Dict> {
      * @param dictDto
      */
     void batchDeleteDict(DictDto dictDto);
+
+    /**
+     * 查询字典树形
+     *
+     * @param dictId
+     * @return
+     */
+    List<DictTree> dictTree(Long dictId);
 }

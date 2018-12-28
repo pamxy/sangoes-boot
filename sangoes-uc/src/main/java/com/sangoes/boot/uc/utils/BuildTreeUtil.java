@@ -8,8 +8,10 @@ package com.sangoes.boot.uc.utils;
 
 import com.sangoes.boot.common.vo.TreeUtil;
 import com.sangoes.boot.uc.modules.admin.entity.Depart;
+import com.sangoes.boot.uc.modules.admin.entity.Dict;
 import com.sangoes.boot.uc.modules.admin.entity.SysMenu;
 import com.sangoes.boot.uc.modules.admin.vo.DepartTree;
+import com.sangoes.boot.uc.modules.admin.vo.DictTree;
 import com.sangoes.boot.uc.modules.admin.vo.MenuTree;
 import org.springframework.beans.BeanUtils;
 
@@ -55,6 +57,27 @@ public class BuildTreeUtil {
             node = new DepartTree();
             BeanUtils.copyProperties(depart, node);
             node.setName(depart.getDepartName());
+            trees.add(node);
+        }
+        return TreeUtil.buildByRecursive(trees, root);
+    }
+
+    /**
+     * 生成字典树形
+     *
+     * @param dicts
+     * @param root
+     * @return
+     */
+    public static List<DictTree> buildDictTree(List<Dict> dicts, Long root) {
+        List<DictTree> trees = new ArrayList<DictTree>();
+        DictTree node = null;
+        for (Dict dict : dicts) {
+            node = new DictTree();
+            BeanUtils.copyProperties(dict, node);
+            node.setName(dict.getDictValue());
+            node.setKey(dict.getDictKey());
+            node.setValue(dict.getDictValue());
             trees.add(node);
         }
         return TreeUtil.buildByRecursive(trees, root);
