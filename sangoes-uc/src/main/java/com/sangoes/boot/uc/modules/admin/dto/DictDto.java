@@ -42,6 +42,17 @@ public class DictDto {
 
     }
 
+    /**
+     * 更新字典组
+     */
+    public interface UpdateDictGroup {
+
+    }
+
+    @NotNull(message = "字典主键不能为空", groups = {UpdateDictGroup.class})
+    @ApiModelProperty(value = "字典主键")
+    private Long id;
+
     @NotNull(message = "字典主键集合不能为空", groups = {BatchDeleteDictGroup.class})
     @ApiModelProperty(value = "字典主键集合")
     private List<Long> dictIds;
@@ -63,5 +74,8 @@ public class DictDto {
 
     @ApiModelProperty(value = "字典描述")
     private String des;
+
+    @ApiModelProperty(value = "是否子字典")
+    private boolean subDict;
 
 }

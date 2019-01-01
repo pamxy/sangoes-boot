@@ -46,6 +46,21 @@ public class DictController extends BaseController {
     }
 
     /**
+     * 更新(修改)字典
+     *
+     * @param dictDto
+     * @return
+     */
+    @PutMapping("/update")
+    @ApiOperation(value = "更新(修改)字典", notes = "返回更新结果")
+    @ResponseBody
+    public Result<String> updateUser(@RequestBody @Validated({DictDto.UpdateDictGroup.class}) DictDto dictDto) {
+        // 更新
+        dictService.updateDict(dictDto);
+        return Result.success("更新成功");
+    }
+
+    /**
      * 删除字典
      *
      * @param dictDto

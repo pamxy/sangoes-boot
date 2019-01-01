@@ -1,5 +1,7 @@
 package com.sangoes.boot.uc.modules.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -40,10 +42,13 @@ public class DictServiceImpl extends BaseServiceImpl<DictMapper, Dict> implement
      */
     @Override
     public void saveDict(DictDto dictDto) {
-        // 根据key查询dict
-        Dict dictDB = this.getOne(new QueryWrapper<Dict>().lambda().eq(Dict::getDictKey, dictDto.getDictKey()));
-        if (ObjectUtil.isNotNull(dictDB)) {
-            throw new HandleErrorException("字典类型已存在");
+        // 判断是否添加子字典
+        if (!dictDto.isSubDict()){
+            // 根据key查询dict
+            Dict dictDB = this.getOne(new QueryWrapper<Dict>().lambda().eq(Dict::getDictKey, dictDto.getDictKey()));
+            if (ObjectUtil.isNotNull(dictDB)) {
+                throw new HandleErrorException("字典类型已存在");
+            }
         }
         // 复制
         Dict dict = new Dict();
@@ -56,6 +61,28 @@ public class DictServiceImpl extends BaseServiceImpl<DictMapper, Dict> implement
             throw new HandleErrorException("字典保存失败");
         }
 
+    }
+
+    /**
+     * 更新字典
+     *
+     * @param dictDto
+     */
+    @Override
+    public void updateDict(DictDto dictDto) {
+        // 查询
+        Dict dictDB = this.getById(dictDto.getId());
+        if (ObjectUtil.isNull(dictDB)){
+            throw new HandleErrorException("字典删除或者为空");
+        }
+        // 复制
+        Dict dict = new Dict();
+        BeanUtil.copyProperties(dictDto,dict, CopyOptions.create().setIgnoreNullValue(true));
+        // 更新
+        boolean flag = this.updateById(dict);
+        if (!flag){
+            throw new HandleErrorException("更新失败");
+        }
     }
 
     /**

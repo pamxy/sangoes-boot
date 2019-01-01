@@ -55,4 +55,12 @@ public interface IDictService extends IBaseService<Dict> {
      * @return
      */
     List<DictTree> dictTree(Long dictId);
+
+    /**
+     * 更新字典
+     *
+     * @param dictDto
+     */
+    void updateDict(DictDto dictDto);
+
 }
