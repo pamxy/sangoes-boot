@@ -17,6 +17,7 @@ import java.util.Date;
 public class BaseEntity implements Serializable {
 
 
+    private static final long serialVersionUID = -7582664785863208598L;
     /**
      * 主键
      */
@@ -63,6 +64,6 @@ public class BaseEntity implements Serializable {
     /**
      * 排序
      */
-//    @JsonSerialize(using = ToStringSerializer.class)
-//    private Long sort;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long sort;
 }

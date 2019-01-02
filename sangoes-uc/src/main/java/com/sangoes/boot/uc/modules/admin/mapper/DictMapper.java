@@ -2,6 +2,7 @@ package com.sangoes.boot.uc.modules.admin.mapper;
 
 import com.sangoes.boot.uc.modules.admin.entity.Dict;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author jerrychir
  * @since 2018-12-26
  */
+@Repository
 public interface DictMapper extends BaseMapper<Dict> {
 
 }

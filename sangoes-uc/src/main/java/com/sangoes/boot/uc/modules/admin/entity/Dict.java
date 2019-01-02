@@ -37,8 +37,4 @@ public class Dict extends BaseEntity {
     @ApiModelProperty(value = "字典描述")
     private String des;
 
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long sort;
-
-
 }
