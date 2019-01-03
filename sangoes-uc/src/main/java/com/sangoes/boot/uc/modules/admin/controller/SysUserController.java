@@ -45,6 +45,7 @@ public class SysUserController extends BaseController {
     @Autowired
     private AliyunOSSUploader aliyunOSSUploader;
 
+
     /**
      * 根据手机号码注册
      *

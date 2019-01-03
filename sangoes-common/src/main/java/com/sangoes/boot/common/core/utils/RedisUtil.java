@@ -1,4 +1,4 @@
-package com.sangoes.boot.common.utils;
+package com.sangoes.boot.common.core.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -13,11 +13,11 @@ import java.util.concurrent.TimeUnit;
 /**
  * Copyright (c) sangoes 2018
  * https://github.com/sangoes
+ * Redis 工具类
  *
  * @author jerrychir
  * @date 2018 2018/12/19 4:19 PM
  */
-
 @Component
 public class RedisUtil {
 
@@ -139,8 +139,8 @@ public class RedisUtil {
     /**
      * 递增
      *
-     * @param key 键
-     * @param delta  要增加几(大于0)
+     * @param key   键
+     * @param delta 要增加几(大于0)
      * @return
      */
     public long incr(String key, long delta) {
@@ -153,8 +153,8 @@ public class RedisUtil {
     /**
      * 递减
      *
-     * @param key 键
-     * @param delta  要减少几(小于0)
+     * @param key   键
+     * @param delta 要减少几(小于0)
      * @return
      */
     public long decr(String key, long delta) {
