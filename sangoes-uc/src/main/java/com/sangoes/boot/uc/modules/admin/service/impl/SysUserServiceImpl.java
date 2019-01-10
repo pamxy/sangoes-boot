@@ -394,7 +394,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      * @param userId
      * @return
      */
-//    @Cache(value = "user", key = "'user:info:'+#userId")
+//    @Cacheable(value = "user", key = "'user:info:'+#userId")
     @Override
     public SysUser userInfo(Long userId) {
         SysUser user = baseMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getId, userId));

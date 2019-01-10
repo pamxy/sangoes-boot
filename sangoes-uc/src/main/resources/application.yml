@@ -33,6 +33,9 @@ spring:
   freemarker:
     cache: false
     request-context-attribute: request
+  # cache为redis 可以切换
+#  cache:
+#    type: redis
 #mybatis
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*Mapper.xml
