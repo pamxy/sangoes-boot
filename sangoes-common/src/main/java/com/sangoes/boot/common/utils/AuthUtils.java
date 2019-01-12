@@ -48,7 +48,7 @@ public class AuthUtils {
      * @return List<String>
      */
     public static List<String> getListUserRoles() {
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        Collection<? extends GrantedAuthority> authorities = getAuthentication().getAuthorities();
         return ArrayUtils.objectArrayToListString(authorities.toArray());
     }
 
@@ -58,8 +58,8 @@ public class AuthUtils {
      * @return String
      */
     public static String getUserRoles() {
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        return StringUtils.join(authorities.toArray(),",");
+        Collection<? extends GrantedAuthority> authorities = getAuthentication().getAuthorities();
+        return StringUtils.join(authorities.toArray(), ",");
     }
 
     /**
@@ -68,9 +68,8 @@ public class AuthUtils {
      * @return
      */
     public static Map<String, Object> getUserDetails() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
-            return ObjectUtils.objectToMap(authentication.getPrincipal());
+            return ObjectUtils.objectToMap(getPrincipal());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -87,5 +86,23 @@ public class AuthUtils {
     public static String getToken(HttpServletRequest request) {
         String authorization = request.getHeader(SecurityConstants.SECURITY_AUTHORIZATION);
         return StringUtils.substringAfter(authorization, SecurityConstants.SECURITY_BEARER);
+    }
+
+    /**
+     * 获取Authentication
+     *
+     * @return
+     */
+    public static Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    /**
+     * 获取Principal
+     *
+     * @return
+     */
+    public static Object getPrincipal() {
+        return getAuthentication().getPrincipal();
     }
 }

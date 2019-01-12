@@ -2,6 +2,7 @@ package com.sangoes.boot.uc;
 
 import com.sangoes.boot.common.aop.redis.EnableCache;
 import com.spring4all.swagger.EnableSwagger2Doc;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -19,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableSwagger2Doc
 @EnableCaching
 @EnableCache
+@EnableRabbit
 @ComponentScan(basePackages = {"com.sangoes.boot.uc", "com.sangoes.boot.common.core"})
 public class UCApplication {
 

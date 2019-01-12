@@ -93,4 +93,8 @@ public interface SecurityConstants {
      */
     String POST = "POST";
 
+    /**
+     * 匿名 anonymousUser
+     */
+    String ANONYMOUS= "anonymousUser";
 }

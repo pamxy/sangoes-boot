@@ -66,6 +66,7 @@
 
    * <del>部门管理</del> 
    * <del>字典管理</del>
+   * 日志管理(filter)(aop)
    * cms管理
    * 队列
    * ELK
