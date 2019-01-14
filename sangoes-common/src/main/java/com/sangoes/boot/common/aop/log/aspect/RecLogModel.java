@@ -1,4 +1,4 @@
-package com.sangoes.boot.uc.modules.admin.entity;
+package com.sangoes.boot.common.aop.log.aspect;
 
 import com.sangoes.boot.common.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @ApiModel(value="SysLog对象", description="日志")
-public class SysLog extends BaseEntity {
+public class RecLogModel extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

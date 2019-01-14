@@ -2,6 +2,7 @@ package com.sangoes.boot.uc.modules.admin.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sangoes.boot.common.aop.log.annotation.RecLog;
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.page.PageData;
@@ -30,7 +31,7 @@ import java.util.Map;
  * @since 2018-12-21
  */
 @RestController
-@RequestMapping("/admin/depart")
+@RequestMapping("/api/admin/depart")
 @Api("部门/公司管理")
 @Slf4j
 public class DepartController extends BaseController {
@@ -47,6 +48,7 @@ public class DepartController extends BaseController {
      * @param departDto
      * @return
      */
+    @RecLog("添加部门/公司")
     @PostMapping("/add")
     @ApiOperation(value = "添加部门/公司", notes = "返回添加信息")
     @ResponseBody
@@ -61,6 +63,7 @@ public class DepartController extends BaseController {
      * @param departDto
      * @return
      */
+    @RecLog("更新(修改)部门")
     @PutMapping("/update")
     @ApiOperation(value = "更新(修改)部门", notes = "返回更新结果")
     @ResponseBody
@@ -75,6 +78,7 @@ public class DepartController extends BaseController {
      * @param departDto
      * @return
      */
+    @RecLog("删除部门")
     @DeleteMapping("/delete")
     @ApiOperation(value = "删除部门", notes = "返回删除结果")
     @ResponseBody
@@ -88,6 +92,7 @@ public class DepartController extends BaseController {
      *
      * @return
      */
+    @RecLog("获取部门树形结果")
     @GetMapping("/tree")
     @ApiOperation(value = "获取部门树形结果", notes = "返回树形结果")
     @ResponseBody
@@ -103,6 +108,7 @@ public class DepartController extends BaseController {
      * @param params
      * @return
      */
+    @RecLog("获取部门成员")
     @GetMapping("/members/page")
     @ApiOperation(value = "获取部门成员", notes = "返回列表结果")
     @ResponseBody

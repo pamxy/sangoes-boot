@@ -1,5 +1,6 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
+import com.sangoes.boot.common.aop.log.annotation.RecLog;
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.core.componet.AliyunOSSUploader;
 import com.sangoes.boot.common.msg.Result;
@@ -33,7 +34,7 @@ import java.util.Map;
  * @since 2018-10-29
  */
 @RestController
-@RequestMapping("admin/user")
+@RequestMapping("/api/admin/user")
 @Api("用户管理类")
 @Slf4j
 public class SysUserController extends BaseController {
@@ -52,6 +53,7 @@ public class SysUserController extends BaseController {
      * @param signUpDto
      * @return
      */
+    @RecLog("注册")
     @PostMapping("/signup")
     @ApiOperation(value = "根据手机号码注册", notes = "注册返回OK")
     @ResponseBody
@@ -97,6 +99,7 @@ public class SysUserController extends BaseController {
      * @param response
      * @return
      */
+    @RecLog("退出登录")
     @DeleteMapping("/logout")
     @ApiOperation(value = "退出登录", notes = "返回退出登录信息")
     @ResponseBody
@@ -113,6 +116,7 @@ public class SysUserController extends BaseController {
      * @param userDto
      * @return
      */
+    @RecLog("添加用户")
     @PostMapping("/add")
     @ApiOperation(value = "添加用户", notes = "返回添加结果")
     @ResponseBody
@@ -127,6 +131,7 @@ public class SysUserController extends BaseController {
      * @param userDto
      * @return
      */
+    @RecLog("删除用户")
     @DeleteMapping("/delete")
     @ApiOperation(value = "删除用户", notes = "返回删除结果")
     @ResponseBody
@@ -142,6 +147,7 @@ public class SysUserController extends BaseController {
      * @param userDto
      * @return
      */
+    @RecLog("批量删除用户")
     @DeleteMapping("/batch/delete")
     @ApiOperation(value = "批量删除用户", notes = "返回删除结果")
     @ResponseBody
@@ -157,6 +163,7 @@ public class SysUserController extends BaseController {
      * @param userDto
      * @return
      */
+    @RecLog("更新(修改)用户")
     @PutMapping("/update")
     @ApiOperation(value = "更新(修改)用户", notes = "返回更新结果")
     @ResponseBody
@@ -173,6 +180,7 @@ public class SysUserController extends BaseController {
      * @param params
      * @return
      */
+    @RecLog("用户分页")
     @GetMapping("/page")
     @ApiOperation(value = "用户分页", notes = "返回分页结果")
     @ResponseBody
@@ -186,6 +194,7 @@ public class SysUserController extends BaseController {
      * @param id
      * @return
      */
+    @RecLog("查询绑定角色")
     @GetMapping("/bind/role/info/{id}")
     @ApiOperation(value = "查询绑定角色", notes = "返回角色列表以及用户对应角色结果")
     @ResponseBody
@@ -199,6 +208,7 @@ public class SysUserController extends BaseController {
      * @param userDto
      * @return
      */
+    @RecLog("绑定用户")
     @PostMapping("/bind/role")
     @ApiOperation(value = "绑定用户", notes = "返回绑定结果")
     @ResponseBody
@@ -212,6 +222,7 @@ public class SysUserController extends BaseController {
      *
      * @return
      */
+    @RecLog("获取当前用户信息")
     @GetMapping("/info")
     @ApiOperation(value = "获取当前用户信息", notes = "返回用户信息结果")
     @ResponseBody
@@ -229,6 +240,7 @@ public class SysUserController extends BaseController {
      * @param file
      * @return
      */
+    @RecLog("用户上传头像")
     @PostMapping("/upload/avatar")
     @ApiOperation(value = "用户上传头像", notes = "返回头像结果")
     @ResponseBody
@@ -246,6 +258,7 @@ public class SysUserController extends BaseController {
      * @param id
      * @return
      */
+    @RecLog("查询绑定部门树形")
     @GetMapping("/bind/depart/{id}")
     @ApiOperation(value = "查询绑定部门树形", notes = "返回绑定树形结果")
     @ResponseBody
@@ -260,6 +273,7 @@ public class SysUserController extends BaseController {
      * @param userDto
      * @return
      */
+    @RecLog("绑定部门")
     @PostMapping("/bind/depart")
     @ApiOperation(value = "绑定部门", notes = "返回绑定结果")
     @ResponseBody

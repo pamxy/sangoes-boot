@@ -3,6 +3,7 @@ package com.sangoes.boot.uc.modules.admin.controller;
 import javax.servlet.http.HttpServletResponse;
 
 import com.baomidou.mybatisplus.extension.api.ApiController;
+import com.sangoes.boot.common.aop.log.annotation.RecLog;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.service.ICaptchaService;
 
@@ -25,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api("验证码管理")
-@RequestMapping("captcha")
+@RequestMapping("/api/captcha")
 public class CaptchaController extends ApiController {
 
     @Autowired
@@ -37,6 +38,7 @@ public class CaptchaController extends ApiController {
      * @param mobile
      * @return
      */
+    @RecLog("根据手机号码发送验证码")
     @GetMapping("/sms/{mobile}")
     @ApiOperation(value = "根据手机号码发送验证码", notes = "返回公钥")
     @ResponseBody
@@ -58,6 +60,7 @@ public class CaptchaController extends ApiController {
      * @param response
      * @return
      */
+    @RecLog("生成随机验证码图片")
     @GetMapping("/image/{random}")
     @ApiOperation(value = "生成随机验证码图片", notes = "返回图片流")
     @ResponseBody

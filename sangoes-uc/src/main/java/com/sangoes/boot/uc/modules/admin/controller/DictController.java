@@ -1,6 +1,7 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
 
+import com.sangoes.boot.common.aop.log.annotation.RecLog;
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.page.PageData;
@@ -25,7 +26,7 @@ import java.util.Map;
  * @since 2018-12-26
  */
 @RestController
-@RequestMapping("/admin/dict")
+@RequestMapping("/api/admin/dict")
 public class DictController extends BaseController {
 
     @Autowired
@@ -37,6 +38,7 @@ public class DictController extends BaseController {
      * @param dictDto
      * @return
      */
+    @RecLog("添加字典")
     @PostMapping("/add")
     @ApiOperation(value = "添加父字典", notes = "返回添加信息")
     @ResponseBody
@@ -51,6 +53,7 @@ public class DictController extends BaseController {
      * @param dictDto
      * @return
      */
+    @RecLog("更新(修改)字典")
     @PutMapping("/update")
     @ApiOperation(value = "更新(修改)字典", notes = "返回更新结果")
     @ResponseBody
@@ -66,6 +69,7 @@ public class DictController extends BaseController {
      * @param dictDto
      * @return
      */
+    @RecLog("删除字典")
     @DeleteMapping("/delete")
     @ApiOperation(value = "删除字典", notes = "返回删除结果")
     @ResponseBody
@@ -81,6 +85,7 @@ public class DictController extends BaseController {
      * @param dictDto
      * @return
      */
+    @RecLog("批量删除字典")
     @DeleteMapping("/batch/delete")
     @ApiOperation(value = "批量删除字典", notes = "返回删除结果")
     @ResponseBody
@@ -97,6 +102,7 @@ public class DictController extends BaseController {
      * @param params
      * @return
      */
+    @RecLog("字典分页")
     @GetMapping("/page")
     @ApiOperation(value = "字典分页", notes = "返回分页结果 parentId为-1")
     @ResponseBody
@@ -111,6 +117,7 @@ public class DictController extends BaseController {
      *
      * @return
      */
+    @RecLog("获取字典树形结果")
     @GetMapping("/tree/{dictId}")
     @ApiOperation(value = "获取字典树形结果", notes = "返回树形结果 当不传dictId查询全部")
     @ResponseBody

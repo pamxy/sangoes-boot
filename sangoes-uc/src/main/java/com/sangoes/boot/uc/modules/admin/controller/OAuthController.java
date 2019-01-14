@@ -1,5 +1,6 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
+import com.sangoes.boot.common.aop.log.annotation.RecLog;
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.page.PageData;
@@ -22,7 +23,7 @@ import java.util.Map;
  * @date 2018/11/19 3:24 PM
  */
 @RestController
-@RequestMapping("/admin/oauth")
+@RequestMapping("/api/admin/oauth")
 @Api("授权管理类")
 @Slf4j
 public class OAuthController extends BaseController {
@@ -37,6 +38,7 @@ public class OAuthController extends BaseController {
      * @param oauthDto
      * @return
      */
+    @RecLog("添加授权")
     @PostMapping("/add")
     @ApiOperation(value = "添加授权", notes = "返回添加信息")
     @ResponseBody
@@ -51,6 +53,7 @@ public class OAuthController extends BaseController {
      * @param params
      * @return
      */
+    @RecLog("授权分页")
     @GetMapping("/page")
     @ApiOperation(value = "授权分页", notes = "返回分页结果")
     @ResponseBody
@@ -65,6 +68,7 @@ public class OAuthController extends BaseController {
      * @param oauthDto
      * @return
      */
+    @RecLog("删除授权")
     @DeleteMapping("/delete")
     @ApiOperation(value = "删除授权", notes = "返回删除结果")
     @ResponseBody
@@ -80,6 +84,7 @@ public class OAuthController extends BaseController {
      * @param oauthDto
      * @return
      */
+    @RecLog("批量删除授权")
     @DeleteMapping("/batch/delete")
     @ApiOperation(value = "批量删除授权", notes = "返回删除结果")
     @ResponseBody
@@ -95,6 +100,7 @@ public class OAuthController extends BaseController {
      * @param oauthDto
      * @return
      */
+    @RecLog("更新(修改)授权")
     @PutMapping("/update")
     @ApiOperation(value = "更新(修改)授权", notes = "返回更新结果")
     @ResponseBody

@@ -1,6 +1,7 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
 import com.baomidou.mybatisplus.extension.api.ApiController;
+import com.sangoes.boot.common.aop.log.annotation.RecLog;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.service.IEncryptService;
 
@@ -23,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api("加密管理")
-@RequestMapping("encrypt")
+@RequestMapping("/api/encrypt")
 public class EncryptController extends ApiController {
 
     @Autowired
@@ -35,6 +36,7 @@ public class EncryptController extends ApiController {
      * @param mobile
      * @return
      */
+    @RecLog("根据手机号码获取公私钥")
     @GetMapping("/mobile/{mobile}")
     @ApiOperation(value = "根据手机号码获取公私钥", notes = "返回公钥")
     @ResponseBody
@@ -55,6 +57,7 @@ public class EncryptController extends ApiController {
      * @param random
      * @return
      */
+    @RecLog("根据随机数获取公私钥")
     @GetMapping("/rsa/{random}")
     @ApiOperation(value = "根据随机数获取公私钥", notes = "返回公钥")
     @ResponseBody

@@ -76,12 +76,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        // Allow swagger to be accessed without authentication
-        WebSecurity.IgnoredRequestConfigurer ignoring = web.ignoring().and().ignoring();
-        ignoreUrlsConfig.getUrls().forEach(ignoring::antMatchers);
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        // Allow swagger to be accessed without authentication
+//        WebSecurity.IgnoredRequestConfigurer ignoring = web.ignoring().and().ignoring();
+//        ignoreUrlsConfig.getUrls().forEach(ignoring::antMatchers);
+//    }
 
     /**
      * 自定义登录类
