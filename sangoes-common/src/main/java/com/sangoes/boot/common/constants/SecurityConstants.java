@@ -11,7 +11,7 @@ public interface SecurityConstants {
     /**
      * 登录
      */
-    String SIGN_IN = "/signin";
+    String SIGN_IN = "/api/signin";
     /**
      * Authorization
      */

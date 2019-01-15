@@ -9,6 +9,7 @@ import com.sangoes.boot.common.constants.RabbitConstants;
 import com.sangoes.boot.common.constants.SecurityConstants;
 import com.sangoes.boot.common.utils.AuthUtils;
 import com.sangoes.boot.common.utils.HttpContextUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -32,7 +33,7 @@ import java.lang.reflect.Method;
  * @author jerrychir
  * @date 2018 2018/12/25 2:52 PM
  */
-
+@Slf4j
 @Component
 @Scope
 @Aspect
@@ -88,7 +89,10 @@ public class RecLogAspect {
         String methodName = signature.getName();
         // 请求的参数
         Object[] args = joinPoint.getArgs();
-        String params = JSONUtil.toJsonStr(args[0]);
+        String params = null;
+        if (args.length > 0) {
+            params = JSONUtil.toJsonStr(args[0]);
+        }
         // 获取
         //获取request
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
@@ -129,7 +133,7 @@ public class RecLogAspect {
      */
     @AfterThrowing(pointcut = "logPointCut()", throwing = "e")
     public void doAfterThrowing(JoinPoint point, Throwable e) {
-
+        log.error("erro:{}", e);
     }
 }
 
