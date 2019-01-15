@@ -1,6 +1,7 @@
 package com.sangoes.boot.uc;
 
 import com.sangoes.boot.common.aop.log.EnableLog;
+import com.sangoes.boot.common.aop.ratelimit.EnableLimiter;
 import com.sangoes.boot.common.aop.redis.EnableCache;
 import com.spring4all.swagger.EnableSwagger2Doc;
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
@@ -23,6 +24,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableCaching
 @EnableCache
 @EnableLog
+@EnableLimiter
 @EnableRabbit
 @EnableAdminServer
 @ComponentScan(basePackages = {"com.sangoes.boot.uc", "com.sangoes.boot.common.core"})

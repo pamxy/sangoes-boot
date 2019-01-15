@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.sangoes.boot.common.aop.log.annotation.RecLog;
+import com.sangoes.boot.common.aop.ratelimit.annotation.RateLimiter;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.service.ICaptchaService;
 
@@ -60,6 +61,7 @@ public class CaptchaController extends ApiController {
      * @param response
      * @return
      */
+//    @RateLimiter(key = "test", period = 100, count = 10)
     @RecLog("生成随机验证码图片")
     @GetMapping("/image/{random}")
     @ApiOperation(value = "生成随机验证码图片", notes = "返回图片流")
