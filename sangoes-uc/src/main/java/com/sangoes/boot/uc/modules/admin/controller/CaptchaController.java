@@ -2,6 +2,7 @@ package com.sangoes.boot.uc.modules.admin.controller;
 
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.extension.api.ApiController;
+import com.sangoes.boot.common.aop.crypto.annotation.Encrypt;
 import com.sangoes.boot.common.aop.log.annotation.RecLog;
 import com.sangoes.boot.common.aop.ratelimit.annotation.RateLimiter;
 import com.sangoes.boot.common.msg.Result;
@@ -55,7 +56,8 @@ public class CaptchaController extends ApiController {
      * @param response
      * @return
      */
-    @RateLimiter(prefix = "captcha")
+    @Encrypt
+    @RateLimiter(prefix = "captcha:limit")
     @RecLog("生成随机验证码图片")
     @GetMapping("/image/{random}")
     @ApiOperation(value = "生成随机验证码图片", notes = "返回图片流")
@@ -63,5 +65,11 @@ public class CaptchaController extends ApiController {
     public void generateImageCaptcha(@PathVariable String random, HttpServletResponse response) {
         // 生成验证码
         captchaService.generateCaptcha(random, response);
+    }
+
+    @Encrypt
+    @GetMapping("/crypto")
+    public String testCrypt() {
+        return "1234567";
     }
 }

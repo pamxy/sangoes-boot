@@ -115,18 +115,18 @@ public class RedisCacheConfig {
         return redisCacheConfiguration;
     }
 
-    /**
-     * 限流
-     *
-     * @param redisConnectionFactory
-     * @return
-     */
-    @Bean
-    public RedisTemplate<String, Serializable> limitRedisTemplate(LettuceConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Serializable> template = new RedisTemplate<>();
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        template.setConnectionFactory(redisConnectionFactory);
-        return template;
-    }
+//    /**
+//     * 限流
+//     *
+//     * @param redisConnectionFactory
+//     * @return
+//     */
+//    @Bean
+//    public RedisTemplate<String, Serializable> limitRedisTemplate(LettuceConnectionFactory redisConnectionFactory) {
+//        RedisTemplate<String, Serializable> template = new RedisTemplate<>();
+//        template.setKeySerializer(new StringRedisSerializer());
+//        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+//        template.setConnectionFactory(redisConnectionFactory);
+//        return template;
+//    }
 }

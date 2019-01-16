@@ -1,5 +1,6 @@
 package com.sangoes.boot.uc;
 
+import com.sangoes.boot.common.aop.lock.EnableLock;
 import com.sangoes.boot.common.aop.log.EnableLog;
 import com.sangoes.boot.common.aop.ratelimit.EnableLimiter;
 import com.sangoes.boot.common.aop.redis.EnableCache;
@@ -25,6 +26,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableCache
 @EnableLog
 @EnableLimiter
+@EnableLock
+//@EnableCrypto
 @EnableRabbit
 @EnableAdminServer
 @ComponentScan(basePackages = {"com.sangoes.boot.uc", "com.sangoes.boot.common.core"})

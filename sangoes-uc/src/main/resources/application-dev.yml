@@ -73,3 +73,14 @@ aliyun:
     host: https://sangoes.oss-cn-hangzhou.aliyuncs.com/
     key:
     fileHost: boot
+#sangoes
+sangoes:
+  # body加密
+  crypto:
+    encoding: UTF-8
+    encrypt:
+      key: sangoes
+      type: aes
+    decrypt:
+      key: sangoes
+      type: aes
