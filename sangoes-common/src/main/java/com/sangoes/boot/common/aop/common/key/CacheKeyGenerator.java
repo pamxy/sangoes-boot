@@ -1,4 +1,4 @@
-package com.sangoes.boot.common.aop.lock.service;
+package com.sangoes.boot.common.aop.common.key;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 
@@ -15,8 +15,10 @@ public interface CacheKeyGenerator {
     /**
      * 获取AOP参数,生成指定缓存Key
      *
-     * @param pjp PJP
+     * @param prefix    key前缀
+     * @param delimiter 分隔符
+     * @param pjp       PJP
      * @return 缓存KEY
      */
-    String getLockKey(ProceedingJoinPoint pjp);
+    String generate(String prefix, String delimiter, ProceedingJoinPoint pjp);
 }

@@ -1,25 +1,22 @@
 package com.sangoes.boot.common.aop.ratelimit.aspect;
 
-import com.google.common.collect.ImmutableList;
+import com.sangoes.boot.common.aop.common.key.CacheKeyGenerator;
 import com.sangoes.boot.common.aop.ratelimit.annotation.RateLimiter;
-import com.sangoes.boot.common.aop.ratelimit.enums.LimiterType;
+import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.common.utils.HttpContextUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
-import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.data.redis.core.types.Expiration;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 /**
@@ -35,100 +32,39 @@ import java.lang.reflect.Method;
 @Aspect
 public class RateLimiterAspect {
 
-    private static final String UNKNOWN = "unknown";
-
-    private final RedisTemplate<String, Serializable> limitRedisTemplate;
-
     @Autowired
-    public RateLimiterAspect(RedisTemplate<String, Serializable> limitRedisTemplate) {
-        this.limitRedisTemplate = limitRedisTemplate;
-    }
+    private RateLimiterHelper rateLimiterHelper;
+    @Autowired
+    private CacheKeyGenerator cacheKeyGenerator;
 
-    /**
-     * 切面处理
-     *
-     * @param pjp
-     * @return
-     */
     @Around("execution(public * *(..)) && @annotation(com.sangoes.boot.common.aop.ratelimit.annotation.RateLimiter)")
-    public Object interceptor(ProceedingJoinPoint pjp) {
+    public Object interceptor(ProceedingJoinPoint pjp) throws IOException {
+        HttpServletResponse response = HttpContextUtils.getHttpServletResponse();
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         RateLimiter limitAnnotation = method.getAnnotation(RateLimiter.class);
-        LimiterType limitType = limitAnnotation.limitType();
-        String name = limitAnnotation.name();
-        String key;
-        int limitPeriod = limitAnnotation.period();
-        int limitCount = limitAnnotation.count();
-        switch (limitType) {
-            case IP:
-                key = getIpAddress();
-                break;
-            case CUSTOMER:
-                key = limitAnnotation.key();
-                break;
-            default:
-                key = StringUtils.upperCase(method.getName());
-        }
-        ImmutableList<String> keys = ImmutableList.of(StringUtils.join(limitAnnotation.prefix(), key));
+        final String prefix = limitAnnotation.prefix();
+        final String delimiter = limitAnnotation.delimiter();
+        final String description = limitAnnotation.description();
+        final long count = limitAnnotation.count();
+        final long limitExpire = limitAnnotation.expire();
+        final long seconds = Expiration.from(limitExpire, limitAnnotation.timeUnit()).getExpirationTimeInSeconds();
+        String key = cacheKeyGenerator.generate(prefix, delimiter, pjp);
         try {
-            String luaScript = buildLuaScript();
-            RedisScript<Number> redisScript = new DefaultRedisScript<>(luaScript, Number.class);
-            Number count = limitRedisTemplate.execute(redisScript, keys, limitCount, limitPeriod);
-            log.info("Access try count is {} for name={} and key = {}", count, name, key);
-            if (count != null && count.intValue() <= limitCount) {
+            final boolean acquire = this.rateLimiterHelper.tryAcquire(key, count, seconds, description);
+            if (acquire) {
                 return pjp.proceed();
             } else {
-                throw new RuntimeException("You have been dragged into the blacklist");
+                throw new RuntimeException(limitAnnotation.message());
             }
         } catch (Throwable e) {
             if (e instanceof RuntimeException) {
+                Result.noReturn(e.getLocalizedMessage(), HttpStatus.TOO_MANY_REQUESTS, response);
                 throw new RuntimeException(e.getLocalizedMessage());
             }
+            Result.noReturn(e.getLocalizedMessage(), HttpStatus.TOO_MANY_REQUESTS, response);
             throw new RuntimeException("server exception");
         }
     }
 
-    /**
-     * 限流 脚本
-     *
-     * @return lua脚本
-     */
-    public String buildLuaScript() {
-        StringBuilder lua = new StringBuilder();
-        lua.append("local c");
-        lua.append("\nc = redis.call('get',KEYS[1])");
-        // 调用不超过最大值，则直接返回
-        lua.append("\nif c and tonumber(c) > tonumber(ARGV[1]) then");
-        lua.append("\nreturn c;");
-        lua.append("\nend");
-        // 执行计算器自加
-        lua.append("\nc = redis.call('incr',KEYS[1])");
-        lua.append("\nif tonumber(c) == 1 then");
-        // 从第一次调用开始限流，设置对应键值的过期
-        lua.append("\nredis.call('expire',KEYS[1],ARGV[2])");
-        lua.append("\nend");
-        lua.append("\nreturn c;");
-        return lua.toString();
-    }
-
-    /**
-     * 获取ip地址
-     *
-     * @return
-     */
-    public String getIpAddress() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
 }

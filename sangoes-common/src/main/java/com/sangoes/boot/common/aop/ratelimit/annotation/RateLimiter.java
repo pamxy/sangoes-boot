@@ -1,8 +1,7 @@
 package com.sangoes.boot.common.aop.ratelimit.annotation;
 
-import com.sangoes.boot.common.aop.ratelimit.enums.LimiterType;
-
 import java.lang.annotation.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright (c) sangoes 2018
@@ -19,45 +18,56 @@ import java.lang.annotation.*;
 public @interface RateLimiter {
 
     /**
-     * 资源的名字
-     *
-     * @return String
-     */
-    String name() default "";
-
-    /**
-     * 资源的key
-     *
-     * @return String
-     */
-    String key() default "";
-
-    /**
      * Key的prefix
      *
      * @return String
      */
     String prefix() default "";
 
+
     /**
-     * 给定的时间段
-     * 单位秒
+     * 超时时间单位
+     *
+     * @return 秒
+     */
+    TimeUnit timeUnit() default TimeUnit.SECONDS;
+
+    /**
+     * <p>Key的分隔符（默认 :）</p>
+     * <p>生成的Key：N:SO1008:500</p>
+     *
+     * @return String
+     */
+    String delimiter() default ":";
+
+    /**
+     * 过期时间
      *
      * @return int
      */
-    int period();
+    int expire() default 5;
 
     /**
      * 最多的访问限制次数
      *
      * @return int
      */
-    int count();
+    long count() default 5;
+
 
     /**
-     * 类型
+     * 默认异常信息
+     * "You have been dragged into the blacklist"
      *
-     * @return LimiterType
+     * @return String
      */
-    LimiterType limitType() default LimiterType.CUSTOMER;
+    String message() default "请求过多,请稍后再试";
+
+    /**
+     * 限流描述
+     *
+     * @return String
+     */
+    String description() default "";
+
 }

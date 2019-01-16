@@ -136,6 +136,7 @@ ignore:
   - /configuration/**
   - /webjars/**
   - /public
+  - /**
 #  # admin
 #  - /assets/**
 #  - /instances/**

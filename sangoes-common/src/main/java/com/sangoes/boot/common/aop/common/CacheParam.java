@@ -1,4 +1,4 @@
-package com.sangoes.boot.common.aop.lock.annotation;
+package com.sangoes.boot.common.aop.common;
 
 import java.lang.annotation.*;
 

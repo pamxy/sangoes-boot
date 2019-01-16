@@ -1,23 +1,17 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
-import javax.servlet.http.HttpServletResponse;
-
+import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.sangoes.boot.common.aop.log.annotation.RecLog;
 import com.sangoes.boot.common.aop.ratelimit.annotation.RateLimiter;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.uc.modules.admin.service.ICaptchaService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import cn.hutool.core.lang.Validator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Copyright (c) 2018 验证码 前端控制器
@@ -56,12 +50,12 @@ public class CaptchaController extends ApiController {
 
     /**
      * 生成随机验证码图片
-     * 
+     *
      * @param random
      * @param response
      * @return
      */
-//    @RateLimiter(key = "test", period = 100, count = 10)
+    @RateLimiter(prefix = "captcha")
     @RecLog("生成随机验证码图片")
     @GetMapping("/image/{random}")
     @ApiOperation(value = "生成随机验证码图片", notes = "返回图片流")

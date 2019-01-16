@@ -1,7 +1,7 @@
-package com.sangoes.boot.common.aop.lock.service;
+package com.sangoes.boot.common.aop.common.key;
 
-import com.sangoes.boot.common.aop.lock.annotation.CacheLock;
-import com.sangoes.boot.common.aop.lock.annotation.CacheParam;
+import cn.hutool.core.util.ObjectUtil;
+import com.sangoes.boot.common.aop.common.CacheParam;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -15,28 +15,36 @@ import java.lang.reflect.Parameter;
 /**
  * Copyright (c) sangoes 2018
  * https://github.com/sangoes
- * 可以实现
+ * key实现
  *
  * @author jerrychir
  * @date 2019 2019/1/15 3:27 PM
  */
-public class LockKeyGenerator implements CacheKeyGenerator {
+public class DefaultCacheKeyGenerator implements CacheKeyGenerator {
 
+
+    /**
+     * 获取AOP参数,生成指定缓存Key
+     *
+     * @param prefix    key前缀
+     * @param delimiter 分隔符
+     * @param pjp       PJP
+     * @return 缓存KEY
+     */
     @Override
-    public String getLockKey(ProceedingJoinPoint pjp) {
+    public String generate(String prefix, String delimiter, ProceedingJoinPoint pjp) {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
-        CacheLock lockAnnotation = method.getAnnotation(CacheLock.class);
         final Object[] args = pjp.getArgs();
         final Parameter[] parameters = method.getParameters();
         StringBuilder builder = new StringBuilder();
-        // TODO 默认解析方法里面带 CacheParam 注解的属性,如果没有尝试着解析实体对象中的
+        //  默认解析方法里面带 RedisParam 注解的属性,如果没有尝试着解析实体对象中的
         for (int i = 0; i < parameters.length; i++) {
             final CacheParam annotation = parameters[i].getAnnotation(CacheParam.class);
-            if (annotation == null) {
+            if (ObjectUtil.isNull(annotation)) {
                 continue;
             }
-            builder.append(lockAnnotation.delimiter()).append(args[i]);
+            builder.append(delimiter).append(args[i]);
         }
         if (StringUtils.isEmpty(builder.toString())) {
             final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
@@ -45,14 +53,14 @@ public class LockKeyGenerator implements CacheKeyGenerator {
                 final Field[] fields = object.getClass().getDeclaredFields();
                 for (Field field : fields) {
                     final CacheParam annotation = field.getAnnotation(CacheParam.class);
-                    if (annotation == null) {
+                    if (ObjectUtil.isNull(annotation)) {
                         continue;
                     }
                     field.setAccessible(true);
-                    builder.append(lockAnnotation.delimiter()).append(ReflectionUtils.getField(field, object));
+                    builder.append(delimiter).append(ReflectionUtils.getField(field, object));
                 }
             }
         }
-        return lockAnnotation.prefix() + builder.toString();
+        return prefix + builder.toString();
     }
 }
