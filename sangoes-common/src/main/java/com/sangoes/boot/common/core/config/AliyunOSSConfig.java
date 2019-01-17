@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @Data
-@ConditionalOnExpression("!'${aliyun}'.isEmpty()")
-@ConfigurationProperties(prefix = "aliyun.oss")
+@ConditionalOnExpression("!'${sangoes.aliyun}'.isEmpty()")
+@ConfigurationProperties(prefix = "sangoes.aliyun.oss")
 public class AliyunOSSConfig {
 
     private String endpoint;

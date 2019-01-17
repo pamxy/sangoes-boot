@@ -18,7 +18,16 @@ spring:
   freemarker:
     cache: false
     request-context-attribute: request
-  # actuator admin
+  # 普通 datasource
+  #  datasource:
+  #    type: com.zaxxer.hikari.HikariDataSource
+  #    url: jdbc:mysql://localhost:3306/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+  #    username: sangoes
+  #    password: ENC(myS91HA17JVaJni8nGWPQTH+TnpDYMc6)
+  #    continue-on-error: true
+  #    platform: mysql
+
+# actuator admin
 #  boot:
 #    admin:
 #      client:

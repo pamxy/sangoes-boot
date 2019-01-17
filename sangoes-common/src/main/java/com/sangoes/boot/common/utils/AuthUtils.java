@@ -29,6 +29,7 @@ public class AuthUtils {
      */
     public static Long getUserId() {
         Map<String, Object> userDetails = getUserDetails();
+        assert userDetails != null;
         return Long.parseLong(userDetails.get("userId").toString());
     }
 
@@ -39,6 +40,7 @@ public class AuthUtils {
      */
     public static String getUserName() {
         Map<String, Object> userDetails = getUserDetails();
+        assert userDetails != null;
         return userDetails.get("username").toString();
     }
 

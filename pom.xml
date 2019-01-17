@@ -28,7 +28,7 @@
         <oss.version>2.8.3</oss.version>
 
         <mybatis-plus.starter.version>3.0.5</mybatis-plus.starter.version>
-        <HikariCP.version>3.1.0</HikariCP.version>
+        <sharding-sphere.version>3.1.0</sharding-sphere.version>
 
         <jasypt.version>2.0.0</jasypt.version>
         <lombok.version>1.18.2</lombok.version>
