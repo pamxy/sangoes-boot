@@ -2,6 +2,7 @@ package com.sangoes.boot.uc.modules.admin.controller;
 
 
 import com.sangoes.boot.common.aop.log.annotation.RecLog;
+import com.sangoes.boot.common.aop.ratelimit.annotation.RateLimiter;
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.page.PageData;
@@ -123,6 +124,36 @@ public class DictController extends BaseController {
     @ResponseBody
     public Result<List<DictTree>> dictTree(@PathVariable Long dictId) {
         List<DictTree> trees = dictService.dictTree(dictId);
+        return Result.success(trees, "获取成功");
+    }
+
+    /**
+     * 根据字典类型(dictKey) 获取字典树形
+     *
+     * @return
+     */
+    @RateLimiter(prefix = "dict:one:tree")
+    @RecLog("根据字典类型(dictKey) 获取字典树形")
+    @GetMapping("/one/tree/{dictKey}")
+    @ApiOperation(value = "根据字典类型(dictKey) 获取字典树形", notes = "返回树形结果")
+    @ResponseBody
+    public Result<List<DictTree>> dictOneTree(@PathVariable String dictKey) {
+        List<DictTree> trees = dictService.dictOneTree(dictKey);
+        return Result.success(trees, "获取成功");
+    }
+
+    /**
+     * 根据字典类型(dictKey) 获取列表
+     *
+     * @return
+     */
+    @RateLimiter(prefix = "dict:one:list")
+    @RecLog("根据字典类型(dictKey) 获取列表")
+    @GetMapping("/one/list/{dictKey}")
+    @ApiOperation(value = "根据字典类型(dictKey) 获取列表", notes = "返回列表结果")
+    @ResponseBody
+    public Result<List<DictTree>> dictOneList(@PathVariable String dictKey) {
+        List<DictTree> trees = dictService.dictOneList(dictKey);
         return Result.success(trees, "获取成功");
     }
 }

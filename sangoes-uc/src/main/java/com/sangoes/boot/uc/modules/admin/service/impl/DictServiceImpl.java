@@ -3,6 +3,8 @@ package com.sangoes.boot.uc.modules.admin.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,6 +23,7 @@ import com.sangoes.boot.uc.utils.BuildTreeUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +46,7 @@ public class DictServiceImpl extends BaseServiceImpl<DictMapper, Dict> implement
     @Override
     public void saveDict(DictDto dictDto) {
         // 判断是否添加子字典
-        if (!dictDto.isSubDict()){
+        if (!dictDto.isSubDict()) {
             // 根据key查询dict
             Dict dictDB = this.getOne(new QueryWrapper<Dict>().lambda().eq(Dict::getDictKey, dictDto.getDictKey()));
             if (ObjectUtil.isNotNull(dictDB)) {
@@ -72,15 +75,15 @@ public class DictServiceImpl extends BaseServiceImpl<DictMapper, Dict> implement
     public void updateDict(DictDto dictDto) {
         // 查询
         Dict dictDB = this.getById(dictDto.getId());
-        if (ObjectUtil.isNull(dictDB)){
+        if (ObjectUtil.isNull(dictDB)) {
             throw new HandleErrorException("字典删除或者为空");
         }
         // 复制
         Dict dict = new Dict();
-        BeanUtil.copyProperties(dictDto,dict, CopyOptions.create().setIgnoreNullValue(true));
+        BeanUtil.copyProperties(dictDto, dict, CopyOptions.create().setIgnoreNullValue(true));
         // 更新
         boolean flag = this.updateById(dict);
-        if (!flag){
+        if (!flag) {
             throw new HandleErrorException("更新失败");
         }
     }
@@ -124,8 +127,10 @@ public class DictServiceImpl extends BaseServiceImpl<DictMapper, Dict> implement
         // 查询分页
         PageQuery query = new PageQuery(params);
         Page<Dict> page = new Page<>(query.getCurrent(), query.getPageSize());
+        // 构造条件
+        LambdaQueryWrapper<Dict> wrapper = new QueryWrapper<Dict>().lambda().eq(Dict::getParentId, -1L);
         // 查询条件
-        IPage<Dict> dicts = this.page(page, new QueryWrapper<Dict>().lambda().eq(Dict::getParentId, -1L));
+        IPage<Dict> dicts = this.page(page,wrapper);
         // 返回结果
         Pagination pagination = new Pagination(dicts.getTotal(), dicts.getSize(), dicts.getCurrent());
         return new PageData<>(pagination, dicts.getRecords());
@@ -151,5 +156,51 @@ public class DictServiceImpl extends BaseServiceImpl<DictMapper, Dict> implement
         // 变树形
         List<DictTree> trees = BuildTreeUtil.buildDictTree(list, root);
         return trees;
+    }
+
+    /**
+     * 根据字典类型(dictKey) 获取字典树形
+     *
+     * @param dictKey
+     * @return
+     */
+    @Override
+    public List<DictTree> dictOneTree(String dictKey) {
+        // 判断dictKey是否为空
+        if (StrUtil.isBlank(dictKey)) {
+            throw new HandleErrorException("字典类型不能为空");
+        }
+        //查询dictList
+        List<Dict> list = baseMapper.dictOneTree(dictKey);
+        // 变树形
+        List<DictTree> trees = BuildTreeUtil.buildDictTree(list, -1L);
+        return trees;
+    }
+
+    /**
+     * 根据字典类型(dictKey) 获取列表
+     *
+     * @param dictKey
+     * @return
+     */
+    @Override
+    public List<DictTree> dictOneList(String dictKey) {
+        // 判断dictKey是否为空
+        if (StrUtil.isBlank(dictKey)) {
+            throw new HandleErrorException("字典类型不能为空");
+        }
+        //查询dictList
+        List<Dict> list = baseMapper.dictOneList(dictKey);
+        List<DictTree> dicts = new ArrayList<DictTree>();
+        DictTree dictTree = null;
+        for (Dict dict : list) {
+            dictTree = new DictTree();
+            BeanUtils.copyProperties(dict, dictTree);
+            dictTree.setName(dict.getDictValue());
+            dictTree.setKey(dict.getDictKey());
+            dictTree.setValue(dict.getDictValue());
+            dicts.add(dictTree);
+        }
+        return dicts;
     }
 }

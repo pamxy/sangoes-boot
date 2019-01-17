@@ -65,7 +65,7 @@
     
 ## 待做
 
-   * <del>部门管理</del> 
+   - <del>部门管理</del> 
    * <del>字典管理</del>
    * <del>日志管理(filter)(aop)</del> 日志异常
    * cms管理
@@ -73,7 +73,7 @@
    * ELK
    * 个人中心 个人设置
    * CacheCloud
-   * <del>限流</del>
+   * <del>分布式限流</del>
    * 白名单 黑名单
    * 使用文档
    * *消息中心*
@@ -81,14 +81,17 @@
    * 监控
    * 分库分表 <del>分表</del>
    * 文件管理
-   * 定时(计划)管理
-   * <del>api数据加密解密</del>
-   * <del>分布式锁(redis)</del>
-
+   - 定时(计划)管理
+   - <del>api数据加密解密</del>
+   - <del>分布式锁(redis)</del>
+## FIXME
+   - 同一账号同时登录,第二个账号无法获取数据(报错:AuthUtils java.lang.NullPointerException)(猜测是因为SecurityContextHolder造成的，修复从token中获取)
 ## 开发
+   
    1.环境
-   * java1.8+idea/vscode
-   * 若出现getter/setter错误,请安装 IntelliJ Lombok plugin
+   - redis rabbitmq mysql elasticsearch
+   - java1.8+idea/vscode
+   - 若出现getter/setter错误,请安装 IntelliJ Lombok plugin
    
    2.导入sql
    * 创建sql create database boot

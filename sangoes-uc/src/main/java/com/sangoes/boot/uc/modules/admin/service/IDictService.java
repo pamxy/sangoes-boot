@@ -63,4 +63,19 @@ public interface IDictService extends IBaseService<Dict> {
      */
     void updateDict(DictDto dictDto);
 
+    /**
+     * 根据字典类型(dictKey) 获取字典树形
+     *
+     * @param dictKey
+     * @return
+     */
+    List<DictTree> dictOneTree(String dictKey);
+
+    /**
+     * 根据字典类型(dictKey) 获取列表
+     *
+     * @param dictKey
+     * @return
+     */
+    List<DictTree> dictOneList(String dictKey);
 }

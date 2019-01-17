@@ -18,6 +18,7 @@ import cn.hutool.core.util.StrUtil;
 
 /**
  * BaseServiceImpl
+ * @author jerrychir
  */
 @Service
 public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> implements IBaseService<T> {
