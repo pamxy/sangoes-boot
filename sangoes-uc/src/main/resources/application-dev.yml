@@ -58,7 +58,7 @@ debug: false
 #logging
 logging:
   level: warn
-  level.org.springframework.security: DEBUG
+#  level.org.springframework.security: DEBUG
 
 #======================================自定义================================#
 #oauth
@@ -89,6 +89,13 @@ sangoes:
     decrypt:
       key: sangoes
       type: aes
+  # netty socket配置
+  # web消息配置
+  web:
+    msg:
+      host: 127.0.0.1
+      path: /web/msg
+      port: 9191
 #================================sharding-jdbc配置================================#
 sharding:
   jdbc:

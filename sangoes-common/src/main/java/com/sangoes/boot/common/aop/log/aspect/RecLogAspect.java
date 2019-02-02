@@ -108,7 +108,7 @@ public class RecLogAspect {
         if (!StrUtil.equals(SecurityConstants.ANONYMOUS, AuthUtils.getPrincipal().toString())) {
             recLogModel.setCreator(AuthUtils.getUserName());
             recLogModel.setCreatorId(AuthUtils.getUserId());
-            recLogModel.setAuthToken(AuthUtils.getToken(request));
+            recLogModel.setAuthToken(AuthUtils.getToken());
         }
         if (ObjectUtil.isNotNull(recLog)) {
             // 注解描述

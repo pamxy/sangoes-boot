@@ -7,6 +7,7 @@ import com.sangoes.boot.uc.modules.admin.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,6 +29,7 @@ public class LogConsumer {
      *
      * @param logJson
      */
+    @Async("logTaskExecutor")
     @RabbitListener(queues = {RabbitConstants.LOG_DIRECT_QUEUE})
     public void logListenerAutoAck(String logJson) {
         SysLog log = JSONUtil.parseObj(logJson).toBean(SysLog.class);

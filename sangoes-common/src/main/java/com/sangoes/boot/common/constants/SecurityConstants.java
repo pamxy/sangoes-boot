@@ -97,4 +97,8 @@ public interface SecurityConstants {
      * 匿名 anonymousUser
      */
     String ANONYMOUS= "anonymousUser";
+    /**
+     * x-user-header
+     */
+    String X_USER_HEADER = "x-user-header";
 }

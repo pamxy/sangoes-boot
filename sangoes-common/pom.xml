@@ -115,5 +115,12 @@
             <version>${oauth2.version}</version>
         </dependency>
 
+        <!--netty-->
+        <dependency>
+            <groupId>org.yeauty</groupId>
+            <artifactId>netty-websocket-spring-boot-starter</artifactId>
+            <version>${netty.starter.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

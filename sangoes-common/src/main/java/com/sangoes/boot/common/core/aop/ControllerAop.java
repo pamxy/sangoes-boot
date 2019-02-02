@@ -1,14 +1,15 @@
 package com.sangoes.boot.common.core.aop;
 
 import cn.hutool.core.util.StrUtil;
+import com.sangoes.boot.common.constants.SecurityConstants;
+import com.sangoes.boot.common.utils.AuthUtils;
+import com.sangoes.boot.common.utils.HttpContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -24,6 +25,9 @@ import java.util.Arrays;
 @Aspect
 @Component
 public class ControllerAop {
+    /**
+     * 切面
+     */
     @Pointcut("execution(public com.sangoes.boot.common.msg.Result *(..))")
     public void pointCutResult() {
     }
@@ -39,15 +43,26 @@ public class ControllerAop {
         return methodHandler(pjp);
     }
 
-
+    /**
+     * 处理方法
+     *
+     * @param pjp
+     * @return
+     * @throws Throwable
+     */
     private Object methodHandler(ProceedingJoinPoint pjp) throws Throwable {
+        // 获取时间
         long startTime = System.currentTimeMillis();
+        // 获取request
+        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+//        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+//        HttpServletRequest request = attributes.getRequest();
 
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-
-        String username = request.getHeader("x-user-header");
+        // 获取username
+        String username = request.getHeader(SecurityConstants.X_USER_HEADER);
         if (StrUtil.isNotBlank(username)) {
+            // 记录下
+            AuthUtils.setUser();
             log.info("Controller AOP get username:{}", username);
         }
 

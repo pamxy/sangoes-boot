@@ -55,8 +55,8 @@
         </dependency>
         <!--liquibase-->
         <!--<dependency>-->
-        <!--<groupId>org.liquibase</groupId>-->
-        <!--<artifactId>liquibase-core</artifactId>-->
+            <!--<groupId>org.liquibase</groupId>-->
+            <!--<artifactId>liquibase-core</artifactId>-->
         <!--</dependency>-->
         <dependency>
             <groupId>de.codecentric</groupId>
@@ -97,6 +97,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

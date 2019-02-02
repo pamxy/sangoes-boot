@@ -47,7 +47,7 @@ public class LogProducer {
         int status = response.getStatus();
         // authentication
         if (!StrUtil.equals(SecurityConstants.ANONYMOUS, AuthUtils.getPrincipal().toString())) {
-            log.setAuthToken(AuthUtils.getToken(request));
+            log.setAuthToken(AuthUtils.getToken());
         }
         // 设置
         log.setUrl(url);
