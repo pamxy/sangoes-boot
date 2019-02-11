@@ -11,10 +11,14 @@ import com.sangoes.boot.uc.modules.admin.dto.SignUpDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto;
 import com.sangoes.boot.uc.modules.admin.dto.UserDto.BindRoleGroup;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
+import com.sangoes.boot.uc.modules.admin.service.ISysAuthService;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
+import com.sangoes.boot.uc.modules.admin.vo.AuthVo;
+import com.sangoes.boot.uc.modules.admin.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.validation.annotation.Validated;
@@ -25,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -42,6 +47,9 @@ public class SysUserController extends BaseController {
 
     @Autowired
     private ISysUserService userService;
+
+    @Autowired
+    private ISysAuthService authService;
 
 
     @Autowired
@@ -227,17 +235,18 @@ public class SysUserController extends BaseController {
     @GetMapping("/info")
     @ApiOperation(value = "获取当前用户信息", notes = "返回用户信息结果")
     @ResponseBody
-    public Result<SysUser> userInfo() {
+    public Result<UserVo> userInfo() {
         // 获取当前用户id
         Long userId = AuthUtils.getUserId();
+        //
+        UserVo userVo = new UserVo();
         // 获取user
         SysUser user = userService.userInfo(userId);
-        // 获取当前角色
-        List<String> roles = AuthUtils.getListUserRoles();
-        roles.forEach(role->{
-            log.info("role:{}",role);
-        });
-        return Result.success(user, "成功");
+        BeanUtils.copyProperties(user,userVo);
+        // 获取当前权限对应的权限
+        Set<AuthVo> authVos = authService.listCurrentRoleAuth();
+        userVo.setAuth(authVos);
+        return Result.success(userVo, "成功");
     }
 
     /**

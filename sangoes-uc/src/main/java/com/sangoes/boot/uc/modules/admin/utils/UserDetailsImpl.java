@@ -62,8 +62,8 @@ public class UserDetailsImpl implements UserDetails {
         for (SysRole role : roleList) {
             authorityList.add(new SimpleGrantedAuthority(role.getRoleCode()));
         }
-
-        authorityList.add(new SimpleGrantedAuthority(SecurityConstants.BASE_ROLE));
+        // TODO 删除添加基础角色 user
+//        authorityList.add(new SimpleGrantedAuthority(SecurityConstants.BASE_ROLE));
         return authorityList;
     }
 

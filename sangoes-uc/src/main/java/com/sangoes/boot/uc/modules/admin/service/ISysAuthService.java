@@ -9,6 +9,7 @@ import com.sangoes.boot.uc.modules.admin.vo.AuthVo;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -64,4 +65,11 @@ public interface ISysAuthService extends IBaseService<SysAuth> {
      * @param authDto
      */
     void batchDeleteAuth(AuthDto authDto);
+
+    /**
+     * 获取当前角色对应的权限列表
+     *
+     * @return
+     */
+    Set<AuthVo> listCurrentRoleAuth();
 }

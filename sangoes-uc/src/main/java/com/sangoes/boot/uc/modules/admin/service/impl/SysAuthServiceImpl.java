@@ -2,6 +2,7 @@ package com.sangoes.boot.uc.modules.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.service.impl.BaseServiceImpl;
+import com.sangoes.boot.common.utils.AuthUtils;
 import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.common.utils.page.PageQuery;
 import com.sangoes.boot.common.utils.page.Pagination;
@@ -22,8 +24,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -146,5 +150,23 @@ public class SysAuthServiceImpl extends BaseServiceImpl<SysAuthMapper, SysAuth> 
         if (!flag) {
             throw new HandleErrorException("批量删除失败");
         }
+    }
+
+    /**
+     * 获取当前角色对应的权限列表
+     *
+     * @return
+     */
+    @Override
+    public Set<AuthVo> listCurrentRoleAuth() {
+        // 创建所有权限
+        Set<AuthVo> authVos = new HashSet<>();
+        // 获取当前角色
+        List<String> roles = AuthUtils.getListUserRoles();
+        roles.forEach(role->{
+            List<AuthVo> authVoList = this.listAuthByRoleCode(role);
+            CollUtil.addAll(authVos,authVoList);
+        });
+        return authVos;
     }
 }
