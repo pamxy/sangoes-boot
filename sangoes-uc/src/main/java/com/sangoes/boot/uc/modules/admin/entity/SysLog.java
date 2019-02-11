@@ -1,8 +1,6 @@
 package com.sangoes.boot.uc.modules.admin.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.sangoes.boot.common.entity.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -48,12 +46,6 @@ public class SysLog extends BaseEntity {
 
     @ApiModelProperty(value = "请求耗时")
     private String elapsed;
-
-    @ApiModelProperty(value = "用户主键")
-    private Long userId;
-
-    @ApiModelProperty(value = "用户名")
-    private String userName;
 
     @ApiModelProperty(value = "角色名")
     private String roleName;

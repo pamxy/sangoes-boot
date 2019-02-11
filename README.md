@@ -61,32 +61,37 @@
    * 授权管理:添加授权 删除授权 批量删除授权
    * 部门管理:添加部门 编辑部门 删除部门
    * 字典管理:添加字典 添加子字典 删除 编辑
+   * 日志管理
     
 ## 待做
 
-   * <del>部门管理</del> 
+   - <del>部门管理</del> 
    * <del>字典管理</del>
-   * 日志管理(filter)(aop)
+   * <del>日志管理(filter)(aop)</del> 日志异常
    * cms管理
-   * 队列
+   * <del>队列</del>
    * ELK
    * 个人中心 个人设置
    * CacheCloud
-   * 限流
+   * <del>分布式限流</del>
    * 白名单 黑名单
    * 使用文档
-   * 消息中心
+   * *消息中心*
    * 一二级缓存
    * 监控
-   * 数据库读写分离
+   * 分库分表 <del>分表</del>
    * 文件管理
-   * 定时(计划)管理
-   * api数据加密解密
-
+   - 定时(计划)管理
+   - <del>api数据加密解密</del>
+   - <del>分布式锁(redis)</del>
+## FIXME
+   - 同一账号同时登录,第二个账号无法获取数据(报错:AuthUtils java.lang.NullPointerException)(猜测是因为SecurityContextHolder造成的，修复从token中获取)
 ## 开发
+   
    1.环境
-   * java1.8+idea/vscode
-   * 若出现getter/setter错误,请安装 IntelliJ Lombok plugin
+   - redis rabbitmq mysql elasticsearch
+   - java1.8+idea/vscode
+   - 若出现getter/setter错误,请安装 IntelliJ Lombok plugin
    
    2.导入sql
    * 创建sql create database boot

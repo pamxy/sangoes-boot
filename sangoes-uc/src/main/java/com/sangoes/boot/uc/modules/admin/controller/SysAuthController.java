@@ -1,5 +1,6 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
+import com.sangoes.boot.common.aop.log.annotation.RecLog;
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.AuthUtils;
@@ -29,7 +30,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("admin/auth")
+@RequestMapping("/api/admin/auth")
 @Api("权限管理类")
 public class SysAuthController extends BaseController {
 
@@ -42,6 +43,7 @@ public class SysAuthController extends BaseController {
      * @param authDto
      * @return
      */
+    @RecLog("添加权限")
     @PostMapping("/add")
     @ApiOperation(value = "添加权限", notes = "返回添加结果")
     @ResponseBody
@@ -55,6 +57,7 @@ public class SysAuthController extends BaseController {
      * @param authDto
      * @return
      */
+    @RecLog("更新(修改)权限")
     @PutMapping("/update")
     @ApiOperation(value = "更新(修改)权限", notes = "返回更新结果")
     @ResponseBody
@@ -73,6 +76,7 @@ public class SysAuthController extends BaseController {
      * @param authDto
      * @return
      */
+    @RecLog("删除权限")
     @DeleteMapping("/delete")
     @ApiOperation(value = "删除权限", notes = "返回删除结果")
     @ResponseBody
@@ -91,6 +95,7 @@ public class SysAuthController extends BaseController {
      * @param authDto
      * @return
      */
+    @RecLog("批量删除权限")
     @DeleteMapping("/batch/delete")
     @ApiOperation(value = "批量删除权限", notes = "返回删除结果")
     @ResponseBody
@@ -109,6 +114,7 @@ public class SysAuthController extends BaseController {
      * @param params
      * @return
      */
+    @RecLog("权限分页")
     @GetMapping("/page")
     @ApiOperation(value = "权限分页", notes = "返回分页结果")
     @ResponseBody

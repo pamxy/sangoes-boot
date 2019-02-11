@@ -29,6 +29,10 @@ public class SysLogServiceImpl extends BaseServiceImpl<SysLogMapper, SysLog> imp
      */
     @Override
     public PageData<SysLog> pageLog(Map<String, Object> params) {
+        // 获取参数
+        Object title = params.get("title");
+        Object method = params.get("method");
+        Object creator = params.get("creator");
         return this.selectPage(new PageQuery(params));
     }
 }

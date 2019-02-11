@@ -1,6 +1,6 @@
 package com.sangoes.boot.uc.config;
 
-import com.sangoes.boot.uc.constants.RabbitConstants;
+import com.sangoes.boot.common.constants.RabbitConstants;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

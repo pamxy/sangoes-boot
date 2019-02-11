@@ -1,6 +1,7 @@
 package com.sangoes.boot.uc.modules.admin.controller;
 
 
+import com.sangoes.boot.common.aop.log.annotation.RecLog;
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.page.PageData;
@@ -21,7 +22,7 @@ import java.util.Map;
  * @since 2019-01-12
  */
 @RestController
-@RequestMapping("/admin/log")
+@RequestMapping("/api/admin/log")
 public class SysLogController extends BaseController {
 
     @Autowired
@@ -34,6 +35,7 @@ public class SysLogController extends BaseController {
      * @param params
      * @return
      */
+    @RecLog("日志分页")
     @GetMapping("/page")
     @ApiOperation(value = "日志分页", notes = "返回分页结果")
     @ResponseBody

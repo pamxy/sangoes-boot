@@ -71,6 +71,7 @@ public class PermissionServiceImpl implements PermissionService {
                     .forEach(authority -> {
                         // 查询权限
                         List<AuthVo> authVos = authService.listAuthByRoleCode(authority.getAuthority());
+                        log.info("拥有权限:{}",authVos);
                         CollUtil.addAll(actions, authVos);
                     });
             // 遍历权限action

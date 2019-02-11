@@ -2,9 +2,9 @@ package com.sangoes.boot.uc.modules.admin.mq.producer;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
+import com.sangoes.boot.common.constants.RabbitConstants;
 import com.sangoes.boot.common.constants.SecurityConstants;
 import com.sangoes.boot.common.utils.AuthUtils;
-import com.sangoes.boot.uc.constants.RabbitConstants;
 import com.sangoes.boot.uc.modules.admin.entity.SysLog;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author jerrychir
  * @date 2019 2019/1/12 10:01 PM
  */
+@Deprecated
 @Component
 public class LogProducer {
 
@@ -46,9 +47,7 @@ public class LogProducer {
         int status = response.getStatus();
         // authentication
         if (!StrUtil.equals(SecurityConstants.ANONYMOUS, AuthUtils.getPrincipal().toString())) {
-            log.setUserName(AuthUtils.getUserName());
-            log.setUserId(AuthUtils.getUserId());
-            log.setAuthToken(AuthUtils.getToken(request));
+            log.setAuthToken(AuthUtils.getToken());
         }
         // 设置
         log.setUrl(url);
