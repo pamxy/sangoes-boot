@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -231,6 +232,11 @@ public class SysUserController extends BaseController {
         Long userId = AuthUtils.getUserId();
         // 获取user
         SysUser user = userService.userInfo(userId);
+        // 获取当前角色
+        List<String> roles = AuthUtils.getListUserRoles();
+        roles.forEach(role->{
+            log.info("role:{}",role);
+        });
         return Result.success(user, "成功");
     }
 
