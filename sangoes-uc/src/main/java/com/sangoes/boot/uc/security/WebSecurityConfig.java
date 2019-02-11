@@ -65,9 +65,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry =
                 http.formLogin().loginPage("/signin").permitAll()
+                        .loginProcessingUrl("/api/login/web").permitAll()
                         .and()
                         .authorizeRequests();
-
+        // 放行
         ignoreUrlsConfig.getApis().forEach(api -> registry.antMatchers(api).permitAll());
         registry.anyRequest().authenticated()
                 .and()
