@@ -38,12 +38,12 @@ public class AsyncConfig {
     }
 
     /**
-     * log 日志socket
+     * task线程
      *
      * @return
      */
-    @Bean("logTaskExecutor")
-    public Executor logTaskExecutor() {
+    @Bean("taskExecutor")
+    public Executor taskExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
         // 线程池关闭的时候等待所有任务都完成再继续销毁其他的Bean
         taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
@@ -55,7 +55,7 @@ public class AsyncConfig {
         taskExecutor.setQueueCapacity(Integer.MAX_VALUE);
         //当超过了核心线程出之外的线程在空闲时间到达之后会被销毁
         taskExecutor.setKeepAliveSeconds(60);
-        taskExecutor.setThreadNamePrefix("log-socket-thread-");
+        taskExecutor.setThreadNamePrefix("task-thread-");
         return taskExecutor;
     }
 }

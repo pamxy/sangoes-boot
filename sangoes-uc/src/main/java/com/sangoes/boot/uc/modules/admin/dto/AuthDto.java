@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * AuthDto
+ * @author jerrychir
  */
 @Data
 @Accessors(chain = true)

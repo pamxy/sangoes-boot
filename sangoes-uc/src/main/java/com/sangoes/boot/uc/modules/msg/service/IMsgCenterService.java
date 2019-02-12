@@ -1,7 +1,8 @@
 package com.sangoes.boot.uc.modules.msg.service;
 
-import com.sangoes.boot.uc.modules.msg.entity.MsgCenter;
 import com.sangoes.boot.common.service.IBaseService;
+import com.sangoes.boot.uc.modules.msg.dto.MsgDto;
+import com.sangoes.boot.uc.modules.msg.entity.MsgCenter;
 
 /**
  * <p>
@@ -13,4 +14,10 @@ import com.sangoes.boot.common.service.IBaseService;
  */
 public interface IMsgCenterService extends IBaseService<MsgCenter> {
 
+    /**
+     * 发送消息
+     *
+     * @param msgDto
+     */
+    void sendMessage(MsgDto msgDto);
 }

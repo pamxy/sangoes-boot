@@ -16,4 +16,10 @@ public interface RabbitConstants {
      */
     public final static String LOG_DIRECT_QUEUE = "sangoes.direct.log";
 
+
+    /**
+     * 消息
+     */
+    public final static String MSG_DIRECT_QUEUE = "sangoes.direct.msg";
+
 }

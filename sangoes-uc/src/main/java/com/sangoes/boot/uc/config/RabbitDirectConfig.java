@@ -25,4 +25,15 @@ public class RabbitDirectConfig {
         // 第一个是 QUEUE 的名字,第二个是消息是否需要持久化处理
         return new Queue(RabbitConstants.LOG_DIRECT_QUEUE, true);
     }
+
+    /**
+     * 消息队列
+     *
+     * @return
+     */
+    @Bean
+    public Queue msgQueue() {
+        // 第一个是 QUEUE 的名字,第二个是消息是否需要持久化处理
+        return new Queue(RabbitConstants.MSG_DIRECT_QUEUE, true);
+    }
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 /**
  * Copyright (c) sangoes 2018
  * https://github.com/sangoes
+ * 日志消费者
  *
  * @author jerrychir
  * @date 2019 2019/1/12 10:07 PM
@@ -29,7 +30,7 @@ public class LogConsumer {
      *
      * @param logJson
      */
-    @Async("logTaskExecutor")
+    @Async("taskExecutor")
     @RabbitListener(queues = {RabbitConstants.LOG_DIRECT_QUEUE})
     public void logListenerAutoAck(String logJson) {
         SysLog log = JSONUtil.parseObj(logJson).toBean(SysLog.class);
