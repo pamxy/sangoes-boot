@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -159,6 +160,20 @@ public class SysRoleController extends BaseController {
         // 绑定
         roleService.bindMenuAuth(roleDto);
         return Result.success("绑定成功");
+    }
+
+    /**
+     * 查询所有角色
+     *
+     * @return
+     */
+    @RecLog("查询所有角色")
+    @GetMapping("/all")
+    @ApiOperation(value = "查询所有角色", notes = "返回结果")
+    @ResponseBody
+    public Result<List<SysRole>> getAllRoles() {
+        List<SysRole> roles = roleService.getAllRoles();
+        return Result.success(roles,"返回成功");
     }
 
 }

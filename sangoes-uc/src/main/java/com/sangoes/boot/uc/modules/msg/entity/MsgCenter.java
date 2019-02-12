@@ -29,7 +29,7 @@ public class MsgCenter extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "消息类型 1消息 2通知 3待办 4手机推送")
-    private MsgTypeEnum msgType;
+    private Integer msgType;
 
     @ApiModelProperty(value = "消息分类标题")
     private String mainTitle;
@@ -50,10 +50,10 @@ public class MsgCenter extends BaseEntity {
     private String url;
 
     @ApiModelProperty(value = "读状态 0未读 1已读")
-    private StatusEnum status;
+    private Integer status;
 
     @ApiModelProperty(value = "发送类型 1定向 2群发 3广播")
-    private SendTypeEnum sendType;
+    private Integer sendType;
 
     @ApiModelProperty(value = "发送者")
     private String sender;

@@ -12,9 +12,9 @@ import com.baomidou.mybatisplus.core.enums.IEnum;
  */
 public enum MsgTypeEnum implements IEnum<Integer> {
     MSG(1, "消息"),
-    NOTIFI(1, "通知"),
-    AGENDA(1, "待办"),
-    PUSH(1, "推送");
+    NOTIFI(2, "通知"),
+    AGENDA(3, "待办"),
+    PUSH(4, "推送");
 
     private int value;
     private String desc;

@@ -222,4 +222,15 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
             throw new HandleErrorException("更新失败");
         }
     }
+
+    /**
+     * 查询所有角色
+     *
+     * @return
+     */
+    @Override
+    public List<SysRole> getAllRoles() {
+        List<SysRole> roles = this.list(new QueryWrapper<>());
+        return roles;
+    }
 }

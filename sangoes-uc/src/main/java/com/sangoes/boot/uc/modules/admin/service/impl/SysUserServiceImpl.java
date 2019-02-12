@@ -557,4 +557,16 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         Pagination pagination = new Pagination(members.getTotal(), members.getSize(), members.getCurrent());
         return new PageData<>(pagination, members.getRecords());
     }
+
+    /**
+     * 根据roleCode查询用户
+     *
+     * @param roleCode
+     * @return
+     */
+    @Override
+    public List<SysUser> listByRoleCode(String roleCode) {
+        List<SysUser> users = baseMapper.listByRoleCode(roleCode);
+        return users;
+    }
 }

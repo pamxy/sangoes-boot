@@ -34,23 +34,23 @@ public class MsgDto {
     /**
      * 接收者
      */
-    @NotNull(message = "接收者不能为空", groups = {SendMsgGroup.class})
-    @ApiModelProperty(value = "接收者")
-    private List<String> receivers;
+//    @NotNull(message = "接收者不能为空", groups = {SendMsgGroup.class})
+//    @ApiModelProperty(value = "接收者")
+//    private List<String> receivers;
 
     /**
      * 接收者主键
      */
-    @NotNull(message = "接收者主键不能为空", groups = {SendMsgGroup.class})
-    @ApiModelProperty(value = "接收者主键")
-    private List<Long> receiverIds;
+//    @NotNull(message = "接收者主键不能为空", groups = {SendMsgGroup.class})
+//    @ApiModelProperty(value = "接收者主键")
+//    private List<Long> receiverIds;
 
     /**
      * 消息类型
      */
     @NotNull(message = "消息类型不能为空", groups = {SendMsgGroup.class})
     @ApiModelProperty(value = "消息类型 1消息 2通知 3待办 4手机推送")
-    private MsgTypeEnum msgType;
+    private Integer msgType;
 
     /**
      * 消息分类标题
@@ -83,11 +83,17 @@ public class MsgDto {
      */
     @NotNull(message = "发送类型不能为空", groups = {SendMsgGroup.class})
     @ApiModelProperty(value = "发送类型 1定向 2群发 3广播")
-    private SendTypeEnum sendType;
+    private Integer sendType;
 
     /**
      * 跳转链接
      */
     @ApiModelProperty(value = "链接 跳转链接")
     private String url;
+
+    /**
+     * 角色编码
+     */
+    @ApiModelProperty(value = "角色编码")
+    private List<String> roleCode;
 }

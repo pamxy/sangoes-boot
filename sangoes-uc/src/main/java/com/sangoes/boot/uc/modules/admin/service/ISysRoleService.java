@@ -6,6 +6,7 @@ import com.sangoes.boot.common.utils.page.PageData;
 import com.sangoes.boot.uc.modules.admin.dto.RoleDto;
 import com.sangoes.boot.uc.modules.admin.entity.SysRole;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -74,4 +75,13 @@ public interface ISysRoleService extends IBaseService<SysRole> {
      * @param roleDto
      */
     void updateRole(RoleDto roleDto);
+
+    /**
+     * 查询所有角色
+     *
+     * @return
+     */
+    List<SysRole> getAllRoles();
+
+
 }

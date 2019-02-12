@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2019-02-11
  */
 @RestController
-@RequestMapping("/msg/center")
+@RequestMapping("/api/msg/center")
 @Api("消息管理类")
 @Slf4j
 public class MsgCenterController extends BaseController {
