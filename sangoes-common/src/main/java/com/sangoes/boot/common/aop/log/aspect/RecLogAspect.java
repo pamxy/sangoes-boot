@@ -53,21 +53,15 @@ public class RecLogAspect {
      * 前置通知 用于拦截Controller层记录用户的操作
      */
     @Around("logPointCut()")
-    public Object doPoint(ProceedingJoinPoint point) {
-        Object result = null;
-        try {
-            // 开始时间
-            long start = SystemClock.now();
-            //执行方法
-            result = point.proceed();
-            //执行时长(毫秒)
-            long elapsed = SystemClock.now() - start;
-            // 保存日志
-            saveSysLog(point, elapsed);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
+    public Object doPoint(ProceedingJoinPoint point) throws Throwable {
+        // 开始时间
+        long start = SystemClock.now();
+        //执行方法
+        Object result = point.proceed();
+        //执行时长(毫秒)
+        long elapsed = SystemClock.now() - start;
+        // 保存日志
+        saveSysLog(point, elapsed);
         return result;
     }
 

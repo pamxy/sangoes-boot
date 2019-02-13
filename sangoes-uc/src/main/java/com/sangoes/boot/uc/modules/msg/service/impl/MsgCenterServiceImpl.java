@@ -1,24 +1,35 @@
 package com.sangoes.boot.uc.modules.msg.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sangoes.boot.common.constants.RabbitConstants;
 import com.sangoes.boot.common.core.service.IMqService;
+import com.sangoes.boot.common.exception.HandleErrorException;
 import com.sangoes.boot.common.service.impl.BaseServiceImpl;
 import com.sangoes.boot.common.utils.AuthUtils;
+import com.sangoes.boot.common.utils.page.PageData;
+import com.sangoes.boot.common.utils.page.PageQuery;
+import com.sangoes.boot.common.utils.page.Pagination;
 import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.modules.msg.dto.MsgDto;
 import com.sangoes.boot.uc.modules.msg.entity.MsgCenter;
-import com.sangoes.boot.uc.modules.msg.entity.enums.MsgTypeEnum;
+import com.sangoes.boot.uc.modules.msg.entity.enums.StatusEnum;
 import com.sangoes.boot.uc.modules.msg.mapper.MsgCenterMapper;
 import com.sangoes.boot.uc.modules.msg.service.IMsgCenterService;
+import com.sangoes.boot.uc.modules.msg.vo.MsgCountVo;
+import com.sangoes.boot.uc.modules.msg.vo.MsgTypeVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -81,5 +92,77 @@ public class MsgCenterServiceImpl extends BaseServiceImpl<MsgCenterMapper, MsgCe
             // 放入队列
             mqService.sendMessage(RabbitConstants.MSG_DIRECT_QUEUE, JSONUtil.toJsonStr(msgCenter));
         });
+    }
+
+    /**
+     * 查询消息分页
+     *
+     * @param params
+     * @return
+     */
+    @Override
+    public MsgTypeVo pageMsg(Map<String, Object> params) {
+        // 获取type
+        Object typeObj = params.get("type");
+        params.remove("type");
+        if (ObjectUtil.isNull(typeObj)) {
+            throw new HandleErrorException("消息类型(type)不能为空");
+        }
+        Integer type = Integer.parseInt(typeObj.toString());
+        // 获取user id
+        Object userIdObj = params.get("userId");
+        // 转换
+        PageQuery pageQuery = new PageQuery(params);
+        // 构建分页
+        Page<MsgCenter> page = new Page<>(pageQuery.getCurrent(), pageQuery.getPageSize());
+        // 构建条件
+        QueryWrapper<MsgCenter> queryWrapper = this.pageQueryCondtion(pageQuery);
+        // type
+        queryWrapper.lambda().eq(MsgCenter::getMsgType, type);
+        // user id
+        if (ObjectUtil.isNotNull(userIdObj)) {
+            long userId = Long.parseLong(userIdObj.toString());
+            queryWrapper.lambda().eq(MsgCenter::getReceiverId, userId);
+        }
+        // 查询
+        IPage<MsgCenter> selectPage = baseMapper.selectPage(page, queryWrapper);
+
+        // 返回结果
+        Pagination pagination = new Pagination(selectPage.getTotal(), selectPage.getSize(), selectPage.getCurrent());
+        // 分页
+        PageData<MsgCenter> pageData = new PageData<>(pagination, selectPage.getRecords());
+        // 查询当前用户未读数量
+        int unreadCount = this.count(new QueryWrapper<MsgCenter>().lambda()
+                .eq(MsgCenter::getStatus, StatusEnum.UNREAD.getValue())
+                .eq(MsgCenter::getMsgType, type)
+                .eq(MsgCenter::getReceiverId, AuthUtils.getUserId()));
+        // 封装
+        MsgTypeVo msgTypeVo = new MsgTypeVo();
+        msgTypeVo.setPage(pageData);
+        msgTypeVo.setUnreadCount(unreadCount);
+        return msgTypeVo;
+    }
+
+    /**
+     * 获取当前用户消息数量
+     *
+     * @return
+     */
+    @Override
+    public MsgCountVo countMsg() {
+        // 查询当前用户未读数量
+        int unreadCount = this.count(new QueryWrapper<MsgCenter>().lambda()
+                .eq(MsgCenter::getStatus, StatusEnum.UNREAD.getValue())
+                .eq(MsgCenter::getReceiverId, AuthUtils.getUserId()));
+        // 查询当前已读数量
+        int readCount = this.count(new QueryWrapper<MsgCenter>().lambda()
+                .eq(MsgCenter::getStatus, StatusEnum.READ.getValue())
+                .eq(MsgCenter::getReceiverId, AuthUtils.getUserId()));
+
+        // 封装
+        MsgCountVo msgCountVo = new MsgCountVo();
+        msgCountVo.setUnreadCount(unreadCount);
+        msgCountVo.setReadCount(readCount);
+        return msgCountVo;
     }
 }
