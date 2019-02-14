@@ -1,6 +1,7 @@
 package com.sangoes.boot.common.core.handler;
 
 import com.sangoes.boot.common.exception.HandleErrorException;
+import com.sangoes.boot.common.exception.ManyRequestsException;
 import com.sangoes.boot.common.exception.UnAuthoruzedException;
 import com.sangoes.boot.common.msg.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,20 @@ public class GlobalExceptionHandler {
         log.error(ex.getMessage(), ex);
         return Result.failed(ex.getMessage(), HttpStatus.EXPECTATION_FAILED);
 
+    }
+
+    /**
+     * 请求过多异常捕获
+     *
+     * @param response
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(ManyRequestsException.class)
+    @ResponseBody
+    public Result<String> manyRequestsExceptionHandler(HttpServletResponse response, ManyRequestsException ex) {
+        log.error(ex.getMessage(), ex);
+        return Result.failed(ex.getMessage(), HttpStatus.TOO_MANY_REQUESTS);
     }
 
     /**

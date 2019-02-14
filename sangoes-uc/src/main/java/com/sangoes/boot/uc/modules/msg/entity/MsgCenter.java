@@ -49,8 +49,11 @@ public class MsgCenter extends BaseEntity {
     @ApiModelProperty(value = "链接 跳转链接")
     private String url;
 
-    @ApiModelProperty(value = "读状态 0未读 1已读")
+    @ApiModelProperty(value = "状态 0待办 1进行中 2处理中 3紧急")
     private Integer status;
+
+    @ApiModelProperty(value = "读状态 0未读 1已读")
+    private Integer readed;
 
     @ApiModelProperty(value = "发送类型 1定向 2群发 3广播")
     private Integer sendType;

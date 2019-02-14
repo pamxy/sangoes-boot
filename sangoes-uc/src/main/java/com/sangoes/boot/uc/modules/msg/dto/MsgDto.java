@@ -1,5 +1,7 @@
 package com.sangoes.boot.uc.modules.msg.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.sangoes.boot.uc.modules.msg.entity.enums.MsgTypeEnum;
 import com.sangoes.boot.uc.modules.msg.entity.enums.SendTypeEnum;
 import io.swagger.annotations.ApiModel;
@@ -32,6 +34,13 @@ public class MsgDto {
     }
 
     /**
+     * 发送更新组
+     */
+    public interface SendUpdateGroup {
+
+    }
+
+    /**
      * 接收者
      */
 //    @NotNull(message = "接收者不能为空", groups = {SendMsgGroup.class})
@@ -44,6 +53,11 @@ public class MsgDto {
 //    @NotNull(message = "接收者主键不能为空", groups = {SendMsgGroup.class})
 //    @ApiModelProperty(value = "接收者主键")
 //    private List<Long> receiverIds;
+
+    @NotNull(message = "消息主键不能为空", groups = {SendUpdateGroup.class})
+    @ApiModelProperty(value = "消息主键")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
 
     /**
      * 消息类型
@@ -96,4 +110,8 @@ public class MsgDto {
      */
     @ApiModelProperty(value = "角色编码")
     private List<String> roleCode;
+
+
+    @ApiModelProperty(value = "读状态 0未读 1已读")
+    private Integer readed;
 }

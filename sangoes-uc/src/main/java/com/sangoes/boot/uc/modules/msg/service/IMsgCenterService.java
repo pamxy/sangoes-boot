@@ -40,4 +40,10 @@ public interface IMsgCenterService extends IBaseService<MsgCenter> {
      */
     MsgCountVo countMsg();
 
+    /**
+     * 更新消息
+     *
+     * @param msgDto
+     */
+    void updateMsg(MsgDto msgDto);
 }

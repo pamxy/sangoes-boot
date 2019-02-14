@@ -89,5 +89,20 @@ public class MsgCenterController extends BaseController {
         return Result.success(counts, "成功返回");
     }
 
+    /**
+     * 更改消息
+     *
+     * @return
+     */
+    @RateLimiter(prefix = "limiter:msg:center:read")
+    @RecLog("更改消息")
+    @GetMapping("/update")
+    @ApiOperation(value = "更改消息", notes = "返回成功")
+    @ResponseBody
+    public Result<String> readMsg(@RequestBody @Validated MsgDto msgDto) {
+        msgCenterService.updateMsg(msgDto);
+        return Result.success( "更新成功");
+    }
+
 
 }

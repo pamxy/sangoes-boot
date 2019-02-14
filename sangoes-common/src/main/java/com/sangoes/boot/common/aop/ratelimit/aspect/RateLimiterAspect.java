@@ -2,7 +2,7 @@ package com.sangoes.boot.common.aop.ratelimit.aspect;
 
 import com.sangoes.boot.common.aop.common.key.CacheKeyGenerator;
 import com.sangoes.boot.common.aop.ratelimit.annotation.RateLimiter;
-import com.sangoes.boot.common.msg.Result;
+import com.sangoes.boot.common.exception.ManyRequestsException;
 import com.sangoes.boot.common.utils.HttpContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,7 +12,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.types.Expiration;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
@@ -55,14 +54,12 @@ public class RateLimiterAspect {
             if (acquire) {
                 return pjp.proceed();
             } else {
-                throw new RuntimeException(limitAnnotation.message());
+                throw new ManyRequestsException(limitAnnotation.message());
             }
         } catch (Throwable e) {
             if (e instanceof RuntimeException) {
-                Result.noReturn(e.getLocalizedMessage(), HttpStatus.TOO_MANY_REQUESTS, response);
                 throw new RuntimeException(e.getLocalizedMessage());
             }
-            Result.noReturn(e.getLocalizedMessage(), HttpStatus.TOO_MANY_REQUESTS, response);
             throw new RuntimeException("server exception");
         }
     }

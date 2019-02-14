@@ -1,5 +1,7 @@
 package com.sangoes.boot.uc.modules.msg.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
@@ -18,7 +20,7 @@ import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.modules.msg.dto.MsgDto;
 import com.sangoes.boot.uc.modules.msg.entity.MsgCenter;
-import com.sangoes.boot.uc.modules.msg.entity.enums.StatusEnum;
+import com.sangoes.boot.uc.modules.msg.entity.enums.ReadEnum;
 import com.sangoes.boot.uc.modules.msg.mapper.MsgCenterMapper;
 import com.sangoes.boot.uc.modules.msg.service.IMsgCenterService;
 import com.sangoes.boot.uc.modules.msg.vo.MsgCountVo;
@@ -133,7 +135,7 @@ public class MsgCenterServiceImpl extends BaseServiceImpl<MsgCenterMapper, MsgCe
         PageData<MsgCenter> pageData = new PageData<>(pagination, selectPage.getRecords());
         // 查询当前用户未读数量
         int unreadCount = this.count(new QueryWrapper<MsgCenter>().lambda()
-                .eq(MsgCenter::getStatus, StatusEnum.UNREAD.getValue())
+                .eq(MsgCenter::getReaded, ReadEnum.UNREAD.getValue())
                 .eq(MsgCenter::getMsgType, type)
                 .eq(MsgCenter::getReceiverId, AuthUtils.getUserId()));
         // 封装
@@ -152,17 +154,34 @@ public class MsgCenterServiceImpl extends BaseServiceImpl<MsgCenterMapper, MsgCe
     public MsgCountVo countMsg() {
         // 查询当前用户未读数量
         int unreadCount = this.count(new QueryWrapper<MsgCenter>().lambda()
-                .eq(MsgCenter::getStatus, StatusEnum.UNREAD.getValue())
+                .eq(MsgCenter::getReaded, ReadEnum.UNREAD.getValue())
                 .eq(MsgCenter::getReceiverId, AuthUtils.getUserId()));
         // 查询当前已读数量
         int readCount = this.count(new QueryWrapper<MsgCenter>().lambda()
-                .eq(MsgCenter::getStatus, StatusEnum.READ.getValue())
+                .eq(MsgCenter::getReaded, ReadEnum.READ.getValue())
                 .eq(MsgCenter::getReceiverId, AuthUtils.getUserId()));
-
         // 封装
         MsgCountVo msgCountVo = new MsgCountVo();
         msgCountVo.setUnreadCount(unreadCount);
         msgCountVo.setReadCount(readCount);
         return msgCountVo;
+    }
+
+    /**
+     * 更新消息
+     *
+     * @param msgDto
+     */
+    @Override
+    public void updateMsg(MsgDto msgDto) {
+        // 创建MsgCenter
+        MsgCenter msgCenter = new MsgCenter();
+        // 复制
+        BeanUtil.copyProperties(msgDto, msgCenter, CopyOptions.create().setIgnoreNullValue(true));
+        // 更新
+        boolean flag = this.updateById(msgCenter);
+        if (!flag) {
+            throw new HandleErrorException("更新失败");
+        }
     }
 }
