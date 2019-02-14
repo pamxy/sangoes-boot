@@ -55,8 +55,8 @@
         </dependency>
         <!--liquibase-->
         <!--<dependency>-->
-            <!--<groupId>org.liquibase</groupId>-->
-            <!--<artifactId>liquibase-core</artifactId>-->
+        <!--<groupId>org.liquibase</groupId>-->
+        <!--<artifactId>liquibase-core</artifactId>-->
         <!--</dependency>-->
         <dependency>
             <groupId>de.codecentric</groupId>
@@ -97,6 +97,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
+        <!--阿里云短信-->
+        <!--<dependency>-->
+            <!--<groupId>com.aliyun</groupId>-->
+            <!--<artifactId>aliyun-java-sdk-core</artifactId>-->
+            <!--<version>${aliyun.core.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.aliyun</groupId>-->
+            <!--<artifactId>aliyun-java-sdk-ecs</artifactId>-->
+            <!--<version>${aliyun.ecs.version}</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 

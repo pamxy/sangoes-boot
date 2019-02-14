@@ -52,5 +52,5 @@ public @interface CacheLock {
      *
      * @return String
      */
-    String message() default "";
+    String message() default "请不要重复提交";
 }

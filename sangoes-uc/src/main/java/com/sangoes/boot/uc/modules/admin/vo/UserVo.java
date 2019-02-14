@@ -91,4 +91,9 @@ public class UserVo implements Serializable {
      * 权限
      */
     private Set<AuthVo> auth;
+
+    /**
+     * 未读消息数量
+     */
+    private Integer unreadCount;
 }

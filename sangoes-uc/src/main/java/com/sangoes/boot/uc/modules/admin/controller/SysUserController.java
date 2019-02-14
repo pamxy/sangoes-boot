@@ -15,6 +15,8 @@ import com.sangoes.boot.uc.modules.admin.service.ISysAuthService;
 import com.sangoes.boot.uc.modules.admin.service.ISysUserService;
 import com.sangoes.boot.uc.modules.admin.vo.AuthVo;
 import com.sangoes.boot.uc.modules.admin.vo.UserVo;
+import com.sangoes.boot.uc.modules.msg.service.IMsgCenterService;
+import com.sangoes.boot.uc.modules.msg.vo.MsgCountVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +56,9 @@ public class SysUserController extends BaseController {
 
     @Autowired
     private AliyunOSSUploader aliyunOSSUploader;
+
+    @Autowired
+    private IMsgCenterService msgCenterService;
 
 
     /**
@@ -246,6 +251,9 @@ public class SysUserController extends BaseController {
         // 获取当前权限对应的权限
         Set<AuthVo> authVos = authService.listCurrentRoleAuth();
         userVo.setAuth(authVos);
+        // 获取未读消息
+        MsgCountVo msgCountVo = msgCenterService.countMsg();
+        userVo.setUnreadCount(msgCountVo.getUnreadCount());
         return Result.success(userVo, "成功");
     }
 

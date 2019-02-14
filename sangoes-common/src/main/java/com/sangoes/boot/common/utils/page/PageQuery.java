@@ -1,12 +1,12 @@
 package com.sangoes.boot.common.utils.page;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Copyright (c) 2018,四川传球网络科技有限公司 br> All rights reserved.<br>
@@ -28,9 +28,9 @@ public class PageQuery extends LinkedHashMap<String, Object> {
     // 菜单主键
     private long menuId;
     // 升序
-    boolean isAsc = true;
+    private boolean isAsc = true;
     // 排序名称
-    String sorter;
+    private String sorter;
 
     /**
      * Instantiates a new Query.

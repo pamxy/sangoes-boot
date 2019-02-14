@@ -44,4 +44,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return
      */
     IPage<SysUser> listDepartMembers(@Param("page") Page<SysUser> page, @Param("departId") Long departId);
+
+    /**
+     * 根据roleCode查询用户
+     *
+     * @param roleCode
+     * @return
+     */
+    List<SysUser> listByRoleCode(@Param("roleCode") String roleCode);
 }

@@ -59,8 +59,8 @@ logging:
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.sangoes.boot.uc.modules.admin.entity
-  typeEnumsPackage: com.sangoes.boot.uc.modules.admin.entity.enums
+  typeAliasesPackage: com.sangoes.boot.uc.modules.admin.entity,com.sangoes.boot.uc.modules.msg.entity
+  typeEnumsPackage: com.sangoes.boot.uc.modules.admin.entity.enums,com.sangoes.boot.uc.modules.msg.entity.enums
   global-config:
     # 数据库相关配置
     db-config:

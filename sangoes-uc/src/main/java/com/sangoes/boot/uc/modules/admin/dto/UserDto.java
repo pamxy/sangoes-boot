@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * UserDto
+ * @author jerrychir
  */
 @Data
 @Accessors(chain = true)
