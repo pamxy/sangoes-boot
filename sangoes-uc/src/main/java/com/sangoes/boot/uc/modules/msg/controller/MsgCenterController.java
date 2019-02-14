@@ -94,14 +94,15 @@ public class MsgCenterController extends BaseController {
      *
      * @return
      */
-    @RateLimiter(prefix = "limiter:msg:center:read")
+    @CacheLock(prefix = "lock:msg:center:update")
+    @RateLimiter(prefix = "limiter:msg:center:update")
     @RecLog("更改消息")
-    @GetMapping("/update")
+    @PutMapping("/update")
     @ApiOperation(value = "更改消息", notes = "返回成功")
     @ResponseBody
-    public Result<String> readMsg(@RequestBody @Validated MsgDto msgDto) {
+    public Result<String> readMsg(@CacheParam @RequestBody @Validated MsgDto msgDto) {
         msgCenterService.updateMsg(msgDto);
-        return Result.success( "更新成功");
+        return Result.success("更新成功");
     }
 
 
