@@ -11,7 +11,7 @@ public interface SecurityConstants {
     /**
      * 登录
      */
-    String SIGN_IN = "/signin";
+    String SIGN_IN = "/api/signin";
     /**
      * Authorization
      */
@@ -93,4 +93,12 @@ public interface SecurityConstants {
      */
     String POST = "POST";
 
+    /**
+     * 匿名 anonymousUser
+     */
+    String ANONYMOUS= "anonymousUser";
+    /**
+     * x-user-header
+     */
+    String X_USER_HEADER = "x-user-header";
 }

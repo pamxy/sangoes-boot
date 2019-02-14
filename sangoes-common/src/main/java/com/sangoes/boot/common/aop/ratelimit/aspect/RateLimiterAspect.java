@@ -1,12 +1,22 @@
 package com.sangoes.boot.common.aop.ratelimit.aspect;
 
-import com.google.common.util.concurrent.RateLimiter;
+import com.sangoes.boot.common.aop.common.key.CacheKeyGenerator;
+import com.sangoes.boot.common.aop.ratelimit.annotation.RateLimiter;
+import com.sangoes.boot.common.exception.ManyRequestsException;
+import com.sangoes.boot.common.utils.HttpContextUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.lang.reflect.Method;
 
 /**
  * Copyright (c) sangoes 2018
@@ -15,34 +25,43 @@ import org.springframework.stereotype.Component;
  * @author jerrychir
  * @date 2018 2018/12/25 2:52 PM
  */
-
+@Slf4j
 @Component
 @Scope
 @Aspect
 public class RateLimiterAspect {
 
-    /**
-     * 一秒5个请求
-     */
-    private RateLimiter rateLimiter = RateLimiter.create(5.0);
+    @Autowired
+    private RateLimiterHelper rateLimiterHelper;
+    @Autowired
+    private CacheKeyGenerator cacheKeyGenerator;
 
-    /**
-     * 切入点
-     */
-    @Pointcut("@annotation(com.sangoes.boot.common.aop.ratelimit.annotation.RateLimiter)")
-    public void pointcut() {
+    @Around("execution(public * *(..)) && @annotation(com.sangoes.boot.common.aop.ratelimit.annotation.RateLimiter)")
+    public Object interceptor(ProceedingJoinPoint pjp) throws IOException {
+        HttpServletResponse response = HttpContextUtils.getHttpServletResponse();
+        MethodSignature signature = (MethodSignature) pjp.getSignature();
+        Method method = signature.getMethod();
+        RateLimiter limitAnnotation = method.getAnnotation(RateLimiter.class);
+        final String prefix = limitAnnotation.prefix();
+        final String delimiter = limitAnnotation.delimiter();
+        final String description = limitAnnotation.description();
+        final long count = limitAnnotation.count();
+        final long limitExpire = limitAnnotation.expire();
+        final long seconds = Expiration.from(limitExpire, limitAnnotation.timeUnit()).getExpirationTimeInSeconds();
+        String key = cacheKeyGenerator.generate(prefix, delimiter, pjp);
+        try {
+            final boolean acquire = this.rateLimiterHelper.tryAcquire(key, count, seconds, description);
+            if (acquire) {
+                return pjp.proceed();
+            } else {
+                throw new ManyRequestsException(limitAnnotation.message());
+            }
+        } catch (Throwable e) {
+            if (e instanceof RuntimeException) {
+                throw new RuntimeException(e.getLocalizedMessage());
+            }
+            throw new RuntimeException("server exception");
+        }
     }
 
-    /**
-     * 实现
-     *
-     * @param joinPoint
-     * @return
-     */
-    @Around("pointcut()")
-    public Object around(ProceedingJoinPoint joinPoint) {
-        // 拦截
-        boolean flag = rateLimiter.tryAcquire();
-        return rateLimiter;
-    }
 }

@@ -65,9 +65,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry =
                 http.formLogin().loginPage("/signin").permitAll()
+                        .loginProcessingUrl("/api/login/web").permitAll()
                         .and()
                         .authorizeRequests();
-
+        // 放行
         ignoreUrlsConfig.getApis().forEach(api -> registry.antMatchers(api).permitAll());
         registry.anyRequest().authenticated()
                 .and()
@@ -76,12 +77,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        // Allow swagger to be accessed without authentication
-        WebSecurity.IgnoredRequestConfigurer ignoring = web.ignoring().and().ignoring();
-        ignoreUrlsConfig.getUrls().forEach(ignoring::antMatchers);
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        // Allow swagger to be accessed without authentication
+//        WebSecurity.IgnoredRequestConfigurer ignoring = web.ignoring().and().ignoring();
+//        ignoreUrlsConfig.getUrls().forEach(ignoring::antMatchers);
+//    }
 
     /**
      * 自定义登录类

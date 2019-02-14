@@ -1,26 +1,11 @@
-#加密
-jasypt:
-  encryptor:
-    password: sangoes
-# Tomcat
-server:
-  tomcat:
-    uri-encoding: UTF-8
-    max-threads: 1000
-    min-spare-threads: 30
-  port: 8080
-  servlet:
-    context-path: /api
-#日志
-logging:
-  level: debug
-  level.sangoes.uc: debug
-  path: logs/
-  file: sangoes-uc.log
 #application
 spring:
+  # 应用名
+  application:
+    name: sangoes-uc
+  #dev 开发 prod 生产(部署) test测试环境
   profiles:
-    active: dev #dev 开发 prod 生产(部署) test测试环境
+    active: dev
   servlet:
     multipart:
       max-file-size: 100MB
@@ -33,15 +18,49 @@ spring:
   freemarker:
     cache: false
     request-context-attribute: request
-  # cache为redis 可以切换
-#  cache:
-#    type: redis
+  # 普通 datasource
+  #  datasource:
+  #    type: com.zaxxer.hikari.HikariDataSource
+  #    url: jdbc:mysql://localhost:3306/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+  #    username: sangoes
+  #    password: ENC(myS91HA17JVaJni8nGWPQTH+TnpDYMc6)
+  #    continue-on-error: true
+  #    platform: mysql
+
+# actuator admin
+#  boot:
+#    admin:
+#      client:
+#        url: http://localhost:8080
+#        instance:
+#          prefer-ip: true
+#加密
+jasypt:
+  encryptor:
+    password: sangoes
+# Tomcat
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+  # 端口
+  port: 8080
+  # 请求前缀
+#  servlet:
+#    context-path: /api
+#日志
+logging:
+  level: debug
+  level.sangoes.uc: debug
+  path: logs/
+  file: sangoes-uc.log
 #mybatis
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.sangoes.boot.uc.modules.admin.entity
-  typeEnumsPackage: com.sangoes.boot.uc.modules.admin.entity.enums
+  typeAliasesPackage: com.sangoes.boot.uc.modules.admin.entity,com.sangoes.boot.uc.modules.msg.entity
+  typeEnumsPackage: com.sangoes.boot.uc.modules.admin.entity.enums,com.sangoes.boot.uc.modules.msg.entity.enums
   global-config:
     # 数据库相关配置
     db-config:
@@ -79,6 +98,20 @@ swagger:
   base-package: com.sangoes.boot
   base-path: /**
   exclude-path: /error, /ops/**
+# actuator
+#info:
+#  blog-url: http://sangoes.com
+#  author: jerrychir
+# actuator admin
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#      base-path: /actuator
+#  endpoint:
+#    health:
+#      show-details: always
 
 #系统自定义配置 system customer
 # redis cache
@@ -95,165 +128,28 @@ redis:
 #忽略请求api
 ignore:
   apis:
-  - /signin
-  - /user/signup
-  - /user/signin/mobile
-  - /user/signin/account
-  - /encrypt/mobile/*
-  - /encrypt/rsa/*
-  - /captcha/sms/*
-  - /captcha/image/*
-  - /admin/user/logout
-
-  urls:
+  - /api/signin
+  - /api/user/signup
+  - /api/user/signin/mobile
+  - /api/user/signin/account
+  - /api/encrypt/mobile/*
+  - /api/encrypt/rsa/*
+  - /api/captcha/sms/*
+  - /api/captcha/image/*
+  - /api/admin/user/logout
   - /v2/api-docs
-  - /swagger-resources/**
   - /swagger-ui.html
+  - /error
+  - /ops/**
+  - /swagger-resources/**
   - /configuration/**
   - /webjars/**
   - /public
-
----
-#调试
-debug: false
-#datasource
-spring:
-  profiles: dev #开发
-  devtools:
-    restart:
-      enabled: false #devtools true开启热部署 false关闭热部署
-    add-properties: false
-  #datasource
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: sangoes
-    password: ENC(myS91HA17JVaJni8nGWPQTH+TnpDYMc6)
-    continue-on-error: true
-    platform: mysql
-  #redis
-  redis:
-    database: 0 # Redis数据库索引
-    host: 127.0.0.1
-    port: 6379
-    password:      # 密码（默认为空）
-    timeout: 6000ms  # 连接超时时长（毫秒）
-    lettuce:
-      pool:
-        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
-        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-idle: 10      # 连接池中的最大空闲连接
-        min-idle: 5       # 连接池中的最小空闲连接
-#logging
-logging:
-  level: warn
-  level.org.springframework.security: DEBUG
-#===================自定义================#
-#oauth
-security:
-  jwt:
-    token:
-      secret-key: sangoes-boot #私钥
-      expire-length: 3600000 #1小时 过期时间
-#oss
-aliyun:
-  oss:
-    endpoint: oss-cn-hangzhou.aliyuncs.com
-    accessKeyId: ENC(5yr62XP5himTTP3J6/sZ1WG28e48iqxhl/e5yHjdWvU=)
-    accessKeySecret: ENC(4tBqIZaUbqrMy9Mji441tLPg6lw3VJBJa3/5rWbSqTQ0IoR77d4tcA==)
-    bucketName: sangoes
-    host: https://sangoes.oss-cn-hangzhou.aliyuncs.com/
-    key:
-    fileHost: boot
----
-#datasource
-spring:
-  profiles: test #测试环境
-  #datasource
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PROT:3306}/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: sangoes
-    password: ENC(qxEYSC5UI1VloP3lVRLgjb72+oggaJff)
-    continue-on-error: true
-    platform: mysql
-  #redis
-  redis:
-    database: 0 # Redis数据库索引
-    host: ${REDIS_HOST:localhost}
-    port: ${REDIS_PORT:6379}
-    password: ENC(qxEYSC5UI1VloP3lVRLgjb72+oggaJff)     # 密码（默认为空）
-    timeout: 6000ms  # 连接超时时长（毫秒）
-    lettuce:
-      pool:
-        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
-        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-idle: 10      # 连接池中的最大空闲连接
-        min-idle: 5       # 连接池中的最小空闲连接
-#logging
-logging:
-  level: warn
-  level.org.springframework.security: DEBUG
-#===================自定义================#
-#oauth
-security:
-  jwt:
-    token:
-      secret-key: sangoes-boot #私钥
-      expire-length: 3600000 #1小时 过期时间
-#oss
-aliyun:
-  oss:
-    endpoint: oss-cn-hangzhou.aliyuncs.com
-    accessKeyId: ENC(5yr62XP5himTTP3J6/sZ1WG28e48iqxhl/e5yHjdWvU=)
-    accessKeySecret: ENC(4tBqIZaUbqrMy9Mji441tLPg6lw3VJBJa3/5rWbSqTQ0IoR77d4tcA==)
-    bucketName: sangoes
-    host: https://sangoes.oss-cn-hangzhou.aliyuncs.com/
-    key:
-    fileHost: boot
----
-#datasource
-spring:
-  profiles: prod #生产环境
-  #datasource
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PROT:3306}/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: root
-    password: ENC(qxEYSC5UI1VloP3lVRLgjb72+oggaJff)
-    continue-on-error: true
-    platform: mysql
-  #redis
-  redis:
-    database: 0 # Redis数据库索引
-    host: ${REDIS_PORT:localhost}
-    port: ${REDIS_PORT:6379}
-    password: ENC(qxEYSC5UI1VloP3lVRLgjb72+oggaJff)     # 密码（默认为空）
-    timeout: 6000ms  # 连接超时时长（毫秒）
-    lettuce:
-      pool:
-        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
-        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-idle: 10      # 连接池中的最大空闲连接
-        min-idle: 5       # 连接池中的最小空闲连接
-#logging
-logging:
-  level: warn
-  level.org.springframework.security: DEBUG
-#===================自定义================#
-#oauth
-security:
-  jwt:
-    token:
-      secret-key: sangoes-boot #私钥
-      expire-length: 3600000 #1小时 过期时间
-#oss
-aliyun:
-  oss:
-    endpoint: oss-cn-hangzhou.aliyuncs.com
-    accessKeyId: ENC(5yr62XP5himTTP3J6/sZ1WG28e48iqxhl/e5yHjdWvU=)
-    accessKeySecret: ENC(4tBqIZaUbqrMy9Mji441tLPg6lw3VJBJa3/5rWbSqTQ0IoR77d4tcA==)
-    bucketName: sangoes
-    host: https://sangoes.oss-cn-hangzhou.aliyuncs.com/
-    key:
-    fileHost: boot
+#  - /**
+#  # admin
+#  - /assets/**
+#  - /instances/**
+#  - /applications
+#  - /actuator
+#  - /*/actuator
+#  - /#/instances/**

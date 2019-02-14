@@ -6,6 +6,7 @@
  */
 package com.sangoes.boot.uc.modules.admin.controller;
 
+import com.sangoes.boot.common.aop.log.annotation.RecLog;
 import com.sangoes.boot.common.controller.BaseController;
 import com.sangoes.boot.common.msg.Result;
 import com.sangoes.boot.common.utils.AuthUtils;
@@ -34,7 +35,7 @@ import java.util.List;
  * @since 2018-11-09
  */
 @RestController
-@RequestMapping("admin/menu")
+@RequestMapping("/api/admin/menu")
 @Api("菜单管理类")
 @Slf4j
 public class SysMenuController extends BaseController {
@@ -48,6 +49,7 @@ public class SysMenuController extends BaseController {
      * @param menuDto
      * @return
      */
+    @RecLog("添加菜单")
     @PostMapping("/add")
     @ApiOperation(value = "添加菜单", notes = "返回添加结果")
     @ResponseBody
@@ -61,6 +63,7 @@ public class SysMenuController extends BaseController {
      * @param menuDto
      * @return
      */
+    @RecLog("更新(修改)菜单")
     @PutMapping("/update")
     @ApiOperation(value = "更新(修改)菜单", notes = "返回更新结果")
     @ResponseBody
@@ -75,6 +78,7 @@ public class SysMenuController extends BaseController {
      * @param menuDto
      * @return
      */
+    @RecLog("删除菜单")
     @DeleteMapping("/delete")
     @ApiOperation(value = "删除菜单", notes = "返回删除结果")
     @ResponseBody
@@ -88,6 +92,7 @@ public class SysMenuController extends BaseController {
      *
      * @return
      */
+    @RecLog("获取菜单树形结果")
     @GetMapping("/tree")
     @ApiOperation(value = "获取菜单树形结果", notes = "返回树形结果")
     @ResponseBody
@@ -100,6 +105,7 @@ public class SysMenuController extends BaseController {
      *
      * @return
      */
+    @RecLog("获取菜单列表")
     @GetMapping("/list")
     @ApiOperation(value = "获取菜单列表", notes = "返回菜单列表结果")
     @ResponseBody
@@ -113,6 +119,7 @@ public class SysMenuController extends BaseController {
      *
      * @return
      */
+    @RecLog("获取当前用户的菜单树形结果")
     @GetMapping("/user/tree")
     @ApiOperation(value = "获取当前用户的菜单树形结果", notes = "返回树形结果")
     @ResponseBody

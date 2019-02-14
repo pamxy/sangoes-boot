@@ -52,9 +52,7 @@ public class PermissionServiceImpl implements PermissionService {
      */
     @Override
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
-        log.info("========判断请求是否有权限开始==========");
         Object principal = authentication.getPrincipal();
-        log.info("principal:" + principal);
         // 获取权限
         List<SimpleGrantedAuthority> authorityList = (List<SimpleGrantedAuthority>) authentication.getAuthorities();
         // 线程安全原子类
@@ -63,23 +61,19 @@ public class PermissionServiceImpl implements PermissionService {
         if (ObjectUtil.isNotNull(principal)) {
             // 判断authorityList是否为空
             if (CollUtil.isEmpty(authorityList)) {
-                log.warn("角色为空：{}", authentication.getPrincipal());
                 return false;
             }
             // 权限action
             Set<AuthVo> actions = new HashSet<>();
-            log.error("authorityList:{}",authorityList);
             // 遍历角色
             authorityList.stream()
                     .filter(authority -> !StrUtil.equals(authority.getAuthority(), SecurityConstants.BASE_ROLE))
                     .forEach(authority -> {
                         // 查询权限
                         List<AuthVo> authVos = authService.listAuthByRoleCode(authority.getAuthority());
+                        log.info("拥有权限:{}",authVos);
                         CollUtil.addAll(actions, authVos);
                     });
-            log.info("请求地址:{}", request.getRequestURI());
-            log.info("请求方法:{}" ,request.getMethod());
-            log.info("权限:{}", actions);
             // 遍历权限action
             actions.stream()
                     .filter(action -> StrUtil.isNotEmpty(action.getAction())

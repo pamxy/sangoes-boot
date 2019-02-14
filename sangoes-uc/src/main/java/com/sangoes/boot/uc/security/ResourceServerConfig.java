@@ -52,6 +52,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.headers().frameOptions().disable();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
+
         // 不加入权限过滤的放行
         ignoreUrlsConfig.getApis().forEach(api -> registry.antMatchers(api).permitAll());
         // 权限放行

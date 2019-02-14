@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableTransactionManagement
 @Configuration
-@MapperScan(basePackages = { "com.sangoes.boot.uc.modules.admin.mapper" })
+@MapperScan(basePackages = {"com.sangoes.boot.uc.modules.admin.mapper", "com.sangoes.boot.uc.modules.msg.mapper"})
 public class MybatisPlusConfig {
 
     /**
@@ -29,6 +29,15 @@ public class MybatisPlusConfig {
     @Bean
     public ISqlInjector sqlInjector() {
         return new LogicSqlInjector();
+    }
+
+    /**
+     * 性能分析拦截器，不建议生产使用 设置 dev 环境开启
+     */
+    @Bean
+    @Profile({"dev"})
+    public PerformanceInterceptor performanceInterceptor() {
+        return new PerformanceInterceptor();
     }
 
     /**
@@ -99,12 +108,5 @@ public class MybatisPlusConfig {
     // return new H2KeyGenerator();
     // }
 
-    /**
-     * 性能分析拦截器，不建议生产使用 设置 dev test 环境开启
-     */
-    @Bean
-    @Profile({ "dev" })
-    public PerformanceInterceptor performanceInterceptor() {
-        return new PerformanceInterceptor();
-    }
+
 }

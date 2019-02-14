@@ -57,6 +57,14 @@
                  LEFT JOIN user_depart AS ud on ud.user_id = su.id
         WHERE ud.depart_id = #{departId}
     </select>
+    <!--根据roleCode查询用户-->
+    <select id="listByRoleCode" resultType="com.sangoes.boot.uc.modules.admin.entity.SysUser">
+        SELECT su.*
+        FROM sys_role AS sr
+                 LEFT JOIN sys_user_role AS sur ON sur.role_id = sr.id
+                 LEFT JOIN sys_user AS su ON su.id = sur.user_id
+        WHERE sr.role_code = #{roleCode}
+    </select>
 
 
 </mapper>

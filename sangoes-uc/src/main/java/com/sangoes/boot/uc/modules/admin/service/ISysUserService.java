@@ -11,6 +11,7 @@ import com.sangoes.boot.uc.modules.admin.entity.SysUser;
 import com.sangoes.boot.uc.modules.admin.vo.UserDetailsVo;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -150,4 +151,11 @@ public interface ISysUserService extends IBaseService<SysUser> {
      */
     PageData<SysUser> listDepartMembers(PageQuery query);
 
+    /**
+     * 根据roleCode查询用户
+     *
+     * @param roleCode
+     * @return
+     */
+    List<SysUser> listByRoleCode(String roleCode);
 }
