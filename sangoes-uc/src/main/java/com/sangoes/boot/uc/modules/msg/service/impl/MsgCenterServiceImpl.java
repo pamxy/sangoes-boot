@@ -184,4 +184,6 @@ public class MsgCenterServiceImpl extends BaseServiceImpl<MsgCenterMapper, MsgCe
             throw new HandleErrorException("更新失败");
         }
     }
+
+
 }
