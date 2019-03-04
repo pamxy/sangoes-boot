@@ -72,6 +72,7 @@ security:
 sangoes:
   #oss
   aliyun:
+    # 文件管理
     oss:
       endpoint: oss-cn-hangzhou.aliyuncs.com
       accessKeyId: ENC(5yr62XP5himTTP3J6/sZ1WG28e48iqxhl/e5yHjdWvU=)
@@ -80,6 +81,10 @@ sangoes:
       host: https://sangoes.oss-cn-hangzhou.aliyuncs.com/
       key:
       fileHost: boot
+    # 短信
+    sms:
+      accessKeyId: LTAIRskhhzv0nGKO
+      accessKeySecret: kFO7KHkm2EDxRSlpY2gUieF4BcAlrf
   # body加密
   crypto:
     encoding: UTF-8
@@ -96,6 +101,11 @@ sangoes:
       host: 127.0.0.1
       path: /web/msg
       port: 9191
+  # elastic
+  elastic:
+    zookeeper:
+      serverLists: 127.0.0.1:2181
+      namespace: 0=Beijing,1=Shanghai,2=Guangzhou
 #================================sharding-jdbc配置================================#
 sharding:
   jdbc:

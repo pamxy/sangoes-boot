@@ -46,4 +46,5 @@ public interface IMsgCenterService extends IBaseService<MsgCenter> {
      * @param msgDto
      */
     void updateMsg(MsgDto msgDto);
+
 }
