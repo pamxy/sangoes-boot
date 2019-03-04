@@ -83,8 +83,8 @@ sangoes:
       fileHost: boot
     # 短信
     sms:
-      accessKeyId: LTAIRskhhzv0nGKO
-      accessKeySecret: kFO7KHkm2EDxRSlpY2gUieF4BcAlrf
+      accessKeyId: xx
+      accessKeySecret: xx
   # body加密
   crypto:
     encoding: UTF-8
