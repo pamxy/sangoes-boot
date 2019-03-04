@@ -95,6 +95,13 @@
             <version>${oss.version}</version>
         </dependency>
 
+        <!--阿里云短信-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.0.6</version>
+        </dependency>
+
         <!--jjwt-->
         <dependency>
             <!-- JSON Web Token Support -->

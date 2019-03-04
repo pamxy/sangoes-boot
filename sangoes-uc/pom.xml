@@ -97,26 +97,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
-        <!--阿里云短信-->
-        <!--<dependency>-->
-        <!--<groupId>com.aliyun</groupId>-->
-        <!--<artifactId>aliyun-java-sdk-core</artifactId>-->
-        <!--<version>${aliyun.core.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>com.aliyun</groupId>-->
-        <!--<artifactId>aliyun-java-sdk-ecs</artifactId>-->
-        <!--<version>${aliyun.ecs.version}</version>-->
-        <!--</dependency>-->
 
+        <!--flowable-spring-boot-starter-basic-->
         <dependency>
             <groupId>org.flowable</groupId>
             <artifactId>flowable-spring-boot-starter-basic</artifactId>
             <version>${flowable.version}</version>
         </dependency>
 
-
-
+        <!--elastic-spring-boot-starter-->
         <dependency>
             <groupId>com.sangoes.unicorn</groupId>
             <artifactId>elastic-spring-boot-starter</artifactId>

@@ -22,4 +22,9 @@ public interface RabbitConstants {
      */
     public final static String MSG_DIRECT_QUEUE = "sangoes.direct.msg";
 
+    /**
+     * 短信
+     */
+    public final static String SMS_DIRECT_QUEUE = "sangoes.direct.sms";
+
 }
