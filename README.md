@@ -3,7 +3,11 @@
    sangoes-boot开源,由springboot2.x+mybatis-plus+rabbitmq+redis+oauth2.0+react+antd等完成的单体架构，
    旨在解决Java单体工程的快速搭建和部署，sangoes-cloud(分布式架构)正在开发中....
 
-## 使用说明
+## 截图
+
+![WX20190313-222331@2x](https://user-images.githubusercontent.com/3461906/54287085-fc094400-45df-11e9-8019-db30c7eb9917.png)
+![WX20190313-222357@2x](https://user-images.githubusercontent.com/3461906/54287124-0e837d80-45e0-11e9-8ddb-1848aef5e5f6.png)
+![WX20190313-222415@2x](https://user-images.githubusercontent.com/3461906/54287136-12af9b00-45e0-11e9-865b-cedce72fdde4.png)
 
 ## 相关技术
 
@@ -62,6 +66,10 @@
    * 部门管理:添加部门 编辑部门 删除部门
    * 字典管理:添加字典 添加子字典 删除 编辑
    * 日志管理
+   - 阿里云短信
+   - 分布式锁(redis)
+   - api数据加密解密
+   - 定时(计划)管理
     
 ## 待做
 
@@ -79,12 +87,13 @@
    * *消息中心*
    * <del>一二级缓存</del>
    * 监控
-   * 分库分表 <del>分表</del>
+   * <del>分库分表 分表</del>
    * 文件管理
    - <del>定时(计划)管理</del>
    - <del>api数据加密解密</del>
    - <del>分布式锁(redis)</del>
    - <del>阿里云短信</del>
+   - <del>前端权限控制<del>
 ## FIXME
    - 同一账号同时登录,第二个账号无法获取数据(报错:AuthUtils java.lang.NullPointerException)(猜测是因为SecurityContextHolder造成的，修复从token中获取)
 ## 开发
@@ -133,4 +142,8 @@
    [umijs](https://github.com/umijs/umi)
     
    [antd](https://github.com/ant-design/ant-design)
+   
+## 捐赠
+您的支持是作者写作最大的动力!请喝杯咖啡吧！
+![image](https://user-images.githubusercontent.com/3461906/54283509-2acfec00-45d9-11e9-863a-e5bd0bca8f14.png)
     

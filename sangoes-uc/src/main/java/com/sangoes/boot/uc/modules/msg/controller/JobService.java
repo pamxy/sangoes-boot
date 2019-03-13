@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2019 2019/2/26 10:26 PM
  */
 @Slf4j
-@Schedule(cron = "0/1 * * * * ?")
+//@Schedule(cron = "0/1 * * * * ?",eventTraceRdbDataSource = "dataSource")
 public class JobService implements SimpleJob {
     /**
      * 执行作业.
