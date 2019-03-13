@@ -144,6 +144,10 @@
    [antd](https://github.com/ant-design/ant-design)
    
 ## 捐赠
-您的支持是作者写作最大的动力!请喝杯咖啡吧！
-![image](https://user-images.githubusercontent.com/3461906/54283509-2acfec00-45d9-11e9-863a-e5bd0bca8f14.png)
+
+
+您的支持是作者写作最大的动力，请喝杯咖啡吧。(虽然我对看咖啡过敏)
+
+   
+   ![WX20190313-224237@2x](https://user-images.githubusercontent.com/3461906/54287852-6b336800-45e1-11e9-94c8-2732f3a1fab7.png)
     
