@@ -93,7 +93,7 @@
    - <del>api数据加密解密</del>
    - <del>分布式锁(redis)</del>
    - <del>阿里云短信</del>
-   - <del>前端权限控制<del>
+   - <del>前端权限控制</del>
 ## FIXME
    - 同一账号同时登录,第二个账号无法获取数据(报错:AuthUtils java.lang.NullPointerException)(猜测是因为SecurityContextHolder造成的，修复从token中获取)
 ## 开发
@@ -114,9 +114,10 @@
    * sangoes-boot/sangoes-uc/src/UCApplication
  
 ## 部署
-   * 安装docker docker-compose
-   * 导入sql
-   * 运行sangoes-boot/docker.sh
+   
+   [jenkins部署sangoes-uc](https://github.com/jerrychir/blog/issues/24)
+   
+   [jenkins部署sangoes-web](https://github.com/jerrychir/blog/issues/22)
    
 ## 注意
    * 使用redis cache约定

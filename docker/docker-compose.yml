@@ -1,0 +1,20 @@
+version: "3.3"
+services:
+  coach:
+    image: sangoes-uc:latest
+    container_name: sangoes-uc
+    restart: always
+    environment:
+    - spring.profiles.active=prod
+    - MYSQL_HOST=<ip>
+    - MYSQL_PORT=<port>
+    - REDIS_HOST=<ip>
+    - REDIS_PORT=<port>
+    command: java -Xmx3000m -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+    ports:
+    - 8080:8080
+    networks:
+    - net-sangoes
+networks:
+  net-sangoes:
+    external: true
