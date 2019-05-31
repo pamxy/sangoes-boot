@@ -144,17 +144,9 @@ public class DictServiceImpl extends BaseServiceImpl<DictMapper, Dict> implement
      */
     @Override
     public List<DictTree> dictTree(Long dictId) {
-        // 构造条件
-        QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
-        Long root = -1L;
-        if (ObjectUtil.isNotNull(dictId)) {
-//            root = dictId;
-            queryWrapper.lambda().eq(Dict::getId, dictId).or().eq(Dict::getParentId, dictId);
-        }
-        // 查询字典列表
-        List<Dict> list = this.list(queryWrapper);
+        List<Dict> list = baseMapper.selectChildList(dictId);
         // 变树形
-        List<DictTree> trees = BuildTreeUtil.buildDictTree(list, root);
+        List<DictTree> trees = BuildTreeUtil.buildDictTree(list, -1L);
         return trees;
     }
 

@@ -33,4 +33,12 @@ public interface DictMapper extends BaseMapper<Dict> {
      * @return
      */
     List<Dict> dictOneList(String dictKey);
+
+    /**
+     * 查询字典的所有子节点
+     *
+     * @param rootDict
+     * @return
+     */
+    List<Dict> selectChildList(Long rootDict);
 }

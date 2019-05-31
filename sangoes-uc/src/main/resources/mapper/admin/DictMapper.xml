@@ -14,4 +14,10 @@
         FROM dict as d
         WHERE d.parent_id = (SELECT dt.id FROM dict as dt WHERE dt.dict_key = #{dictKey})
     </select>
+    <!--查询字典的所有子节点-->
+    <select id="selectChildList" resultType="com.sangoes.boot.uc.modules.admin.entity.Dict">
+        select *
+        from dict
+        where FIND_IN_SET(id, getDictChildList(#{rootDict}));
+    </select>
 </mapper>

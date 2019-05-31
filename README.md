@@ -94,6 +94,7 @@
    - <del>分布式锁(redis)</del>
    - <del>阿里云短信</del>
    - <del>前端权限控制</del>
+   - 完善字典丰富查询
 ## FIXME
    - 同一账号同时登录,第二个账号无法获取数据(报错:AuthUtils java.lang.NullPointerException)(猜测是因为SecurityContextHolder造成的，修复从token中获取)
 ## 开发
