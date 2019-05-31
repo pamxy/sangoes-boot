@@ -1,5 +1,6 @@
 package com.sangoes.boot.uc;
 
+import com.sangoes.boot.common.aop.elastic.EnableElasticJob;
 import com.sangoes.boot.common.aop.lock.EnableLock;
 import com.sangoes.boot.common.aop.log.EnableLog;
 import com.sangoes.boot.common.aop.ratelimit.EnableLimiter;
@@ -19,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @author jerrychir
  * @date 2018/10/27 8:06 PM
  */
+@EnableElasticJob
 @EnableAsync
 @SpringBootApplication
 @EnableSwagger2Doc

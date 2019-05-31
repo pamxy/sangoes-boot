@@ -2,7 +2,7 @@ package com.sangoes.boot.uc.modules.msg.controller;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
-import com.sangoes.unicorn.annotation.Schedule;
+import com.sangoes.boot.common.aop.elastic.annotation.Schedule;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2019 2019/2/26 10:26 PM
  */
 @Slf4j
-//@Schedule(cron = "0/1 * * * * ?",eventTraceRdbDataSource = "dataSource")
+//@Schedule(cron = "0/1 * * * * ?", eventTraceRdbDataSource = "dataSource")
 public class JobService implements SimpleJob {
     /**
      * 执行作业.
@@ -22,6 +22,6 @@ public class JobService implements SimpleJob {
      */
     @Override
     public void execute(ShardingContext shardingContext) {
-        log.error("ddddd:{}","dsafdsafdsafdsafes");
+        log.error("ddddd:{}", "dsafdsafdsafdsafes");
     }
 }

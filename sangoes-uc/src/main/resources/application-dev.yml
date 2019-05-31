@@ -6,16 +6,16 @@ spring:
       enabled: false
     add-properties: false
   # 加入sharding jdbc 不然会报错
-  main:
-    allow-bean-definition-overriding: true
+#  main:
+#    allow-bean-definition-overriding: true
   # 普通 datasource
-  #  datasource:
-  #    type: com.zaxxer.hikari.HikariDataSource
-  #    url: jdbc:mysql://localhost:3306/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-  #    username: sangoes
-  #    password: ENC(myS91HA17JVaJni8nGWPQTH+TnpDYMc6)
-  #    continue-on-error: true
-  #    platform: mysql
+  datasource:
+      type: com.zaxxer.hikari.HikariDataSource
+      url: jdbc:mysql://localhost:3306/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: sangoes
+      password: ENC(myS91HA17JVaJni8nGWPQTH+TnpDYMc6)
+      continue-on-error: true
+      platform: mysql
   #redis
   redis:
     # Redis数据库索引
@@ -107,38 +107,38 @@ sangoes:
       serverLists: 127.0.0.1:2181
       namespace: 0=Beijing,1=Shanghai,2=Guangzhou
 #================================sharding-jdbc配置================================#
-sharding:
-  jdbc:
-    datasource:
-      # 数据源名称，多数据源以逗号分隔
-      names: ms0
-      ms0:
-        # 数据库连接池类名称
-        type: com.zaxxer.hikari.HikariDataSource
-        # 数据库驱动类名
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        # 数据库url连接
-        jdbc-url: jdbc:mysql://localhost:3306/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-        # 数据库用户名
-        username: sangoes
-        # 数据库密码
-        password: ENC(myS91HA17JVaJni8nGWPQTH+TnpDYMc6)
-    config:
-      sharding:
-        # 数据分片
-        tables:
-          # 分片表名
-          sys_log:
-            # 数据节点 多个表以逗号分隔
-            actual-data-nodes: ms0.sys_log_${0..1}
-            # 分表策略
-            table-strategy:
-              # 行表达式分片策略
-              inline:
-                # 分片列名称
-                sharding-column: id
-                # 分片算法行表达式，需符合groovy语法
-                algorithm-expression: sys_log_${id % 2}
-            # 自增列名称，缺省表示不使用自增主键生成器
-            key-generator-column-name: id
+#sharding:
+#  jdbc:
+#    datasource:
+#      # 数据源名称，多数据源以逗号分隔
+#      names: ms0
+#      ms0:
+#        # 数据库连接池类名称
+#        type: com.zaxxer.hikari.HikariDataSource
+#        # 数据库驱动类名
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        # 数据库url连接
+#        jdbc-url: jdbc:mysql://localhost:3306/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#        # 数据库用户名
+#        username: sangoes
+#        # 数据库密码
+#        password: ENC(myS91HA17JVaJni8nGWPQTH+TnpDYMc6)
+#    config:
+#      sharding:
+#        # 数据分片
+#        tables:
+#          # 分片表名
+#          sys_log:
+#            # 数据节点 多个表以逗号分隔
+#            actual-data-nodes: ms0.sys_log_${0..1}
+#            # 分表策略
+#            table-strategy:
+#              # 行表达式分片策略
+#              inline:
+#                # 分片列名称
+#                sharding-column: id
+#                # 分片算法行表达式，需符合groovy语法
+#                algorithm-expression: sys_log_${id % 2}
+#            # 自增列名称，缺省表示不使用自增主键生成器
+#            key-generator-column-name: id
 
