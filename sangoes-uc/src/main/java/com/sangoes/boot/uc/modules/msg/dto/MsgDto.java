@@ -111,6 +111,12 @@ public class MsgDto {
     @ApiModelProperty(value = "角色编码")
     private List<String> roleCode;
 
+    /**
+     * 用户主键
+     */
+    @ApiModelProperty(value = "用户主键")
+    private List<String> userId;
+
 
     @ApiModelProperty(value = "读状态 0未读 1已读")
     private Integer readed;
