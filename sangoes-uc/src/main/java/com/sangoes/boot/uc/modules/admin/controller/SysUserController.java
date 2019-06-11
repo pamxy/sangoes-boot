@@ -111,8 +111,6 @@ public class SysUserController extends BaseController {
     /**
      * 退出登录
      *
-     * @param request
-     * @param response
      * @return
      */
     @RecLog("退出登录")
