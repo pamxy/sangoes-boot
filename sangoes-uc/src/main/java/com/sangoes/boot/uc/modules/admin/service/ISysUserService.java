@@ -158,4 +158,11 @@ public interface ISysUserService extends IBaseService<SysUser> {
      * @return
      */
     List<SysUser> listByRoleCode(String roleCode);
+
+    /**
+     * 修改密码
+     *
+     * @param userDto
+     */
+    void changePwd(UserDto userDto);
 }

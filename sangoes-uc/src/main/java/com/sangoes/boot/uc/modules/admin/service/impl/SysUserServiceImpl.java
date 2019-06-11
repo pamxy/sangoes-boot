@@ -56,6 +56,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -101,6 +102,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Autowired
     private IUserDepartService userDepartService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * 根据手机号码注册
@@ -568,5 +572,31 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public List<SysUser> listByRoleCode(String roleCode) {
         List<SysUser> users = baseMapper.listByRoleCode(roleCode);
         return users;
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param userDto
+     */
+    @Override
+    public void changePwd(UserDto userDto) {
+        // 当前用户
+        Long userId = AuthUtils.getUserId();
+        SysUser userDB = this.getById(userId);
+        if (ObjectUtil.isNull(userDB)){
+            throw new HandleErrorException("没找到当前用户");
+        }
+        // 密码比较
+        if (!passwordEncoder.matches(userDto.getOldPwd(), userDB.getPassword())) {
+            throw new HandleErrorException("原始密码不正确");
+        }
+        // 设置新密码
+        userDB.setPassword(passwordEncoder.encode(userDto.getNewPwd()));
+        // 更新
+        boolean flag = this.updateById(userDB);
+        if (!flag){
+            throw new HandleErrorException("修改密码失败");
+        }
     }
 }

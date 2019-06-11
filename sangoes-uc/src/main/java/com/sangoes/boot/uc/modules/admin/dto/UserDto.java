@@ -66,6 +66,13 @@ public class UserDto {
 
     }
 
+    /**
+     * ChangePwdGroup
+     * 修改密码
+     */
+    public interface ChangePwdGroup {
+
+    }
 
     @NotBlank(message = "用户名不能为空")
     @Pattern(regexp = "^[a-zA-Z0-9]{6,18}", message = "用户名最小6位最大18位英文和数字组合")
@@ -104,5 +111,14 @@ public class UserDto {
     @NotNull(message = "部门id集合不能为空", groups = {BindDepartGroup.class})
     @ApiModelProperty(value = "部门id集合")
     private List<Long> departIds;
+
+    @NotBlank(message = "原始密码不能为空", groups = {ChangePwdGroup.class})
+    @ApiModelProperty(value = "原始密码")
+    private String oldPwd;
+
+    @NotBlank(message = "新密码不能为空", groups = {ChangePwdGroup.class})
+    @Pattern(regexp = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$", message = "必须包含字母和数字的组合，不能使用特殊字符，长度在6-20之间", groups = {ChangePwdGroup.class})
+    @ApiModelProperty(value = "新密码")
+    private String newPwd;
 
 }

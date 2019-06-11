@@ -125,6 +125,21 @@ public class SysUserController extends BaseController {
     }
 
     /**
+     * 修改密码
+     *
+     * @param userDto
+     * @return
+     */
+    @RecLog("修改密码")
+    @PostMapping("/change/pwd")
+    @ApiOperation(value = "修改密码", notes = "返回修改结果")
+    @ResponseBody
+    public Result<String> changePwd(@RequestBody @Validated({UserDto.ChangePwdGroup.class}) UserDto userDto) {
+        userService.changePwd(userDto);
+        return Result.success("密码修改成功");
+    }
+
+    /**
      * 添加用户
      *
      * @param userDto
