@@ -22,14 +22,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,6 +58,9 @@ public class SysUserController extends BaseController {
 
     @Autowired
     private IMsgCenterService msgCenterService;
+
+    @Autowired
+    private ConsumerTokenServices tokenServices;
 
 
     /**
@@ -117,11 +119,15 @@ public class SysUserController extends BaseController {
     @DeleteMapping("/logout")
     @ApiOperation(value = "退出登录", notes = "返回退出登录信息")
     @ResponseBody
-    public Result<String> logout(HttpServletRequest request, HttpServletResponse response) {
-        // FIXME: 注销登录
+    public Result<String> logout() {
+//        new SecurityContextLogoutHandler().logout(request, response, null);
+        String token = AuthUtils.getToken();
         // 退出
-        new SecurityContextLogoutHandler().logout(request, response, null);
-        return Result.success("注销成功");
+        if (tokenServices.revokeToken(token)) {
+            return Result.success("注销成功");
+        }
+
+        return Result.failed("注销失败");
     }
 
     /**
@@ -262,7 +268,7 @@ public class SysUserController extends BaseController {
         UserVo userVo = new UserVo();
         // 获取user
         SysUser user = userService.userInfo(userId);
-        BeanUtils.copyProperties(user,userVo);
+        BeanUtils.copyProperties(user, userVo);
         // 获取当前权限对应的权限
         Set<AuthVo> authVos = authService.listCurrentRoleAuth();
         userVo.setAuth(authVos);
