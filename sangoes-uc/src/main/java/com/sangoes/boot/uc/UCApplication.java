@@ -6,7 +6,6 @@ import com.sangoes.boot.common.aop.log.EnableLog;
 import com.sangoes.boot.common.aop.ratelimit.EnableLimiter;
 import com.sangoes.boot.common.aop.redis.EnableCache;
 import com.spring4all.swagger.EnableSwagger2Doc;
-import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,7 +30,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableLock
 //@EnableCrypto
 @EnableRabbit
-@EnableAdminServer
+//@EnableAdminServer
 @ComponentScan(basePackages = {"com.sangoes.boot.uc", "com.sangoes.boot.common.core"})
 public class UCApplication {
 

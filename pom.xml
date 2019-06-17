@@ -67,7 +67,7 @@
             <version>${lombok.version}</version>
         </dependency>
         <!--swagger starter-->
-        <!--https://github.com/SpringForAll/spring-boot-starter-swagger-->
+        <!-- https://github.com/SpringForAll/spring-boot-starter-swagger -->
         <dependency>
             <groupId>com.spring4all</groupId>
             <artifactId>swagger-spring-boot-starter</artifactId>

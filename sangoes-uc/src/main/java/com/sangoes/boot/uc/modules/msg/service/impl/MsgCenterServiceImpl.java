@@ -25,6 +25,7 @@ import com.sangoes.boot.uc.modules.msg.mapper.MsgCenterMapper;
 import com.sangoes.boot.uc.modules.msg.service.IMsgCenterService;
 import com.sangoes.boot.uc.modules.msg.vo.MsgCountVo;
 import com.sangoes.boot.uc.modules.msg.vo.MsgTypeVo;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,18 +49,14 @@ public class MsgCenterServiceImpl extends BaseServiceImpl<MsgCenterMapper, MsgCe
     /**
      * 消息类
      */
-    private final IMqService mqService;
-
     @Autowired
-    public MsgCenterServiceImpl(IMqService mqService, ISysUserService userService) {
-        this.mqService = mqService;
-        this.userService = userService;
-    }
+    private  IMqService mqService;
 
     /**
      * 角色服务类
      */
-    private final ISysUserService userService;
+    @Autowired
+    private  ISysUserService userService;
 
     /**
      * 发送消息

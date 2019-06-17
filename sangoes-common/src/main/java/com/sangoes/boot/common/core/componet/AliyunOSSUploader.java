@@ -51,8 +51,8 @@ public class AliyunOSSUploader {
             // 转换
             multipartFile.transferTo(tempFile);
             // 上传
-            String imgUrl = this.upload(tempFile);
-            return imgUrl;
+            String file = this.upload(tempFile);
+            return file;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,7 +83,7 @@ public class AliyunOSSUploader {
         try {
             // 创建新的bucketName
             if (!ossClient.doesBucketExist(bucketName)) {
-                System.out.println("Creating bucket " + bucketName + "\n");
+                log.info("Creating bucket:{}",bucketName);
                 ossClient.createBucket(bucketName);
                 CreateBucketRequest createBucketRequest = new CreateBucketRequest(bucketName);
                 createBucketRequest.setCannedACL(CannedAccessControlList.PublicRead);

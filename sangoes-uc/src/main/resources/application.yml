@@ -18,25 +18,10 @@ spring:
   freemarker:
     cache: false
     request-context-attribute: request
-  # 普通 datasource
-  #  datasource:
-  #    type: com.zaxxer.hikari.HikariDataSource
-  #    url: jdbc:mysql://localhost:3306/boot?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-  #    username: sangoes
-  #    password: ENC(myS91HA17JVaJni8nGWPQTH+TnpDYMc6)
-  #    continue-on-error: true
-  #    platform: mysql
-
-# actuator admin
-#  boot:
-#    admin:
-#      client:
-#        url: http://localhost:8080
-#        instance:
-#          prefer-ip: true
 #加密
 jasypt:
   encryptor:
+    # 加密密码用于数据库等密码加密
     password: sangoes
 # Tomcat
 server:
@@ -98,21 +83,8 @@ swagger:
   base-package: com.sangoes.boot
   base-path: /**
   exclude-path: /error, /ops/**
-# actuator
-#info:
-#  blog-url: http://sangoes.com
-#  author: jerrychir
-# actuator admin
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: "*"
-#      base-path: /actuator
-#  endpoint:
-#    health:
-#      show-details: always
-
+management:
+  context-path: /ops
 #系统自定义配置 system customer
 # redis cache
 redis:
@@ -145,11 +117,4 @@ ignore:
   - /configuration/**
   - /webjars/**
   - /public
-#  - /**
-#  # admin
-#  - /assets/**
-#  - /instances/**
-#  - /applications
-#  - /actuator
-#  - /*/actuator
-#  - /#/instances/**
+
